@@ -71,7 +71,7 @@ def find_mkbootimg():
     if top:
         candidates.append(top)
     candidates.append(os.getcwd())
-    # device/rockchip/rk3576-common/tools/ -> tree top
+    # device/rockchip/rk35xx-common/tools/ -> tree top
     candidates.append(os.path.abspath(
         os.path.join(os.path.dirname(os.path.realpath(__file__)),
                      *([os.pardir] * 4))))

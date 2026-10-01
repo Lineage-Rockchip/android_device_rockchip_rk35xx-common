@@ -4,35 +4,24 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/rockchip/rk3576-common
+COMMON_PATH := device/rockchip/rk35xx-common
 
-# Artifacts still taken from the stock boot.img: dtbo.img, and the boot logo and
-# battery bitmaps that resource.img is repacked around. Everything else is built
-# from source -- see the Kernel section below.
-#
-# Deliberately not called KERNEL_PATH: vendor/lineage/config/BoardConfigKernel.mk
-# claims that name for itself when TARGET_KERNEL_PLATFORM_TARGET is set.
-KERNEL_PREBUILT_PATH := kernel/rockchip/rk3576
-
-## Platform
-TARGET_BOARD_PLATFORM := rk3576
-TARGET_BOARD_PLATFORM_GPU := mali-g52
+# Included from <soc>/BoardConfigSoc.mk, never directly.
+ifeq ($(filter rk3576 rk3588,$(TARGET_BOARD_PLATFORM)),)
+$(error include rk35xx-common through <soc>/BoardConfigSoc.mk)
+endif
 
 ## Architecture
-# RK3576: 4x Cortex-A72 + 4x Cortex-A53
+# CPU variants are per SoC.
 TARGET_ARCH := arm64
 TARGET_ARCH_VARIANT := armv8-a
 TARGET_CPU_ABI := arm64-v8a
 TARGET_CPU_ABI2 :=
-TARGET_CPU_VARIANT := cortex-a53
-TARGET_CPU_VARIANT_RUNTIME := cortex-a72
 
 TARGET_2ND_ARCH := arm
 TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_2ND_CPU_ABI := armeabi-v7a
 TARGET_2ND_CPU_ABI2 := armeabi
-TARGET_2ND_CPU_VARIANT := cortex-a53
-TARGET_2ND_CPU_VARIANT_RUNTIME := cortex-a53
 
 TARGET_SUPPORTS_64_BIT_APPS := true
 
@@ -44,20 +33,18 @@ TARGET_BOOTLOADER_BOARD_NAME := rk30board
 ## Kernel
 # Built from source out of kernel/rockchip/kernel-6.1, which is Khadas' RK3576
 # BSP tree (linux 6.1.141, non-GKI) -- the same source the Edge-2L RKR8 blobs
-# were built against, so the in-kernel Mali matches libGLES_mali. The stock
-# 6.1.75 prebuilt it replaces is still in kernel/rockchip/rk3576 for reference.
+# were built against, so the in-kernel Mali matches libGLES_mali.
 TARGET_NO_KERNEL := false
 TARGET_KERNEL_SOURCE := kernel/rockchip/kernel-6.1
 
 # rockchip_defconfig is the base; the rest are fragments merged in this order.
-# The board appends its own delta fragment after including this file.
+# The SoC, then the board, append their own fragments after this file.
 # The paths are spelled out rather than using TARGET_KERNEL_CONFIG for the
 # fragments because android-14.config does not live in arch/arm64/configs, and
 # because ALL_KERNEL_DEFCONFIG_SRCS puts TARGET_KERNEL_CONFIG_EXT last.
 TARGET_KERNEL_CONFIG := rockchip_defconfig
 TARGET_KERNEL_CONFIG_EXT := \
-    $(TARGET_KERNEL_SOURCE)/kernel/configs/android-14.config \
-    $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk3576.config
+    $(TARGET_KERNEL_SOURCE)/kernel/configs/android-14.config
 
 BOARD_KERNEL_IMAGE_NAME := Image
 
@@ -94,7 +81,7 @@ BOARD_KERNEL_CMDLINE += kvm-arm.mode=none
 BOARD_KERNEL_CMDLINE += androidboot.console=ttyFIQ0
 BOARD_KERNEL_CMDLINE += androidboot.wificountrycode=CN
 BOARD_KERNEL_CMDLINE += androidboot.hardware=rk30board
-BOARD_KERNEL_CMDLINE += androidboot.boot_devices=2a2d0000.ufs,2a330000.mmc
+BOARD_KERNEL_CMDLINE += androidboot.boot_devices=$(RK_BOOT_DEVICES)
 # BRING-UP ONLY
 BOARD_KERNEL_CMDLINE += androidboot.selinux=permissive
 
@@ -109,8 +96,7 @@ BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 # Switches off kernel.mk's own, competing dtb.img rule. See the file.
 BOARD_CUSTOM_DTBIMG_MK := $(COMMON_PATH)/build/no-dtbimage.mk
 
-# Stock dtbo.img holds a single empty overlay; nothing in the tree overlays.
-BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PREBUILT_PATH)/dtbo.img
+# BOARD_PREBUILT_DTBOIMAGE is per board.
 
 ## Rockchip resource.img
 # RSCE (logo/battery bitmaps + rk-kernel.dtb), passed to mkbootimg as --second.
@@ -120,30 +106,14 @@ BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PREBUILT_PATH)/dtbo.img
 # kernel against an old device tree. Android.mk does that; the stock image is
 # only the source of the bitmaps, which are not built from source.
 TARGET_BOOTLOADER_IS_2ND := true
-TARGET_STOCK_RESOURCE_IMAGE := $(KERNEL_PREBUILT_PATH)/resource.img
 
 ## Kernel modules
 # Built with the kernel and installed by kernel.mk; all of them live in
 # vendor_dlkm, and odm_dlkm and system_dlkm ship empty. BOARD_VENDOR_KERNEL_MODULES
 # is for prebuilt .ko files and stays unset.
 #
-# The AIC8800 WiFi/BT driver is not in the kernel tree -- Rockchip ships it in
-# external/wifi_driver, mirrored here as kernel/rockchip/kernel-modules/wifi --
-# so it is built as an out-of-tree module the way device/amlogic/g12-common
-# builds mali and media. The ":kbuild" suffix picks make-kbuild-module-target,
-# i.e. a plain "make -C <kernel> M=<module dir>"; the driver's own Makefile is
-# not a wrapper that could drive the build itself.
+# Boards add their WiFi driver as TARGET_KERNEL_EXT_MODULES += wifi/<driver>:kbuild.
 TARGET_KERNEL_EXT_MODULE_ROOT := kernel/rockchip/kernel-modules
-TARGET_KERNEL_EXT_MODULES += wifi/aic8800:kbuild
-
-# Load order matters: aic8800_bsp claims the SDIO WLAN function and downloads
-# firmware, and both aic8800_fdrv and aic8800_btlpm depend on it.
-BOARD_VENDOR_KERNEL_MODULES_LOAD := \
-    r8168.ko \
-    realtek.ko \
-    aic8800_bsp.ko \
-    aic8800_fdrv.ko \
-    aic8800_btlpm.ko
 
 ## Verified Boot
 # Stock ships a completely unsigned vbmeta. Keep it that way.
@@ -220,11 +190,9 @@ TARGET_COPY_OUT_SYSTEM_DLKM := system_dlkm
 
 TARGET_USERIMAGES_SPARSE_EXT_DISABLED := false
 
-BOARD_ROOT_EXTRA_FOLDERS += rkalgo
-
 ## Recovery
 TARGET_RECOVERY_PIXEL_FORMAT := RGBX_8888
-TARGET_RECOVERY_FSTAB := $(COMMON_PATH)/init-files/fstab.rk30board
+# TARGET_RECOVERY_FSTAB is per board.
 BOARD_USES_RECOVERY_AS_BOOT := false
 TARGET_NO_RECOVERY := false
 BOARD_INCLUDE_RECOVERY_DTBO := true
@@ -267,7 +235,7 @@ SOONG_CONFIG_NAMESPACES += android_hardware_audio
 SOONG_CONFIG_android_hardware_audio += run_64bit
 SOONG_CONFIG_android_hardware_audio_run_64bit := false
 
-## Wi-Fi (AIC8800D80 over SDIO on mmc0)
+## Wi-Fi
 # The whole stack is extracted from stock. BOARD_WLAN_DEVICE is deliberately
 # unset: Soong accepts no value matching aic8800, and any of the ones it does
 # accept would build AOSP's libwifi-hal over the extracted one.
@@ -281,4 +249,4 @@ BOARD_HAVE_BLUETOOTH_ROCKCHIP := true
 BUILD_BROKEN_DUP_RULES := false
 
 ## Include the common proprietary BoardConfig makefile
--include vendor/rockchip/rk3576-common/BoardConfigVendor.mk
+-include vendor/rockchip/rk35xx-common/BoardConfigVendor.mk

@@ -45,7 +45,7 @@ import sys
 OUT_DIR = "/home/tomin/btrfs-subvolumes/android/los-23.2/out/target/product/m9s"
 STOCK_DIR = "/home/tomin/devel/AmlogicKitchen/edge-2l/level2"
 BLOB_DIR = ("/home/tomin/btrfs-subvolumes/android/los-23.2/"
-            "vendor/rockchip/rk3576-common/proprietary")
+            "vendor/rockchip/rk35xx-common/proprietary")
 
 # Where to look for a library, in (built subdir, stock subdir) pairs. Stock has
 # no VNDK snapshot directories -- Rockchip builds vendor and system together --

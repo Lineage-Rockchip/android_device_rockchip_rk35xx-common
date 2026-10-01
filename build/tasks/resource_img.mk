@@ -22,7 +22,7 @@
 # In build/tasks for the same reason as dtbimage.mk: INSTALLED_2NDBOOTLOADER_TARGET
 # is not defined yet while Android.mk files are read.
 
-ifeq ($(TARGET_BOARD_PLATFORM),rk3576)
+ifneq ($(filter rk3576 rk3588,$(TARGET_BOARD_PLATFORM)),)
 ifeq ($(TARGET_BOOTLOADER_IS_2ND),true)
 
 RK_PACK_RESOURCE_IMG := $(COMMON_PATH)/tools/pack-resource-img.sh

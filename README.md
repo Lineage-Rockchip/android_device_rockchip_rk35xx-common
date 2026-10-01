@@ -1,13 +1,26 @@
-# device/rockchip/rk3576-common
+# device/rockchip/rk35xx-common
 
-Shared LineageOS 23.2 tree for Rockchip RK3576 Android TV boxes.
+Shared LineageOS 23.2 tree for Rockchip RK3576 and RK3588 Android TV devices.
 
-It is modelled on `device/amlogic/ne-common`: this directory holds everything
-tied to the SoC, and a thin per-board tree (for example `device/h96/m9s`)
-inherits from it. The board tree owns what the board wires up: the super
-partition size, the screen density, the kernel config fragment, the Bluetooth
-UART (`bt_vendor.conf` and `init.connectivity.rc`, which must move together),
-the ethernet modules in `init.insmod.cfg`, and the IR remote keylayout.
+It is modelled on `device/amlogic/ne-common`, with one extra layer:
+
+| Layer | Holds |
+| --- | --- |
+| this directory | everything shared by both SoCs: `BoardConfigCommon.mk`, `common.mk`, the blob list and extract scripts, shims, tools, sepolicy, configs |
+| `rk3576/`, `rk3588/` | what differs per SoC: `BoardConfigSoc.mk` (platform, CPU variants, boot devices, kernel config fragment), `<soc>.mk`, `vendor.prop`, `init.<soc>.rc`; for RK3576 also the AI-PQ settings app |
+| board tree (e.g. `device/h96/m9s`) | what the board wires up |
+
+A board's `BoardConfig.mk` includes `rk35xx-common/<soc>/BoardConfigSoc.mk`,
+which includes `BoardConfigCommon.mk`; its `device.mk` inherits
+`rk35xx-common/<soc>/<soc>.mk`, which inherits `common.mk`. Both SoCs share
+one vendor blob tree, `vendor/rockchip/rk35xx-common`.
+
+The board tree owns the super partition size, the screen density, the kernel
+config fragment and dtb name, the WiFi external module and the module load
+list, the stock `dtbo.img` and `resource.img` template, `fstab.rk30board`,
+`audio_policy_configuration.xml`, the Bluetooth UART (`bt_vendor.conf` and
+`init.connectivity.rc`, which must move together), the ethernet modules in
+`init.insmod.cfg`, and the IR remote keylayout.
 
 ## Kernel
 
@@ -20,7 +33,7 @@ Rockchip drop this port used earlier.
 | What | Where |
 | --- | --- |
 | Source | `kernel/rockchip/kernel-6.1` (`TARGET_KERNEL_SOURCE`) |
-| Config | `rockchip_defconfig` + `android-14.config` + `rk3576.config`, then the board's own fragment (`rk3576_m9s.config`), in that order |
+| Config | `rockchip_defconfig` + `android-14.config`, then the SoC fragment (`rk3576.config`), then the board's own fragment (`rk3576_m9s.config`), in that order |
 | Board dts | `arch/arm64/boot/dts/rockchip/rk3576-m9{,s}.dts` on `rk3576-h96-max.dtsi` |
 | External modules | `kernel/rockchip/kernel-modules/wifi/aic8800` |
 | `dtbo.img` | still the stock one (a single empty overlay) |
@@ -31,7 +44,7 @@ against the stock 6.1.75 one; it turns off Edge-2L hardware and debug options
 and matches stock's BCMDHD bus choice. The M9 and the M9S share it -- the two
 boards are electrically identical and differ only in their IR remote. The board
 tree appends it to `TARGET_KERNEL_CONFIG_EXT` *after* including
-`BoardConfigCommon.mk`, which is what keeps it last in the merge.
+`<soc>/BoardConfigSoc.mk`, which is what keeps it last in the merge.
 
 The board dts to build is named once, per board, as `TARGET_DTB_NAME`;
 `TARGET_DTB_LIST_WILDCARD` turns it into the single dtb that goes into
@@ -46,7 +59,7 @@ toolchain paths and recursive `make` rules behind `ifeq ($(KERNELRELEASE),)`, so
 they apply only to a standalone build and not when kbuild drives them.
 
 Rockchip stores `resource.img` in the boot image "second" area, so
-`TARGET_BOOTLOADER_IS_2ND := true` and `Android.mk` builds it as
+`TARGET_BOOTLOADER_IS_2ND := true` and `build/tasks/resource_img.mk` builds it as
 `$(PRODUCT_OUT)/2ndbootloader` for `mkbootimg --second`. **It is repacked around
 the freshly built dtb on every build.** The `rk-kernel.dtb` entry inside that
 container is the copy U-Boot actually reads; leaving a stale one there boots the
@@ -104,7 +117,7 @@ build of it, and the M9S files are the ones Bluetooth is known to work with on
 this board (7.20) -- so they stay pinned until the dump's are tried. extract-utils backs pinned files up out of `vendor/` before it cleans and
 restores them when the hash matches, so they live in the vendor repo and survive
 every extraction against the main dump. Seeding is by hand, once: copy the
-files into `vendor/rockchip/rk3576-common/proprietary/`, then run
+files into `vendor/rockchip/rk35xx-common/proprietary/`, then run
 `./setup-makefiles.py`.
 
 Regenerate with:
@@ -114,6 +127,11 @@ Regenerate with:
 Extract with the board tree's script, which pulls in this common tree too:
 
     cd ../../h96/m9s && ./extract-files.py /path/to/stock/dump
+
+Point it at a directory holding **only `vendor/`**. If the dump directory also
+has a system-as-root `system/` (one containing `system/system/`),
+extract-utils moves it to `system_root/` by copy-then-delete, which empties
+the source if that is a writable mount.
 
 `extract-files.py` uses `tools/extract-utils` (the Python one; the shell
 `extract_utils.sh` is gone as of LineageOS 22). `./setup-makefiles.py` is the

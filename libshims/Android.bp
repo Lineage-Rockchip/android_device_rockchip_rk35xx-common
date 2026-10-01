@@ -19,7 +19,7 @@
 // libui_shim, and two modules of one name are fatal once Make flattens the
 // namespaces:
 //
-//   base_rules.mk:320: error: device/rockchip/rk3576-common/libshims:
+//   base_rules.mk:320: error: device/rockchip/rk35xx-common/libshims:
 //   MODULE.TARGET.SHARED_LIBRARIES.libcrypto_shim already defined by
 //   hardware/lineage/compat.
 

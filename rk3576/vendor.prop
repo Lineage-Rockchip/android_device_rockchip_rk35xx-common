@@ -1,0 +1,24 @@
+#
+# RK3576-only properties. Concatenated with ../vendor.prop into vendor/build.prop,
+# so a property set in both is a duplicate and fails the build.
+#
+
+## Platform
+ro.soc.model=RK3576
+
+## Picture quality (RKPQ / AI-PQ)
+# Exactly the dump's own set, verbatim. Not a blend with another ROM's values
+# (7.29), and not a hand-derived flag either: initflag 18 (26 minus the MEMC
+# bit) leaves every interpolated frame slot unfilled -- solid green. 7.30.
+ro.vendor.aipq_settings=true
+persist.vendor.rkpq.hwpq_aisd_enable=1
+persist.vendor.rkpq.hwpq_dc_dci_thr0=120
+persist.vendor.rkpq.hwpq_dc_dci_thr1=210
+persist.vendor.rkpq.hwpq_shp_en=1
+persist.vendor.rkpq.iptv_sr_enable=1
+persist.vendor.rkpq.memc.strength=100
+persist.vendor.rkpq.memc.watermark=0
+persist.vendor.rkpq.mssr.initflag=26
+persist.vendor.rkpq.sr.strength=100
+persist.vendor.tvinput.rkpq.mode=3
+vendor.tvinput.rkpq.aisd_en=1

@@ -8,7 +8,7 @@
 
 Every HAL on this device is a stock prebuilt, so nothing in the build declares a
 dependency on the interface and support libraries they link against. Anything
-that is not requested explicitly in rk3576.mk simply is not installed, and the
+that is not requested explicitly in common.mk simply is not installed, and the
 blob dies at exec time:
 
     CANNOT LINK EXECUTABLE "/vendor/bin/hw/android.hardware.security.keymint-service.optee":

@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-COMMON_PATH := device/rockchip/rk3576-common
+COMMON_PATH := device/rockchip/rk35xx-common
 
 # libshims/ sits under this directory's soong_namespace.
 PRODUCT_SOONG_NAMESPACES += $(COMMON_PATH)
@@ -47,11 +47,6 @@ PRODUCT_BUILD_SYSTEM_DLKM_IMAGE := true
 # Codec 2 bufferpool AIDL, reached through the source-built libcodec2_vndk.
 PRODUCT_PACKAGES += \
     android.hardware.media.bufferpool2-V1-ndk.vendor
-
-# display settings. AiPQ
-PRODUCT_PACKAGES += \
-    RkAiPqSettings \
-    TvSettingsAipqOverlay
 
 # Rockchip display management service (drm_device_management), in system_server
 $(call inherit-product, hardware/rockchip/fwkservices/fwkservices.mk)
@@ -201,7 +196,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/a2dp_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/a2dp_audio_policy_configuration_7_0.xml \
     $(COMMON_PATH)/configs/audio/audio_effects.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_effects.xml \
-    $(COMMON_PATH)/configs/audio/audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration.xml \
     $(COMMON_PATH)/configs/audio/audio_policy_configuration_singlehal.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_configuration_singlehal.xml \
     $(COMMON_PATH)/configs/audio/audio_policy_volumes_drc.xml:$(TARGET_COPY_OUT_VENDOR)/etc/audio_policy_volumes_drc.xml \
     frameworks/av/services/audiopolicy/config/bluetooth_audio_policy_configuration_7_0.xml:$(TARGET_COPY_OUT_VENDOR)/etc/bluetooth_audio_policy_configuration_7_0.xml \
@@ -245,11 +239,9 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     system/core/libprocessgroup/profiles/task_profiles_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
-## fstab
-# Needed in the first-stage ramdisk and on /vendor for second stage.
+## Init (system)
+# fstab.rk30board is per board.
 PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/init-files/fstab.rk30board:$(TARGET_COPY_OUT_RAMDISK)/fstab.rk30board \
-    $(COMMON_PATH)/init-files/fstab.rk30board:$(TARGET_COPY_OUT_VENDOR)/etc/fstab.rk30board \
     $(COMMON_PATH)/init-files/init.system.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/init.rockchip.rc
 
 
@@ -282,12 +274,6 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     wificond
 
-## Init
-# bt_vendor.conf, init.connectivity.rc and init.insmod.cfg are board data and
-# come from the board tree. See the header of the file for this one.
-PRODUCT_COPY_FILES += \
-    $(COMMON_PATH)/init-files/init.rk3576.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3576.rc
-
 ## Permissions
 PRODUCT_COPY_FILES += \
     frameworks/native/data/etc/android.hardware.bluetooth.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/android.hardware.bluetooth.xml \
@@ -311,4 +297,4 @@ PRODUCT_COPY_FILES += \
 DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
 
 ## Inherit from the common proprietary files makefile
-$(call inherit-product-if-exists, vendor/rockchip/rk3576-common/rk3576-common-vendor.mk)
+$(call inherit-product-if-exists, vendor/rockchip/rk35xx-common/rk35xx-common-vendor.mk)

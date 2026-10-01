@@ -24,7 +24,7 @@ from extract_utils.main import (
 # libshims/ is behind a soong_namespace, so the generated vendor blueprint has
 # to import it.
 namespace_imports = [
-    'device/rockchip/rk3576-common',
+    'device/rockchip/rk35xx-common',
 ]
 
 GRAPHICS_COMMON_V4 = 'android.hardware.graphics.common-V4-ndk.so'
@@ -154,10 +154,6 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/bin/hw/wpa_supplicant': blob_fixup()
         .add_needed('libcrypto_shim_rk.so')
         .add_needed('libcrypto_shim.so'),
-    # Arm ships this as vulkan.mali.so and Rockchip renamed the file without
-    # touching the ELF, which check_elf_file rejects.
-    both('vendor/lib64/hw/vulkan.rk3576.so'): blob_fixup()
-        .fix_soname(),
     # BRINGUP-NOTES.md 7.28.
     'vendor/bin/hw/android.hardware.media.c2@1.1-service': blob_fixup()
         .call(patch_componentstore_layout, need_tmp_dir=False),
@@ -284,7 +280,7 @@ lib_fixups: lib_fixups_user_type = {
 }
 
 module = ExtractUtilsModule(
-    'rk3576-common',
+    'rk35xx-common',
     'rockchip',
     blob_fixups=blob_fixups,
     lib_fixups=lib_fixups,

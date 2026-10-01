@@ -63,6 +63,7 @@ ro.rk.ethernet_settings=true
 
 ## Graphics
 ro.hardware.egl=mali
+ro.hardware.vulkan=mali
 ro.opengles.version=196610
 ro.cpuvulkan.version=4202496
 ro.surface_flinger.has_HDR_display=true
@@ -165,26 +166,8 @@ codec2_fbc_disable=0
 # rt_player_mem_policy / rt_vdec_fbc_min_stride, which are equally unread here
 # and are therefore not adopted.
 
-## Picture quality (RKPQ / AI-PQ)
-# Exactly the dump's own set, verbatim. Not a blend with another ROM's values
-# (7.29), and not a hand-derived flag either: initflag 18 (26 minus the MEMC
-# bit) leaves every interpolated frame slot unfilled -- solid green. 7.30.
-ro.vendor.aipq_settings=true
-persist.vendor.rkpq.hwpq_aisd_enable=1
-persist.vendor.rkpq.hwpq_dc_dci_thr0=120
-persist.vendor.rkpq.hwpq_dc_dci_thr1=210
-persist.vendor.rkpq.hwpq_shp_en=1
-persist.vendor.rkpq.iptv_sr_enable=1
-persist.vendor.rkpq.memc.strength=100
-persist.vendor.rkpq.memc.watermark=0
-persist.vendor.rkpq.mssr.initflag=26
-persist.vendor.rkpq.sr.strength=100
-persist.vendor.tvinput.rkpq.mode=3
-vendor.tvinput.rkpq.aisd_en=1
-
 ## Platform
 ro.soc.manufacturer=Rockchip
-ro.soc.model=RK3576
 ro.vendor.rk_sdk=1
 # The blob set, not the board -- it is the SDK the /vendor libraries were
 # built from. MS is Rockchip's media / set-top-box line. BRINGUP-NOTES.md 7.25.

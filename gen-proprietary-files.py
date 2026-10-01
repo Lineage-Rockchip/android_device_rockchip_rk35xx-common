@@ -12,6 +12,7 @@ SRC = "/home/tomin/devel/rk3576/aipq_20260601/out"
 # Files that LineageOS builds from source or that the device tree supplies.
 EXCLUDE_EXACT = {
     "vendor/build.prop",
+    "vendor/build.prop.sorted",  # not part of the ROM; left in the dump by hand
     "vendor/etc/NOTICE.xml.gz",
     "vendor/etc/fs_config_dirs",
     "vendor/etc/fs_config_files",
@@ -21,7 +22,7 @@ EXCLUDE_EXACT = {
     "vendor/etc/task_profiles.json",
     "vendor/etc/vintf/manifest.xml",
     "vendor/etc/vintf/compatibility_matrix.xml",
-    # rk3576.mk copies init-files/fstab.rk30board to both the ramdisk and
+    # The board tree copies its fstab.rk30board to both the ramdisk and
     # /vendor/etc, so the dump's copy is a duplicate destination that never
     # wins. It is also the one file where taking the Edge-2L version would
     # change policy rather than versions: theirs drops fileencryption= and
@@ -92,7 +93,7 @@ EXCLUDE_EXACT = {
     # Also a board delta, and unrelated to Bluetooth: RKR8 pins policy0 to the
     # performance governor for good. See init-files/init.rk3576.rc.
     "vendor/etc/init/hw/init.rk3576.rc",
-    # supplied by device/rockchip/rk3576-common/configs
+    # supplied by device/rockchip/rk35xx-common/configs
     "vendor/etc/a2dp_audio_policy_configuration_7_0.xml",
     "vendor/etc/audio_effects.xml",
     "vendor/etc/audio_policy_configuration.xml",
@@ -115,7 +116,7 @@ EXCLUDE_EXACT = {
     "vendor/bin/hw/android.hardware.cas-service.example",
     "vendor/etc/init/cas-default.rc",
     "vendor/etc/vintf/manifest/android.hardware.cas-service.xml",
-    # ClearKey DRM comes from AOSP source (rk3576.mk) and brings its own .rc and
+    # ClearKey DRM comes from AOSP source (common.mk) and brings its own .rc and
     # VINTF fragment, so the stock copies would collide.
     "vendor/bin/hw/android.hardware.drm-service.clearkey",
     "vendor/etc/init/android.hardware.drm-service.clearkey.rc",
@@ -125,7 +126,7 @@ EXCLUDE_EXACT = {
     # SensorDevice blocks forever waiting for it. sensors is optional in the
     # framework matrix and the board's accel/gyro do not probe anyway.
     "vendor/etc/vintf/manifest/sensors-rockchip.xml",
-    # AOSP's android.hardware.bluetooth.audio-impl is built instead (rk3576.mk)
+    # AOSP's android.hardware.bluetooth.audio-impl is built instead (common.mk)
     # and brings its own bluetooth_audio.xml and libbluetooth_audio_session_aidl,
     # so the stock copies would collide on the same install paths.
     "vendor/etc/vintf/manifest/bluetooth_audio.xml",
@@ -166,6 +167,9 @@ RENAME = {
     # fix_soname() and replace_needed()s.
     "vendor/lib64/libcppbor_external.so":
         "vendor/lib64/libcppbor_external_rk.so;FIX_SONAME",
+    # SoC-neutral name, selected by ro.hardware.vulkan=mali.
+    "vendor/lib/hw/vulkan.rk3576.so": "vendor/lib/hw/vulkan.mali.so",
+    "vendor/lib64/hw/vulkan.rk3576.so": "vendor/lib64/hw/vulkan.mali.so",
 }
 
 # --- Soong module name collisions with AOSP, the ELF half ---
@@ -196,7 +200,7 @@ MODULE_SUFFIX_BASENAMES = {
 # aidl_interface. Relinking a server is not an option -- it inherits its vtable
 # from Bn*, so a newer library gives it slots it does not implement. Dropping
 # the declared deps costs the ELF check and means the libraries only these use
-# have to be listed by hand in rk3576.mk.
+# have to be listed by hand in common.mk.
 DISABLE_DEPS = {
     "vendor/bin/hw/android.hardware.wifi-service",
     "vendor/bin/hw/wpa_supplicant",
@@ -249,7 +253,7 @@ AOSP_LIBS = {
 }
 
 # Prefixes of AOSP-generated HAL interface libraries, built from source instead.
-# rk3576.mk pins the exact frozen AIDL version each blob was compiled against;
+# common.mk pins the exact frozen AIDL version each blob was compiled against;
 # AIDL is ABI-frozen, so the result is equivalent to shipping the stock copy.
 AOSP_LIB_PREFIXES = (
     "android.hardware.", "android.hidl.", "android.frameworks.",
@@ -280,7 +284,7 @@ NOT_AOSP_LIBS = {
 # android.hardware.audio.service is kept for an unrelated reason: building it
 # would flip it to 32-bit (compile_multilib prefer32).
 #
-# Matching PRODUCT_PACKAGES entries are in rk3576.mk. Names here are file names,
+# Matching PRODUCT_PACKAGES entries are in common.mk. Names here are file names,
 # matched under vendor/lib{,64} and its hw/, soundfx/ and mediadrm/
 # subdirectories, i.e. both bitnesses at once.
 AOSP_SOURCE_LIBS = {
@@ -322,7 +326,7 @@ AOSP_SOURCE_LIBS = {
     # shared_libs of that prebuilt.
     "libkeymaster4support.so", "libkeymaster4_1support.so",
     "libkeystore-engine-wifi-hidl.so",
-    # DRM: goes with android.hardware.drm-service.clearkey, which rk3576.mk
+    # DRM: goes with android.hardware.drm-service.clearkey, which common.mk
     # already builds from source.
     "libdrmclearkeyplugin.so",
     # TV input HIDL wrapper (rockchip.hardware.tv.input is the implementation).
@@ -417,7 +421,15 @@ def is_aosp_lib(base):
     return base.startswith(AOSP_LIB_PREFIXES)
 
 
+# The one prebuilt APEX kept despite the vendor/apex/ exclusion.
+KEEP_EXACT = {
+    "vendor/apex/com.google.android.widevine.nonupdatable.apex",
+}
+
+
 def is_excluded(path):
+    if path in KEEP_EXACT:
+        return False
     if path in EXCLUDE_EXACT or path in EXCLUDE_BINS:
         return True
     if path.startswith(EXCLUDE_PREFIX):
@@ -494,6 +506,7 @@ SECTIONS = [
     # "(?<!d)isp" so that "display" does not read as ISP, while rkisp, preisp
     # and ispp still do.
     ("Camera", r"camera|rkaiq|aiq|(?<!d)isp|media-ctl|v4l2-ctl|rk1608"),
+    ("Widevine", r"^vendor/apex/com\.google\.android\.widevine"),
     ("DRM", r"mediadrm|mediacas|drm-service|widevine|clearkey"),
     ("HDMI CEC", r"hdmi\.cec|hdmi_cec"),
     ("HDMI connection", r"hdmi\.connection|hdmi_connection"),

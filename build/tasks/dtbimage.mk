@@ -6,7 +6,7 @@
 # dtb.img, which mkbootimg puts in the boot image's dtb area.
 #
 # This board needs exactly one device tree, named by the board tree as
-# TARGET_DTB_NAME (rk3576-m9s, rk3576-m9), so the image is that one dtb and
+# TARGET_DTB_NAME (e.g. rk3576-m9s), so the image is that one dtb and
 # nothing else -- no concatenation, no dtbo overlays.
 #
 # Lives in build/tasks rather than in Android.mk because build/make/core/Makefile
@@ -19,7 +19,7 @@
 # kernel.mk's own dtb.img rule is switched off through BOARD_CUSTOM_DTBIMG_MK;
 # see build/no-dtbimage.mk for why.
 
-ifeq ($(TARGET_BOARD_PLATFORM),rk3576)
+ifneq ($(filter rk3576 rk3588,$(TARGET_BOARD_PLATFORM)),)
 ifeq ($(BOARD_INCLUDE_DTB_IN_BOOTIMG),true)
 
 RK_BUILT_DTB := $(KERNEL_OUT)/arch/$(KERNEL_ARCH)/boot/dts/rockchip/$(TARGET_DTB_NAME).dtb

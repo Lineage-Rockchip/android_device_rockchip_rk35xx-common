@@ -4,7 +4,7 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 
-ifeq ($(TARGET_BOARD_PLATFORM),rk3576)
+ifneq ($(filter rk3576 rk3588,$(TARGET_BOARD_PLATFORM)),)
 
 LOCAL_PATH := $(call my-dir)
 
