@@ -12,6 +12,6 @@ ro.soc.model=RK3588
 persist.vendor.tvinput.rkpq.mode=0
 persist.vendor.sculptor.aipq.enable=0
 
-## SVEP super-resolution
-# JSON licensing, trial=1 (30 min per boot); SR itself is persist.sys.svep.mode=1
+## SVEP super-resolution and MEMC
+# JSON licensing, trial=1 (30 min per boot); enabled by persist.sys.svep.mode / persist.sys.memc.mode
 vendor.svep.json_path=/vendor/etc/rkauth_config.json

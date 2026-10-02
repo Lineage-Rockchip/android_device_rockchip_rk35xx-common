@@ -2,5 +2,7 @@
     "trial": 1,
     "rkauth_modules_config": [{
         "module": "sr"
+    }, {
+        "module": "memc"
     }]
 }

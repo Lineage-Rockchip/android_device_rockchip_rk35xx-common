@@ -17,8 +17,10 @@ PRODUCT_PACKAGES += \
     libgpudataproducer \
     vulkan.mali
 
-## Composer, with SVEP super-resolution
-PRODUCT_SOONG_NAMESPACES += hardware/rockchip/libsvep/libsvepsr
+## Composer, with SVEP super-resolution and MEMC
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/rockchip/libsvep/libsvepmemc \
+    hardware/rockchip/libsvep/libsvepsr
 PRODUCT_PACKAGES += \
     hwcomposer.rk3588 \
     libOpenCL_symlink32 \
