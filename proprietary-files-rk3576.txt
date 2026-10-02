@@ -1,0 +1,10 @@
+## Blobs installed on RK3576 only. Same dump as proprietary-files.txt.
+## RK3588 builds its composer from hardware/rockchip/hwcomposer.
+
+## Composer
+vendor/bin/hw/android.hardware.graphics.composer3-service.rockchip
+vendor/etc/hwcomposer.rk30board.so_plus
+vendor/etc/init/hwc3-rk.rc
+vendor/etc/vintf/manifest/hwc3-default.xml
+vendor/lib/hw/hwcomposer.rk30board.so
+vendor/lib64/hw/hwcomposer.rk30board.so

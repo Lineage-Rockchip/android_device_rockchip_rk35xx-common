@@ -5,6 +5,7 @@
 #
 
 RK3588_PATH := device/rockchip/rk35xx-common/rk3588
+ROCKCHIP_SOC := rk3588
 
 ## Mali CSF firmware, matched to the in-tree valhall kbase; loaded on first open of /dev/mali0
 PRODUCT_COPY_FILES += \
@@ -16,6 +17,14 @@ PRODUCT_PACKAGES += \
     libGLES_mali \
     libgpudataproducer \
     vulkan.mali
+
+## Composer, built from source
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/rockchip/hwcomposer/drmhwc2 \
+    hardware/rockchip/hwcomposer/hwc3_aidl
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.composer3-service.rk35xx \
+    hwcomposer.rk3588
 
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)
 PRODUCT_COPY_FILES += \

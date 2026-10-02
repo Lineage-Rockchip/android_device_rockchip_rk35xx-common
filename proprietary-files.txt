@@ -150,14 +150,6 @@ vendor/lib64/hw/camera.rk30board.so
 vendor/lib64/librkaiq.so
 vendor/lib64/librkisp.so
 
-## Composer
-vendor/bin/hw/android.hardware.graphics.composer3-service.rockchip
-vendor/etc/hwcomposer.rk30board.so_plus
-vendor/etc/init/hwc3-rk.rc
-vendor/etc/vintf/manifest/hwc3-default.xml
-vendor/lib/hw/hwcomposer.rk30board.so
-vendor/lib64/hw/hwcomposer.rk30board.so
-
 ## Connectivity firmware
 vendor/etc/firmware/4343A0.hcd
 vendor/etc/firmware/BCM20710A1.hcd

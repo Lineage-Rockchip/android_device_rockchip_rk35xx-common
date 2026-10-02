@@ -302,6 +302,9 @@ module = ExtractUtilsModule(
     lib_fixups=lib_fixups,
     namespace_imports=namespace_imports,
 )
+module.add_proprietary_file('proprietary-files-rk3576.txt').add_copy_files_guard(
+    'ROCKCHIP_SOC', 'rk3576'
+)
 
 if __name__ == '__main__':
     utils = ExtractUtils.device(module)
