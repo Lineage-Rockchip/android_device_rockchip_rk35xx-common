@@ -31,3 +31,4 @@ TARGET_KERNEL_CONFIG_EXT += \
 
 ## Properties
 TARGET_VENDOR_PROP += $(RK3588_PATH)/vendor.prop
+TARGET_SYSTEM_PROP += $(RK3588_PATH)/system.prop
