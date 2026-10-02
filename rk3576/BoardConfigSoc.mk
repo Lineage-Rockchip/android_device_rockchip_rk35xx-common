@@ -12,6 +12,8 @@ TARGET_BOARD_PLATFORM_GPU := mali-g52
 
 ## Architecture
 # 4x Cortex-A72 + 4x Cortex-A53
+TARGET_ARCH_VARIANT := armv8-a
+TARGET_2ND_ARCH_VARIANT := armv8-a
 TARGET_CPU_VARIANT := cortex-a53
 TARGET_CPU_VARIANT_RUNTIME := cortex-a72
 TARGET_2ND_CPU_VARIANT := cortex-a53
