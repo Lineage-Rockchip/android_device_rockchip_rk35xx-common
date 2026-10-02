@@ -11,6 +11,13 @@ PRODUCT_PACKAGES += \
     RkAiPqSettings \
     TvSettingsAipqOverlay
 
+## Mali userspace (MaliG52)
+PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG52
+PRODUCT_PACKAGES += \
+    libGLES_mali \
+    libgpudataproducer \
+    vulkan.mali
+
 ## Init
 PRODUCT_COPY_FILES += \
     $(RK3576_PATH)/init.rk3576.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3576.rc

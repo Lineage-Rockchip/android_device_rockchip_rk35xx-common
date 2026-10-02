@@ -12,6 +12,13 @@ SRC = "/home/tomin/devel/rk3576/aipq_20260601/out"
 # Files that LineageOS builds from source or that the device tree supplies.
 EXCLUDE_EXACT = {
     "vendor/build.prop",
+    # Mali userspace is per SoC (G52 Bifrost vs G610 Valhall): vendor/rockchip/gpu
+    "vendor/lib/egl/libGLES_mali.so",
+    "vendor/lib/hw/vulkan.rk3576.so",
+    "vendor/lib/libgpudataproducer.so",
+    "vendor/lib64/egl/libGLES_mali.so",
+    "vendor/lib64/hw/vulkan.rk3576.so",
+    "vendor/lib64/libgpudataproducer.so",
     "vendor/build.prop.sorted",  # not part of the ROM; left in the dump by hand
     "vendor/etc/NOTICE.xml.gz",
     "vendor/etc/fs_config_dirs",
@@ -167,9 +174,6 @@ RENAME = {
     # fix_soname() and replace_needed()s.
     "vendor/lib64/libcppbor_external.so":
         "vendor/lib64/libcppbor_external_rk.so;FIX_SONAME",
-    # SoC-neutral name, selected by ro.hardware.vulkan=mali.
-    "vendor/lib/hw/vulkan.rk3576.so": "vendor/lib/hw/vulkan.mali.so",
-    "vendor/lib64/hw/vulkan.rk3576.so": "vendor/lib64/hw/vulkan.mali.so",
 }
 
 # --- Soong module name collisions with AOSP, the ELF half ---

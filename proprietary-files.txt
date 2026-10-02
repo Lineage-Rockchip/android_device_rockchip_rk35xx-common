@@ -221,12 +221,6 @@ vendor/lib64/libRkgatekeeper.so
 
 ## GPU
 vendor/bin/gpu_counter_producer;MODULE_SUFFIX=-rockchip
-vendor/lib/egl/libGLES_mali.so
-vendor/lib/hw/vulkan.rk3576.so:vendor/lib/hw/vulkan.mali.so
-vendor/lib/libgpudataproducer.so
-vendor/lib64/egl/libGLES_mali.so
-vendor/lib64/hw/vulkan.rk3576.so:vendor/lib64/hw/vulkan.mali.so
-vendor/lib64/libgpudataproducer.so
 
 ## Graphics allocator
 vendor/bin/hw/android.hardware.graphics.allocator-V1-service
