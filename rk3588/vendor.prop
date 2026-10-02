@@ -1,0 +1,13 @@
+#
+# RK3588-only properties. Concatenated with ../vendor.prop into vendor/build.prop,
+# so a property set in both is a duplicate and fails the build.
+#
+
+## Platform
+ro.soc.model=RK3588
+
+## Picture quality (RKPQ / AI-PQ)
+# RK3576-only; off here. Read by hwcomposer.rk30board.so, hw_output.default.so
+# and librkswpq.so, and by libsculptor.so (which libmpp dlopens).
+persist.vendor.tvinput.rkpq.mode=0
+persist.vendor.sculptor.aipq.enable=0

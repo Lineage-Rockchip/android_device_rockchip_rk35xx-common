@@ -1,0 +1,24 @@
+#
+# Copyright (C) 2026 The LineageOS Project
+#
+# SPDX-License-Identifier: Apache-2.0
+#
+
+RK3588_PATH := device/rockchip/rk35xx-common/rk3588
+
+## Mali CSF firmware, matched to the in-tree valhall kbase; loaded on first open of /dev/mali0
+PRODUCT_COPY_FILES += \
+    kernel/rockchip/kernel-6.1/drivers/gpu/arm/valhall/mali_csffw.bin:$(TARGET_COPY_OUT_VENDOR)/etc/firmware/g29p0-00eac0.mali_csffw.bin
+
+## Mali userspace (MaliG610)
+PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG610
+PRODUCT_PACKAGES += \
+    libGLES_mali \
+    libgpudataproducer \
+    vulkan.mali
+
+## Init
+PRODUCT_COPY_FILES += \
+    $(RK3588_PATH)/init.rk3588.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3588.rc
+
+$(call inherit-product, device/rockchip/rk35xx-common/common.mk)
