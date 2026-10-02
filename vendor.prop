@@ -82,6 +82,9 @@ persist.vendor.framebuffer.main=1920x1080@60
 # Dropped with the rebase: vendor.gralloc.disable_afbc, which no blob in either
 # dump reads. AFBC control moved into the ro.vendor.arm.gralloc.* usage masks
 # below.
+#
+# Never allocate the client target as AFBC; read by the gralloc and hwcomposer.
+vendor.gralloc.no_afbc_for_fb_target_layer=1
 
 ## Arm DDK configuration
 # Read by libGLES_mali.so and by nothing else. New in the g25p0 DDK -- the

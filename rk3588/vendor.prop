@@ -11,7 +11,3 @@ ro.soc.model=RK3588
 # and librkswpq.so, and by libsculptor.so (which libmpp dlopens).
 persist.vendor.tvinput.rkpq.mode=0
 persist.vendor.sculptor.aipq.enable=0
-
-## Graphics
-# Never allocate the client target as AFBC; read by the bifrost gralloc and hwcomposer.
-vendor.gralloc.no_afbc_for_fb_target_layer=1
