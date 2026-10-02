@@ -93,7 +93,7 @@ PRODUCT_PACKAGES += \
 ##
 ## Everything below used to be extracted and is upstream code the stock ROM
 ## shipped unmodified. Authorship was checked against Rockchip's own Android 14
-## SDK tree; the exclusions in gen-proprietary-files.py carry the results,
+## SDK tree; their absence from proprietary-files.txt carries the results,
 ## including the five places where Rockchip had touched the source and the blob
 ## therefore stayed (audio@7.1-impl, bluetooth@1.0, tv.hdmi.{cec,connection},
 ## wifi).

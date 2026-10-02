@@ -175,7 +175,7 @@ blob_fixups: blob_fixups_user_type = {
         .call(patch_componentstore_layout, need_tmp_dir=False),
     # cppbor::Item gained two virtual methods since Android 14, so the Android
     # 14 library is extracted rather than built (BRINGUP-NOTES.md section 7.7).
-    # It cannot keep its own name, hence the rename in gen-proprietary-files.py
+    # It cannot keep its own name, hence the rename in proprietary-files.txt
     # and these NEEDED rewrites to match.
     (
         'vendor/bin/hw/android.hardware.security.keymint-service.optee',
@@ -274,8 +274,8 @@ blob_fixups: blob_fixups_user_type = {
         .remove_needed('libui.so'),
 }  # fmt: skip
 
-# Libraries extracted under -rockchip module names (MODULE_SUFFIX_BASENAMES in
-# gen-proprietary-files.py). A module rename does not rewrite the DT_NEEDED
+# Libraries extracted under -rockchip module names (;MODULE_SUFFIX= in
+# proprietary-files.txt). A module rename does not rewrite the DT_NEEDED
 # entries that name the library, so map them here too.
 suffixed_libs = (
     'libwifi-hal-aic',

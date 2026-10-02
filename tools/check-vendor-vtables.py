@@ -148,8 +148,8 @@ def main():
 
     print(f"\n{len(findings)} blob-linked librar{'y' if len(findings) == 1 else 'ies'}"
           " with vtable drift")
-    print("Fix by removing the library from AOSP_SOURCE_LIBS in"
-          " gen-proprietary-files.py so it is extracted instead.")
+    print("Fix by listing the library in proprietary-files.txt"
+          " so it is extracted instead.")
     return 1 if findings else 0
 
 
