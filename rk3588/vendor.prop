@@ -11,6 +11,8 @@ ro.soc.model=RK3588
 # and librkswpq.so, and by libsculptor.so (which libmpp dlopens).
 persist.vendor.tvinput.rkpq.mode=0
 persist.vendor.sculptor.aipq.enable=0
+# Keeps libmpp from routing decoder output through libsculptor (xpp)
+vendor.xpp.enable=0
 
 ## SVEP super-resolution and MEMC
 # JSON licensing, trial=1 (30 min per boot); enabled by persist.sys.svep.mode / persist.sys.memc.mode
