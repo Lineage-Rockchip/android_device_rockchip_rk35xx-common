@@ -11,3 +11,7 @@ ro.soc.model=RK3588
 # and librkswpq.so, and by libsculptor.so (which libmpp dlopens).
 persist.vendor.tvinput.rkpq.mode=0
 persist.vendor.sculptor.aipq.enable=0
+
+## SVEP super-resolution
+# JSON licensing, trial=1 (30 min per boot); SR itself is persist.sys.svep.mode=1
+vendor.svep.json_path=/vendor/etc/rkauth_config.json

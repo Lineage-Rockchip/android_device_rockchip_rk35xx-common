@@ -17,9 +17,14 @@ PRODUCT_PACKAGES += \
     libgpudataproducer \
     vulkan.mali
 
-## Composer
+## Composer, with SVEP super-resolution
+PRODUCT_SOONG_NAMESPACES += hardware/rockchip/libsvep/libsvepsr
 PRODUCT_PACKAGES += \
-    hwcomposer.rk3588
+    hwcomposer.rk3588 \
+    libOpenCL_symlink32 \
+    libOpenCL_symlink64
+PRODUCT_COPY_FILES += \
+    $(RK3588_PATH)/configs/svep/rkauth_config.json:$(TARGET_COPY_OUT_VENDOR)/etc/rkauth_config.json
 
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)
 PRODUCT_COPY_FILES += \
