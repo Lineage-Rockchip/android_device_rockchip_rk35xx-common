@@ -10,11 +10,6 @@ RK3576_PATH := device/rockchip/rk35xx-common/rk3576
 PRODUCT_PACKAGES += \
     hwcomposer.rk3576
 
-## AI-PQ settings
-PRODUCT_PACKAGES += \
-    RkTvSettings \
-    TvSettingsRockchipOverlay
-
 ## Mali userspace (MaliG52)
 PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG52
 PRODUCT_PACKAGES += \

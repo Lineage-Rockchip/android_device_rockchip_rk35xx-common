@@ -228,6 +228,11 @@ PRODUCT_SOONG_NAMESPACES += \
 PRODUCT_PACKAGES += \
     android.hardware.graphics.composer3-service.rk35xx
 
+## TvSettings pages: picture, HDMI output, screen scale, AI PQ (RK3576) / SVEP (RK3588)
+PRODUCT_PACKAGES += \
+    RkTvSettings \
+    TvSettingsRockchipOverlay
+
 ## Display
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/display/HwComposerEnv.xml:$(TARGET_COPY_OUT_VENDOR)/etc/HwComposerEnv.xml \
