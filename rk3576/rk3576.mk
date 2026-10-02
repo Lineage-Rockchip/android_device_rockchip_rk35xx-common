@@ -5,7 +5,10 @@
 #
 
 RK3576_PATH := device/rockchip/rk35xx-common/rk3576
-ROCKCHIP_SOC := rk3576
+
+## Composer
+PRODUCT_PACKAGES += \
+    hwcomposer.rk3576
 
 ## AI-PQ settings
 PRODUCT_PACKAGES += \

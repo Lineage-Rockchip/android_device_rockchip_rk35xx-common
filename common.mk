@@ -221,6 +221,13 @@ PRODUCT_COPY_FILES += \
 PRODUCT_PACKAGES += \
     android.hardware.drm-service.clearkey
 
+## Composer, built from source; the SoC layer adds hwcomposer.<soc>
+PRODUCT_SOONG_NAMESPACES += \
+    hardware/rockchip/hwcomposer/drmhwc2 \
+    hardware/rockchip/hwcomposer/hwc3_aidl
+PRODUCT_PACKAGES += \
+    android.hardware.graphics.composer3-service.rk35xx
+
 ## Display
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/display/HwComposerEnv.xml:$(TARGET_COPY_OUT_VENDOR)/etc/HwComposerEnv.xml \

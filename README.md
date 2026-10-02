@@ -68,9 +68,6 @@ new kernel against the old device tree, with no error anywhere.
 ## Vendor blobs
 
 `proprietary-files.txt` is maintained by hand against a stock dump.
-`proprietary-files-rk3576.txt` holds the blobs only RK3576 installs; their
-product makefile entries are guarded by `ROCKCHIP_SOC`, which `rk3576/rk3576.mk`
-and `rk3588/rk3588.mk` set before inheriting `common.mk`.
 
 Because that ROM is already Android 14 / SDK 34 with an FCM target-level 8
 vendor image, essentially the whole vendor partition is reused; only VNDK/AOSP-

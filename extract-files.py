@@ -217,8 +217,8 @@ blob_fixups: blob_fixups_user_type = {
     # sizeof(tinyxml2::XMLDocument) went 776 -> 880 between 9.0.0 and 11.0.0.
     # Each of these blobs declares one as a *local*, so it reserves the Android
     # 14 size and the current library constructs 104 bytes past the end of it,
-    # into the caller's frame. That is what crash-loops the composer, lights and
-    # camera services. BRINGUP-NOTES.md section 7.12.
+    # into the caller's frame. That is what crash-loops the lights and camera
+    # services. BRINGUP-NOTES.md section 7.12.
     #
     #
     # camera.rk30board.so is new to this list: RKR8 gave it a libtinyxml2
@@ -230,46 +230,9 @@ blob_fixups: blob_fixups_user_type = {
         'vendor/lib64/camera.device-external-impl-rk.so',
         'vendor/lib64/camera.device-internal-impl-rk.so',
         'vendor/lib64/hw/camera.rk30board.so',
-        'vendor/lib64/hw/hwcomposer.rk30board.so',
     ): blob_fixup()
         .replace_needed('libtinyxml2.so', 'libtinyxml2-v34.so'),
-    # The same shape one layer up: ComposerResources embeds
-    # ComposerHandleImporter by value, which lost 16 bytes since Android 14, and
-    # the blob instantiates it itself through an inline create(). compat's
-    # composer_utils is that Android 14 source under a -v34 name.
-    # BRINGUP-NOTES.md section 7.13.
-    # ...and the reason the same service also drops composer@2.2-resources.so.
-    # That library exports *zero* symbols -- it is a header-only wrapper -- and
-    # the service imports none of them, so the NEEDED entry does nothing except
-    # pull in the Android 16 composer@2.1-resources.so, and with it libui.so.
-    # Both then sit in the process's global group, which the linker searches
-    # before a dlopen'd library's own, so they would win over the -v34 pair
-    # that hwcomposer.rk30board.so and this service are supposed to be using.
-    # Removing it is what makes both -v34 substitutions actually take effect.
-    'vendor/bin/hw/android.hardware.graphics.composer3-service.rockchip': blob_fixup()
-        .replace_needed(
-            'android.hardware.graphics.composer@2.1-resources.so',
-            'android.hardware.graphics.composer@2.1-resources-v34.so',
-        )
-        .remove_needed('android.hardware.graphics.composer@2.2-resources.so'),
-    # sizeof(android::GraphicBuffer) went 256 -> 3376 between Android 14 and 16.
-    # This blob does `operator new(0x100)` and then calls the constructor out of
-    # libui, so the current library initialises 3120 bytes past the end of the
-    # allocation. It survives until something actually composites a solid-colour
-    # layer -- an app splash screen -- and then dies in ~GraphicBuffer reading a
-    # member that was never inside the object. BRINGUP-NOTES.md section 7.19.
-    #
-    # One library is the whole fix: nothing else in the composer process touches
-    # GraphicBuffer or GraphicBufferMapper. librga.so imports neither (which is
-    # what made 7.9 hold off), and composer@2.1-resources-v34 imports neither.
-    # All 8 libui symbols this blob needs are exported by the v34 snapshot.
-    both('vendor/lib64/hw/hwcomposer.rk30board.so'): blob_fixup()
-        .replace_needed('libui.so', 'libui-v34.so'),
-    # librga.so declares libui.so and imports not one symbol from it. Left
-    # alone it is the only remaining path by which the platform libui reaches
-    # the composer process, so dropping it means that process holds exactly one
-    # libui -- the v34 one -- instead of two with overlapping definitions. That
-    # was 7.11's standing objection to using the snapshot here at all.
+    # librga.so declares libui.so and imports not one symbol from it.
     both('vendor/lib64/librga.so'): blob_fixup()
         .remove_needed('libui.so'),
 }  # fmt: skip
@@ -301,9 +264,6 @@ module = ExtractUtilsModule(
     blob_fixups=blob_fixups,
     lib_fixups=lib_fixups,
     namespace_imports=namespace_imports,
-)
-module.add_proprietary_file('proprietary-files-rk3576.txt').add_copy_files_guard(
-    'ROCKCHIP_SOC', 'rk3576'
 )
 
 if __name__ == '__main__':
