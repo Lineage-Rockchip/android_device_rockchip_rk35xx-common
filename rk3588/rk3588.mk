@@ -17,6 +17,12 @@ PRODUCT_PACKAGES += \
     libgpudataproducer \
     vulkan.mali
 
+## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)
+PRODUCT_COPY_FILES += \
+    $(RK3588_PATH)/configs/media/media_codecs_c2_base.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2_base.xml \
+    $(RK3588_PATH)/configs/media/media_codecs_google_c2.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_google_c2.xml \
+    $(RK3588_PATH)/configs/media/media_codecs_performance.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_performance.xml
+
 ## Init
 PRODUCT_COPY_FILES += \
     $(RK3588_PATH)/init.rk3588.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3588.rc
