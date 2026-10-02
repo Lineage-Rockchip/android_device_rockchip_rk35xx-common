@@ -52,17 +52,18 @@ trap 'rm -rf "$WORK"' EXIT
 ( cd "$WORK" && "$TOOL" --unpack --image="$TEMPLATE" >/dev/null )
 cp "$DTB" "$WORK/out/rk-kernel.dtb"
 
-( cd "$WORK/out" && "$TOOL" --pack --root=. --image="$WORK/new.img" \
-    rk-kernel.dtb \
-    battery_1.bmp battery_2.bmp battery_3.bmp battery_4.bmp battery_5.bmp \
-    battery_fail.bmp logo.bmp logo_kernel.bmp battery_0.bmp >/dev/null )
+# Every entry the template carries, in the template's own order.
+mapfile -t ENTRIES < <("$TOOL" --print --unpack --image="$TEMPLATE" | sed -n 's/^[[:space:]]*path:\(.*\)$/\1/p')
+[[ " ${ENTRIES[*]} " == *" rk-kernel.dtb "* ]] || { echo "template has no rk-kernel.dtb"; exit 1; }
+
+( cd "$WORK/out" && "$TOOL" --pack --root=. --image="$WORK/new.img" "${ENTRIES[@]}" >/dev/null )
 
 # Round-trip the result before letting it near the boot image.
 ( cd "$WORK" && mkdir -p check && cd check && "$TOOL" --unpack --image="$WORK/new.img" >/dev/null )
-cmp "$WORK/check/out/rk-kernel.dtb" "$DTB"
-for f in battery_0 battery_1 battery_2 battery_3 battery_4 battery_5 battery_fail logo logo_kernel; do
-    cmp "$WORK/check/out/$f.bmp" "$WORK/out/$f.bmp"
+for f in "${ENTRIES[@]}"; do
+    cmp "$WORK/check/out/$f" "$WORK/out/$f"
 done
+cmp "$WORK/check/out/rk-kernel.dtb" "$DTB"
 
 mkdir -p "$(dirname "$OUT")"
 cp "$WORK/new.img" "$OUT"
