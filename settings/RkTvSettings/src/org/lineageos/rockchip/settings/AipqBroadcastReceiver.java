@@ -63,6 +63,12 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
             case AipqProps.KNOB_DEMO:
                 AipqProps.applyDemo(context, intent.getIntExtra(EXTRA_VALUE, 0));
                 break;
+            case SvepProps.KNOB_MODE:
+                SvepProps.applyMode(intent.getIntExtra(EXTRA_VALUE, SvepProps.MODE_OFF));
+                break;
+            case SvepProps.KNOB_OSD:
+                SvepProps.applyOsd(!SvepProps.isOsdOn());
+                break;
             case AipqProps.KNOB_BRIGHTNESS:
                 RkOutputClient.setBrightness(RkOutputClient.DISPLAY_MAIN,
                         intent.getIntExtra(EXTRA_VALUE, 50));

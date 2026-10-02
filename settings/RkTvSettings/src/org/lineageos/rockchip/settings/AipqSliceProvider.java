@@ -77,6 +77,9 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         if (!SLICE_URI.equals(sliceUri)) {
             return false;
         }
+        if (!RkOutputClient.IS_RK3576) {
+            return createSvepSlice(builder);
+        }
         Context c = getContext();
         builder.addScreenTitle(new RowBuilder()
                 .setTitle(c.getString(R.string.aipq_title))
@@ -118,6 +121,42 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         builder.addPreference(new RowBuilder()
                 .setKey("aipq_note")
                 .setTitle(c.getString(R.string.aipq_note))
+                .setSelectable(false));
+        return true;
+    }
+
+    private boolean createSvepSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.aipq_title))
+                .setPageId(PAGE_ID));
+        addHeader(builder, "svep_mode_header", c.getString(R.string.svep_mode_title));
+        int[] labels = {R.string.aipq_strength_off, R.string.svep_mode_sr, R.string.svep_mode_memc};
+        int[] summaries = {0, R.string.svep_mode_sr_summary, R.string.svep_mode_memc_summary};
+        int current = SvepProps.mode();
+        for (int mode = 0; mode < labels.length; mode++) {
+            RowBuilder row = new RowBuilder()
+                    .setKey("svep_mode_" + mode)
+                    .setTitle(c.getString(labels[mode]))
+                    .setRadioGroup("svep_mode")
+                    .addRadioButton(
+                            knobIntent(c, SvepProps.KNOB_MODE)
+                                    .putExtra(AipqBroadcastReceiver.EXTRA_VALUE, mode),
+                            current == mode);
+            if (summaries[mode] != 0) {
+                row.setSubtitle(c.getString(summaries[mode]));
+            }
+            builder.addPreference(row);
+        }
+        String osdTitle = c.getString(R.string.svep_osd_title);
+        builder.addPreference(new RowBuilder()
+                .setKey("svep_osd")
+                .setTitle(osdTitle)
+                .setSubtitle(c.getString(R.string.svep_osd_summary))
+                .addSwitch(knobIntent(c, SvepProps.KNOB_OSD), osdTitle, SvepProps.isOsdOn()));
+        builder.addPreference(new RowBuilder()
+                .setKey("svep_note")
+                .setTitle(c.getString(R.string.svep_note))
                 .setSelectable(false));
         return true;
     }

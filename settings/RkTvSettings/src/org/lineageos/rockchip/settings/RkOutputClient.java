@@ -3,10 +3,13 @@ package org.lineageos.rockchip.settings;
 import android.graphics.Rect;
 import android.os.RkDisplayOutputManager;
 import android.os.ServiceManager;
+import android.os.SystemProperties;
 
 // RK3576 must use the SW setters: with rkpq on, the PQ CSC overrides connector BCSH.
 final class RkOutputClient {
     private static final String SERVICE = "drm_device_management";
+
+    static final boolean IS_RK3576 = "rk3576".equals(SystemProperties.get("ro.board.platform"));
 
     static final int DISPLAY_MAIN = 0;
     static final int[] DEFAULT_BCSH = {50, 50, 50, 50};
@@ -27,15 +30,20 @@ final class RkOutputClient {
         if (m == null) {
             return null;
         }
+        if (IS_RK3576) {
+            return new int[] {
+                m.getSWBrightness(dpy), m.getSWContrast(dpy), m.getSWSaturation(dpy), m.getSWHue(dpy)
+            };
+        }
         return new int[] {
-            m.getSWBrightness(dpy), m.getSWContrast(dpy), m.getSWSaturation(dpy), m.getSWHue(dpy)
+            m.getBrightness(dpy), m.getContrast(dpy), m.getSaturation(dpy), m.getHue(dpy)
         };
     }
 
     static void setBrightness(int dpy, int value) {
         RkDisplayOutputManager m = manager();
         if (m != null) {
-            m.setSWBrightness(dpy, value);
+            if (IS_RK3576) m.setSWBrightness(dpy, value); else m.setBrightness(dpy, value);
             m.saveConfig();
         }
     }
@@ -43,7 +51,7 @@ final class RkOutputClient {
     static void setContrast(int dpy, int value) {
         RkDisplayOutputManager m = manager();
         if (m != null) {
-            m.setSWContrast(dpy, value);
+            if (IS_RK3576) m.setSWContrast(dpy, value); else m.setContrast(dpy, value);
             m.saveConfig();
         }
     }
@@ -51,7 +59,7 @@ final class RkOutputClient {
     static void setSaturation(int dpy, int value) {
         RkDisplayOutputManager m = manager();
         if (m != null) {
-            m.setSWSaturation(dpy, value);
+            if (IS_RK3576) m.setSWSaturation(dpy, value); else m.setSaturation(dpy, value);
             m.saveConfig();
         }
     }
@@ -59,7 +67,7 @@ final class RkOutputClient {
     static void setHue(int dpy, int value) {
         RkDisplayOutputManager m = manager();
         if (m != null) {
-            m.setSWHue(dpy, value);
+            if (IS_RK3576) m.setSWHue(dpy, value); else m.setHue(dpy, value);
             m.saveConfig();
         }
     }

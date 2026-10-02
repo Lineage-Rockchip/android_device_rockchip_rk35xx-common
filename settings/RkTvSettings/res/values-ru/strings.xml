@@ -59,4 +59,12 @@
     <string name="hdr_header">HDR</string>
     <string name="hdr_title">Вывод HDR</string>
     <string name="hdr_summary">Выводить HDR-видео в HDR, если телевизор поддерживает. Выкл.: всегда SDR.</string>
+    <string name="svep_mode_title">Улучшение видео</string>
+    <string name="svep_mode_sr">Суперразрешение</string>
+    <string name="svep_mode_sr_summary">AI-масштабирование видео низкого разрешения до разрешения выхода</string>
+    <string name="svep_mode_memc">Плавность движения</string>
+    <string name="svep_mode_memc_summary">AI-интерполяция кадров для видео 24–30 к/с</string>
+    <string name="svep_osd_title">Метка на экране</string>
+    <string name="svep_osd_summary">Показывать отметку SR / MEMC на обработанном видео</string>
+    <string name="svep_note">Без лицензии Rockchip улучшение работает 30 минут после каждой загрузки.</string>
 </resources>
