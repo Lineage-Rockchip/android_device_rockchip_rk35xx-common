@@ -102,6 +102,20 @@ def patch_componentstore_layout(ctx, file, file_path, *args, **kwargs):
         f.write(data)
 
 
+# libbt-vendor's bt_lpm_param_t (HCI Write_Sleep_Mode); sleep_mode 0 keeps the controller awake.
+BT_LPM_PARAM = bytes.fromhex('01 01 01 01 01 01 01 00 00 00 00 00')
+
+
+def patch_bt_lpm_sleep_mode(ctx, file, file_path, *args, **kwargs):
+    with open(file_path, 'rb') as f:
+        data = bytearray(f.read())
+    n = data.count(BT_LPM_PARAM)
+    assert n == 1, f'{file_path}: LPM param block occurs {n} times, expected 1'
+    data[data.index(BT_LPM_PARAM)] = 0
+    with open(file_path, 'wb') as f:
+        f.write(data)
+
+
 def both(*paths):
     """Expand vendor/lib64 paths to both bitnesses. BRINGUP-NOTES.md 7.25."""
     out = []
@@ -154,6 +168,8 @@ blob_fixups: blob_fixups_user_type = {
     'vendor/bin/hw/wpa_supplicant': blob_fixup()
         .add_needed('libcrypto_shim_rk.so')
         .add_needed('libcrypto_shim.so'),
+    both('vendor/lib64/libbt-vendor.so'): blob_fixup()
+        .call(patch_bt_lpm_sleep_mode, need_tmp_dir=False),
     # BRINGUP-NOTES.md 7.28.
     'vendor/bin/hw/android.hardware.media.c2@1.1-service': blob_fixup()
         .call(patch_componentstore_layout, need_tmp_dir=False),
