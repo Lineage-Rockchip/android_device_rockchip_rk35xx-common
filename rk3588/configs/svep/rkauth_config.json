@@ -1,10 +1,6 @@
 {
     "trial": 1,
     "rkauth_modules_config": [{
-        "module": "sr",
-        "license_vendor_storage_id": 100,
-        "license_vendor_storage_size": 1024,
-        "activate_code_vendor_storage_id": 60,
-        "activate_code_vendor_storage_size": 256
+        "module": "sr"
     }]
 }
