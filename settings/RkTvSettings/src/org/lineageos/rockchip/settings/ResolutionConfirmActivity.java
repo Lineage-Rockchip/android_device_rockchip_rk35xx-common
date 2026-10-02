@@ -76,9 +76,9 @@ public class ResolutionConfirmActivity extends Activity {
             RkOutputClient.saveConfig();
         } else {
             if (mColor) {
-                RkOutputClient.setColorMode(RkOutputClient.DISPLAY_MAIN, mPrevious);
+                RkOutputClient.setColorMode(RkOutputClient.mainDisplay(), mPrevious);
             } else {
-                RkOutputClient.setMode(RkOutputClient.DISPLAY_MAIN, mPrevious);
+                RkOutputClient.setMode(RkOutputClient.mainDisplay(), mPrevious);
             }
         }
         TvSettingsSliceProvider.invalidateSlice(this, AipqSliceProvider.RESOLUTION_URI);

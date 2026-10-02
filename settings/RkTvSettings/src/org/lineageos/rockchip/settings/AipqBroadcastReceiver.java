@@ -70,19 +70,19 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 SvepProps.applyOsd(!SvepProps.isOsdOn());
                 break;
             case AipqProps.KNOB_BRIGHTNESS:
-                RkOutputClient.setBrightness(RkOutputClient.DISPLAY_MAIN,
+                RkOutputClient.setBrightness(RkOutputClient.mainDisplay(),
                         intent.getIntExtra(EXTRA_VALUE, 50));
                 break;
             case AipqProps.KNOB_CONTRAST:
-                RkOutputClient.setContrast(RkOutputClient.DISPLAY_MAIN,
+                RkOutputClient.setContrast(RkOutputClient.mainDisplay(),
                         intent.getIntExtra(EXTRA_VALUE, 50));
                 break;
             case AipqProps.KNOB_SATURATION:
-                RkOutputClient.setSaturation(RkOutputClient.DISPLAY_MAIN,
+                RkOutputClient.setSaturation(RkOutputClient.mainDisplay(),
                         intent.getIntExtra(EXTRA_VALUE, 50));
                 break;
             case AipqProps.KNOB_HUE:
-                RkOutputClient.setHue(RkOutputClient.DISPLAY_MAIN,
+                RkOutputClient.setHue(RkOutputClient.mainDisplay(),
                         intent.getIntExtra(EXTRA_VALUE, 50));
                 break;
             case AipqProps.KNOB_RESOLUTION:
@@ -102,7 +102,7 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 return;
             case AipqProps.KNOB_SCALE_H:
             case AipqProps.KNOB_SCALE_V:
-                RkOutputClient.setScale(RkOutputClient.DISPLAY_MAIN,
+                RkOutputClient.setScale(RkOutputClient.mainDisplay(),
                         AipqProps.KNOB_SCALE_H.equals(knob),
                         intent.getIntExtra(EXTRA_VALUE, 100));
                 TvSettingsSliceProvider.invalidateSlice(context,
@@ -127,20 +127,20 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
     }
 
     private static void applyResolution(Context context, String mode) {
-        String previous = RkOutputClient.getMode(RkOutputClient.DISPLAY_MAIN);
+        String previous = RkOutputClient.getMode(RkOutputClient.mainDisplay());
         if (mode == null || mode.equals(previous)) {
             return;
         }
-        RkOutputClient.setMode(RkOutputClient.DISPLAY_MAIN, mode);
+        RkOutputClient.setMode(RkOutputClient.mainDisplay(), mode);
         confirm(context, ResolutionConfirmActivity.KIND_MODE, mode, previous);
     }
 
     private static void applyColor(Context context, String format) {
-        String previous = RkOutputClient.getColorMode(RkOutputClient.DISPLAY_MAIN);
+        String previous = RkOutputClient.getColorMode(RkOutputClient.mainDisplay());
         if (format == null || format.equals(previous)) {
             return;
         }
-        RkOutputClient.setColorMode(RkOutputClient.DISPLAY_MAIN, format);
+        RkOutputClient.setColorMode(RkOutputClient.mainDisplay(), format);
         confirm(context, ResolutionConfirmActivity.KIND_COLOR, format, previous);
     }
 

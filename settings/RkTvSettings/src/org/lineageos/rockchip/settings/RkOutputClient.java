@@ -11,8 +11,12 @@ final class RkOutputClient {
 
     static final boolean IS_RK3576 = "rk3576".equals(SystemProperties.get("ro.board.platform"));
 
-    static final int DISPLAY_MAIN = 0;
     static final int[] DEFAULT_BCSH = {50, 50, 50, 50};
+
+    // DRM connector types and state, as in getConnectorInfo()'s "type:T,id:I,state:S"
+    private static final int CONNECTOR_VIRTUAL = 15;
+    private static final int CONNECTOR_DSI = 16;
+    private static final int CONNECTED = 1;
 
     private static RkDisplayOutputManager sManager;
 
@@ -23,6 +27,41 @@ final class RkOutputClient {
             sManager = new RkDisplayOutputManager();
         }
         return sManager;
+    }
+
+    // hw_output numbers displays in connector order; use the first connected one.
+    static int mainDisplay() {
+        RkDisplayOutputManager m = manager();
+        if (m == null) {
+            return 0;
+        }
+        String[] infos = m.getConnectorInfo();
+        int count = m.getDisplayNumber();
+        if (infos == null || infos.length != count) {
+            return 0;
+        }
+        for (int i = 0; i < count; i++) {
+            int type = -1;
+            int state = -1;
+            for (String field : infos[i].split(",")) {
+                String[] kv = field.trim().split(":");
+                if (kv.length != 2) {
+                    continue;
+                }
+                try {
+                    if ("type".equals(kv[0])) {
+                        type = Integer.parseInt(kv[1].trim());
+                    } else if ("state".equals(kv[0])) {
+                        state = Integer.parseInt(kv[1].trim());
+                    }
+                } catch (NumberFormatException ignored) {
+                }
+            }
+            if (state == CONNECTED && type != CONNECTOR_VIRTUAL && type != CONNECTOR_DSI) {
+                return i;
+            }
+        }
+        return 0;
     }
 
     static int[] getBcsh(int dpy) {

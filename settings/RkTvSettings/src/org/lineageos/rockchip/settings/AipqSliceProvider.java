@@ -233,7 +233,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         builder.addScreenTitle(new RowBuilder()
                 .setTitle(c.getString(R.string.disp_title))
                 .setPageId(PAGE_ID + 1));
-        int[] bcsh = RkOutputClient.getBcsh(RkOutputClient.DISPLAY_MAIN);
+        int[] bcsh = RkOutputClient.getBcsh(RkOutputClient.mainDisplay());
         if (bcsh == null) {
             bcsh = RkOutputClient.DEFAULT_BCSH;
             builder.addPreference(new RowBuilder()
@@ -276,7 +276,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         builder.addScreenTitle(new RowBuilder()
                 .setTitle(c.getString(R.string.res_title))
                 .setPageId(PAGE_ID + 2));
-        String[] modes = RkOutputClient.getModes(RkOutputClient.DISPLAY_MAIN);
+        String[] modes = RkOutputClient.getModes(RkOutputClient.mainDisplay());
         if (modes == null || modes.length == 0) {
             builder.addPreference(new RowBuilder()
                     .setKey("res_unavailable")
@@ -285,7 +285,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             return true;
         }
         addHeader(builder, "res_header", c.getString(R.string.res_header));
-        String current = RkOutputClient.getMode(RkOutputClient.DISPLAY_MAIN);
+        String current = RkOutputClient.getMode(RkOutputClient.mainDisplay());
         for (int i = 0; i < modes.length; i++) {
             String mode = modes[i];
             boolean auto = RkOutputClient.MODE_AUTO.equals(mode);
@@ -312,12 +312,12 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
     }
 
     private void addColorGroup(PreferenceSliceBuilder builder, Context c) {
-        String[] formats = RkOutputClient.getColorModes(RkOutputClient.DISPLAY_MAIN);
+        String[] formats = RkOutputClient.getColorModes(RkOutputClient.mainDisplay());
         if (formats == null || formats.length == 0) {
             return;
         }
         addHeader(builder, "color_header", c.getString(R.string.color_header));
-        String current = RkOutputClient.getColorMode(RkOutputClient.DISPLAY_MAIN);
+        String current = RkOutputClient.getColorMode(RkOutputClient.mainDisplay());
         for (int i = 0; i < formats.length; i++) {
             String format = formats[i];
             boolean auto = RkOutputClient.MODE_AUTO.equals(format);
@@ -337,7 +337,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         builder.addScreenTitle(new RowBuilder()
                 .setTitle(c.getString(R.string.scale_title))
                 .setPageId(PAGE_ID + 3));
-        int[] scale = RkOutputClient.getScale(RkOutputClient.DISPLAY_MAIN);
+        int[] scale = RkOutputClient.getScale(RkOutputClient.mainDisplay());
         if (scale == null) {
             builder.addPreference(new RowBuilder()
                     .setKey("scale_unavailable")
