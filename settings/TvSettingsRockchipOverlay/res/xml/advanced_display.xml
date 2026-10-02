@@ -2,7 +2,7 @@
 <!--
   Replacement for com.android.tv.settings' res/xml/advanced_display.xml
   (Device &amp; sound -> Advanced display settings), adding the AI Picture
-  Quality row that opens RkAiPqSettings' slice in the right pane.
+  Quality row that opens RkTvSettings' slice in the right pane.
 
   Rules this file follows, because a runtime overlay must compile standalone
   and inflate in the target's resource table (see BRINGUP-NOTES.md 7.33):
@@ -28,9 +28,9 @@
         android:fragment="com.android.tv.twopanelsettings.slices.SliceFragment">
         <extra
             android:name="TAG_TARGET_URI"
-            android:value="content://org.lineageos.rk3576.aipq/main"/>
+            android:value="content://org.lineageos.rockchip.settings/main"/>
         <!-- No TAG_SCREEN_TITLE on purpose: the pane header then comes from
-             the slice's own addScreenTitle, which RkAiPqSettings localizes
+             the slice's own addScreenTitle, which RkTvSettings localizes
              (res/values-ru). The row title/summary above must stay literals:
              an overlay cannot ship new resources referenced from a replaced
              file, because idmap2 only rewrites references that have a
@@ -44,7 +44,7 @@
         android:fragment="com.android.tv.twopanelsettings.slices.SliceFragment">
         <extra
             android:name="TAG_TARGET_URI"
-            android:value="content://org.lineageos.rk3576.aipq/display"/>
+            android:value="content://org.lineageos.rockchip.settings/display"/>
     </Preference>
 
     <Preference
@@ -54,7 +54,7 @@
         android:fragment="com.android.tv.twopanelsettings.slices.SliceFragment">
         <extra
             android:name="TAG_TARGET_URI"
-            android:value="content://org.lineageos.rk3576.aipq/resolution"/>
+            android:value="content://org.lineageos.rockchip.settings/resolution"/>
     </Preference>
 
     <Preference
@@ -64,7 +64,7 @@
         android:fragment="com.android.tv.twopanelsettings.slices.SliceFragment">
         <extra
             android:name="TAG_TARGET_URI"
-            android:value="content://org.lineageos.rk3576.aipq/scale"/>
+            android:value="content://org.lineageos.rockchip.settings/scale"/>
     </Preference>
 
     <com.android.tv.settings.widget.SwitchWithSoundPreference

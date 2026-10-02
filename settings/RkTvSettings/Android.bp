@@ -10,7 +10,7 @@
 // (SettingsLib, WifiTrackerLib, leanback, zxing...) -- 44 MB of dex for three
 // classes of ours.
 android_app {
-    name: "RkAiPqSettings",
+    name: "RkTvSettings",
     srcs: ["src/**/*.java"],
     resource_dirs: ["res"],
     platform_apis: true,
@@ -30,14 +30,14 @@ android_app {
     optimize: {
         enabled: false,
     },
-    required: ["org.lineageos.rk3576.aipq.xml"],
+    required: ["org.lineageos.rockchip.settings.xml"],
 }
 
 prebuilt_etc {
-    name: "org.lineageos.rk3576.aipq.xml",
+    name: "org.lineageos.rockchip.settings.xml",
     sub_dir: "permissions",
     system_ext_specific: true,
-    src: "org.lineageos.rk3576.aipq.xml",
+    src: "org.lineageos.rockchip.settings.xml",
     filename_from_src: true,
 }
 

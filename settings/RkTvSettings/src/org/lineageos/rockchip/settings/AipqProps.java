@@ -1,4 +1,4 @@
-package org.lineageos.rk3576.aipq;
+package org.lineageos.rockchip.settings;
 
 import android.content.Context;
 import android.os.SystemProperties;

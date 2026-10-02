@@ -11,7 +11,7 @@
 // targeting a system_ext app), legal because the platform signature satisfies
 // idmap2's signature policy for TvSettings' non-overlayable-declared resources.
 runtime_resource_overlay {
-    name: "TvSettingsAipqOverlay",
+    name: "TvSettingsRockchipOverlay",
     certificate: "platform",
     product_specific: true,
     sdk_version: "current",

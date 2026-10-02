@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <permissions>
-    <privapp-permissions package="org.lineageos.rk3576.aipq">
+    <privapp-permissions package="org.lineageos.rockchip.settings">
         <permission name="android.permission.FORCE_STOP_PACKAGES"/>
         <permission name="android.permission.DUMP"/>
         <permission name="android.permission.WRITE_SECURE_SETTINGS"/>

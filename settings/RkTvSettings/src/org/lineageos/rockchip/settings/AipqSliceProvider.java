@@ -1,4 +1,4 @@
-package org.lineageos.rk3576.aipq;
+package org.lineageos.rockchip.settings;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,7 +12,7 @@ import com.android.tv.twopanelsettings.slices.builders.PreferenceSliceBuilder.Ro
  * Hosts the AI PQ slice. The two-panel TvSettings opens it through
  * com.android.tv.twopanelsettings.slices.SliceFragment (the entry row is added
  * to the Device & sound page's Advanced display screen by the
- * TvSettingsAipqOverlay RRO) and renders the rows as native preferences:
+ * TvSettingsRockchipOverlay RRO) and renders the rows as native preferences:
  * addSwitch -> SliceSwitchPreference, addRadioButton -> SliceRadioPreference.
  *
  * Strengths are flat top-level radio rows, NOT category rows with children:
@@ -27,7 +27,7 @@ import com.android.tv.twopanelsettings.slices.builders.PreferenceSliceBuilder.Ro
  */
 public class AipqSliceProvider extends TvSettingsSliceProvider {
 
-    public static final String AUTHORITY = "org.lineageos.rk3576.aipq";
+    public static final String AUTHORITY = "org.lineageos.rockchip.settings";
     public static final Uri SLICE_URI =
             Uri.parse("content://" + AUTHORITY + "/main");
     public static final Uri DISPLAY_URI =

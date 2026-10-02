@@ -12,8 +12,8 @@ PRODUCT_PACKAGES += \
 
 ## AI-PQ settings
 PRODUCT_PACKAGES += \
-    RkAiPqSettings \
-    TvSettingsAipqOverlay
+    RkTvSettings \
+    TvSettingsRockchipOverlay
 
 ## Mali userspace (MaliG52)
 PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG52

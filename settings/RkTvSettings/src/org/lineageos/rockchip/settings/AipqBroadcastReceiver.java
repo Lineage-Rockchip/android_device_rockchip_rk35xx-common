@@ -1,4 +1,4 @@
-package org.lineageos.rk3576.aipq;
+package org.lineageos.rockchip.settings;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -17,7 +17,7 @@ import com.android.tv.twopanelsettings.slices.TvSettingsSliceProvider;
  */
 public class AipqBroadcastReceiver extends BroadcastReceiver {
 
-    static final String ACTION_KNOB = "org.lineageos.rk3576.aipq.action.KNOB";
+    static final String ACTION_KNOB = "org.lineageos.rockchip.settings.action.KNOB";
     static final String EXTRA_KNOB = "knob";
     static final String EXTRA_VALUE = "value";
     static final String EXTRA_MODE = "mode";

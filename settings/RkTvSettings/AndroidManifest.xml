@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.lineageos.rk3576.aipq">
+    package="org.lineageos.rockchip.settings">
 
     <uses-permission android:name="android.permission.START_ACTIVITIES_FROM_BACKGROUND"/>
 
@@ -8,10 +8,10 @@
 
         <!-- Rendered by TvSettings (com.android.tv.settings) via its
              SliceFragment; the entry point is added to the two-panel Device
-             page by TvSettingsAipqOverlay. -->
+             page by TvSettingsRockchipOverlay. -->
         <provider
             android:name=".AipqSliceProvider"
-            android:authorities="org.lineageos.rk3576.aipq"
+            android:authorities="org.lineageos.rockchip.settings"
             android:exported="true"
             android:grantUriPermissions="true">
             <intent-filter>
