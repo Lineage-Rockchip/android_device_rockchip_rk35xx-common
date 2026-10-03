@@ -391,9 +391,7 @@ vendor/lib64/libteec.so
 vendor/bin/rkpq_tool_server
 vendor/etc/libsculptor.so_oc
 vendor/etc/pq_config.json
-vendor/lib/libsculptor.so
 vendor/lib/libvdpp.so
-vendor/lib64/libsculptor.so
 vendor/lib64/libvdpp.so
 
 ## Power

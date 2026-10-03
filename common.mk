@@ -229,7 +229,8 @@ PRODUCT_SOONG_NAMESPACES += \
 ## Picture quality libraries, configs and models; the SoC layer picks its own
 PRODUCT_SOONG_NAMESPACES += hardware/rockchip/libvisionpq
 PRODUCT_PACKAGES += \
-    librkswpq
+    librkswpq \
+    libsculptor
 PRODUCT_PACKAGES += \
     android.hardware.graphics.composer3-service.rk35xx
 
