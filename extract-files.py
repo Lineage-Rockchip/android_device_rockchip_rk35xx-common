@@ -25,6 +25,7 @@ from extract_utils.main import (
 # to import it.
 namespace_imports = [
     'device/rockchip/rk35xx-common',
+    'hardware/rockchip/libvisionpq',
 ]
 
 GRAPHICS_COMMON_V4 = 'android.hardware.graphics.common-V4-ndk.so'
@@ -264,6 +265,9 @@ module = ExtractUtilsModule(
     blob_fixups=blob_fixups,
     lib_fixups=lib_fixups,
     namespace_imports=namespace_imports,
+)
+module.add_proprietary_file('proprietary-files-rk3576.txt').add_copy_files_guard(
+    'ROCKCHIP_SOC', 'rk3576'
 )
 
 if __name__ == '__main__':

@@ -1,0 +1,7 @@
+## Picture quality
+vendor/bin/pq_init
+vendor/bin/pq_init_32
+vendor/etc/init/init.pq-init-32.rc
+vendor/etc/init/init.pq-init.rc
+vendor/lib/libpq.so
+vendor/lib64/libpq.so

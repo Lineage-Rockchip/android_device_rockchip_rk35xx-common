@@ -226,6 +226,9 @@ TARGET_USES_VULKAN := true
 ## Media
 TARGET_USES_C2_COMPONENT := true
 
+## SoC, for select() in blueprints
+$(call soong_config_set,rockchip,soc,$(TARGET_BOARD_PLATFORM))
+
 ## Audio HAL service bitness
 # Must match the extracted binary, or the two collide on the install path.
 # The dump's is 32-bit, which is AOSP's prefer32 default. BRINGUP-NOTES.md 7.25.

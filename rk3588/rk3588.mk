@@ -5,6 +5,7 @@
 #
 
 RK3588_PATH := device/rockchip/rk35xx-common/rk3588
+ROCKCHIP_SOC := rk3588
 
 ## Mali CSF firmware, matched to the in-tree valhall kbase; loaded on first open of /dev/mali0
 PRODUCT_COPY_FILES += \
@@ -27,6 +28,10 @@ PRODUCT_PACKAGES += \
     libOpenCL_symlink64
 PRODUCT_COPY_FILES += \
     $(RK3588_PATH)/configs/svep/rkauth_config.json:$(TARGET_COPY_OUT_VENDOR)/etc/rkauth_config.json
+
+## AI-PQ models
+PRODUCT_PACKAGES += \
+    rkaipq_models.rk3588
 
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)
 PRODUCT_COPY_FILES += \
