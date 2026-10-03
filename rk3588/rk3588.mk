@@ -24,6 +24,7 @@ PRODUCT_PACKAGES += \
 
 ## AI-PQ: librkswpq SR/MEMC in the decoder (libsculptor), on the NPU and Mali OpenCL
 PRODUCT_PACKAGES += \
+    aipq_config.json.rk3588 \
     libOpenCL_symlink32 \
     libOpenCL_symlink64 \
     rkaipq_models.rk3588

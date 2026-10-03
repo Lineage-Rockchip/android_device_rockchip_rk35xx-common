@@ -8,11 +8,14 @@ ro.soc.model=RK3588
 
 ## Picture quality (AI-PQ)
 # RK3576's librkswpq set without the VOP HWPQ ones, which RK3588 lacks.
+# No IPTV SR: its 720p->1080p model has no RK3588 build.
 # libmpp dlopens libsculptor (xpp), which runs librkswpq's SR/MEMC.
 ro.vendor.aipq_settings=true
-persist.vendor.rkpq.iptv_sr_enable=1
+persist.vendor.rkpq.iptv_sr_enable=0
 persist.vendor.rkpq.memc.strength=100
 persist.vendor.rkpq.memc.watermark=0
 persist.vendor.rkpq.mssr.initflag=26
 persist.vendor.rkpq.sr.strength=100
 persist.vendor.tvinput.rkpq.mode=3
+# libsculptor gives RK3588 (chip 32) plain PQ unless this is 0; 0 = the AI-PQ chain
+persist.vendor.vpp.type=0
