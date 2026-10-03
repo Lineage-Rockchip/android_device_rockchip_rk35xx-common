@@ -6,14 +6,13 @@
 ## Platform
 ro.soc.model=RK3588
 
-## Picture quality (RKPQ / AI-PQ)
-# RK3576-only; off here. Read by hwcomposer.rk30board.so, hw_output.default.so
-# and librkswpq.so, and by libsculptor.so (which libmpp dlopens).
-persist.vendor.tvinput.rkpq.mode=0
-persist.vendor.sculptor.aipq.enable=0
-# Keeps libmpp from routing decoder output through libsculptor (xpp)
-vendor.xpp.enable=0
-
-## SVEP super-resolution and MEMC
-# JSON licensing, trial=1 (30 min per boot); enabled by persist.sys.svep.mode / persist.sys.memc.mode
-vendor.svep.json_path=/vendor/etc/rkauth_config.json
+## Picture quality (AI-PQ)
+# RK3576's librkswpq set without the VOP HWPQ ones, which RK3588 lacks.
+# libmpp dlopens libsculptor (xpp), which runs librkswpq's SR/MEMC.
+ro.vendor.aipq_settings=true
+persist.vendor.rkpq.iptv_sr_enable=1
+persist.vendor.rkpq.memc.strength=100
+persist.vendor.rkpq.memc.watermark=0
+persist.vendor.rkpq.mssr.initflag=26
+persist.vendor.rkpq.sr.strength=100
+persist.vendor.tvinput.rkpq.mode=3

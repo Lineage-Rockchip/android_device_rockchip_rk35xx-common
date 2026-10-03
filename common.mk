@@ -233,7 +233,7 @@ PRODUCT_PACKAGES += \
 PRODUCT_PACKAGES += \
     android.hardware.graphics.composer3-service.rk35xx
 
-## TvSettings pages: picture, HDMI output, screen scale, AI PQ (RK3576) / SVEP (RK3588)
+## TvSettings pages: picture, HDMI output, screen scale, AI PQ
 PRODUCT_PACKAGES += \
     RkTvSettings \
     TvSettingsRockchipOverlay

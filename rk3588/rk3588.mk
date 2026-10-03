@@ -18,19 +18,14 @@ PRODUCT_PACKAGES += \
     libgpudataproducer \
     vulkan.mali
 
-## Composer, with SVEP super-resolution and MEMC
-PRODUCT_SOONG_NAMESPACES += \
-    hardware/rockchip/libsvep/libsvepmemc \
-    hardware/rockchip/libsvep/libsvepsr
+## Composer
 PRODUCT_PACKAGES += \
-    hwcomposer.rk3588 \
-    libOpenCL_symlink32 \
-    libOpenCL_symlink64
-PRODUCT_COPY_FILES += \
-    $(RK3588_PATH)/configs/svep/rkauth_config.json:$(TARGET_COPY_OUT_VENDOR)/etc/rkauth_config.json
+    hwcomposer.rk3588
 
-## AI-PQ models
+## AI-PQ: librkswpq SR/MEMC in the decoder (libsculptor), on the NPU and Mali OpenCL
 PRODUCT_PACKAGES += \
+    libOpenCL_symlink32 \
+    libOpenCL_symlink64 \
     rkaipq_models.rk3588
 
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)

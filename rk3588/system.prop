@@ -1,2 +1,0 @@
-## SurfaceFlinger: no frame-pending backpressure while SVEP runs (frameworks/native patch)
-debug.sf.disable_frame_pending_by_svep_running=1

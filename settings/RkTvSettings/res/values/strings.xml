@@ -60,12 +60,4 @@
     <string name="hdr_header">HDR</string>
     <string name="hdr_title">HDR output</string>
     <string name="hdr_summary">Send HDR video as HDR when the TV supports it. Off: always SDR.</string>
-    <string name="svep_mode_title">Video enhancement</string>
-    <string name="svep_mode_sr">Super resolution</string>
-    <string name="svep_mode_sr_summary">AI upscaling of low-resolution video to the output resolution</string>
-    <string name="svep_mode_memc">Motion smoothing</string>
-    <string name="svep_mode_memc_summary">AI frame interpolation for 24-30 fps video</string>
-    <string name="svep_osd_title">On-screen label</string>
-    <string name="svep_osd_summary">Show the SR / MEMC marker on processed video</string>
-    <string name="svep_note">Without a Rockchip license, enhancement works for 30 minutes after each boot.</string>
 </resources>
