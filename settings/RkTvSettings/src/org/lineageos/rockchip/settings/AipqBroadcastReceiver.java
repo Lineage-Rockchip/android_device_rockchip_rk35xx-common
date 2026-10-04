@@ -42,6 +42,9 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
             case AipqProps.KNOB_SR:
                 AipqProps.applySr(context, intent.getIntExtra(EXTRA_VALUE, 0));
                 break;
+            case AipqProps.KNOB_SR_FORCE:
+                AipqProps.applySrForce(context, !AipqProps.isSrForced(context));
+                break;
             case AipqProps.KNOB_DC:
                 AipqProps.applyDc(context, intent.getIntExtra(EXTRA_VALUE, 0));
                 break;
@@ -112,6 +115,19 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
             case AipqProps.KNOB_HUE:
                 TvSettingsSliceProvider.invalidateSlice(context,
                         AipqSliceProvider.DISPLAY_URI);
+                break;
+            case AipqProps.KNOB_SR:
+            case AipqProps.KNOB_SR_FORCE:
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.SR_URI);
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.SLICE_URI);
+                break;
+            case AipqProps.KNOB_DC:
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.DC_URI);
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.SLICE_URI);
+                break;
+            case AipqProps.KNOB_DEMO:
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.DEMO_URI);
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.SLICE_URI);
                 break;
             default:
                 TvSettingsSliceProvider.invalidateSlice(context,

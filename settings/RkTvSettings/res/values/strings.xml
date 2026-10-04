@@ -6,7 +6,10 @@
     <string name="aipq_master_summary">Master switch; off bypasses the AI picture pipeline</string>
 
     <string name="aipq_sr_title">AI-SR</string>
-    <string name="aipq_sr_summary">Super resolution</string>
+    <string name="aipq_sr_summary">Super resolution · Auto skips 60 fps video</string>
+    <string name="aipq_sr_force_title">Force SR on 60 fps</string>
+    <string name="aipq_sr_force_summary">Upscales 720p60 too; may stutter at 1080p60</string>
+    <string name="aipq_sr_forced_short">forced on 60 fps</string>
     <string name="aipq_dc_title">AI-DC</string>
     <string name="aipq_dc_summary">Dimming control</string>
     <string name="aipq_memc_title">AI-MEMC</string>

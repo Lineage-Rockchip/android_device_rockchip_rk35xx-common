@@ -25,6 +25,7 @@ final class AipqProps {
     // Knob identifiers carried on the slice action intents.
     static final String KNOB_MASTER = "master";
     static final String KNOB_SR = "sr";
+    static final String KNOB_SR_FORCE = "srforce";
     static final String KNOB_DC = "dc";
     static final String KNOB_MEMC = "memc";
     static final String KNOB_FE = "fe";
@@ -103,17 +104,26 @@ final class AipqProps {
     }
 
     static int srStrength(Context c) {
-        return strength(c, P_SR_EN, "-1");
+        return strength(c, P_SR_EN, "1");
     }
 
-    /** SR (display path): enable is -1/0; strength kept on off, as the SDK. */
+    /** SR: -1 auto (skips 60 fps video), 1 forced, 0 off; strength kept on off. */
     static void applySr(Context c, int value) {
         if (value > 0) {
-            set(c, P_SR_EN, -1);
+            set(c, P_SR_EN, isSrForced(c) ? 1 : -1);
             set(c, P_SR_STR, value);
         } else {
             set(c, P_SR_EN, 0);
         }
+        set(c, P_UPDATE_VDPP, 1);
+    }
+
+    static boolean isSrForced(Context c) {
+        return flag(c, P_SR_EN);
+    }
+
+    static void applySrForce(Context c, boolean on) {
+        set(c, P_SR_EN, on ? 1 : -1);
         set(c, P_UPDATE_VDPP, 1);
     }
 

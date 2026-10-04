@@ -36,6 +36,12 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             Uri.parse("content://" + AUTHORITY + "/resolution");
     public static final Uri SCALE_URI =
             Uri.parse("content://" + AUTHORITY + "/scale");
+    public static final Uri SR_URI =
+            Uri.parse("content://" + AUTHORITY + "/sr");
+    public static final Uri DC_URI =
+            Uri.parse("content://" + AUTHORITY + "/dc");
+    public static final Uri DEMO_URI =
+            Uri.parse("content://" + AUTHORITY + "/demo");
 
     /** The renderer fills in this extra (SlicesConstants.EXTRA_PREFERENCE_KEY). */
     static final String EXTRA_PREFERENCE_KEY = "extra_preference_key";
@@ -74,6 +80,15 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         if (SCALE_URI.equals(sliceUri)) {
             return createScaleSlice(builder);
         }
+        if (SR_URI.equals(sliceUri)) {
+            return createSrSlice(builder);
+        }
+        if (DC_URI.equals(sliceUri)) {
+            return createDcSlice(builder);
+        }
+        if (DEMO_URI.equals(sliceUri)) {
+            return createDemoSlice(builder);
+        }
         if (!SLICE_URI.equals(sliceUri)) {
             return false;
         }
@@ -90,13 +105,15 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                         c.getString(R.string.aipq_master_title),
                         AipqProps.isMasterOn(c)));
 
-        addStrengthGroup(builder, c, AipqProps.KNOB_SR,
-                R.string.aipq_sr_title, R.string.aipq_sr_summary,
-                AipqProps.srStrength(c));
+        String sr = strengthLabel(c, AipqProps.srStrength(c));
+        if (RkOutputClient.IS_RK3576 && AipqProps.srStrength(c) > 0
+                && AipqProps.isSrForced(c)) {
+            sr += " · " + c.getString(R.string.aipq_sr_forced_short);
+        }
+        addPageRow(builder, AipqProps.KNOB_SR, c.getString(R.string.aipq_sr_title), sr, SR_URI);
         if (RkOutputClient.IS_RK3576) {
-            addStrengthGroup(builder, c, AipqProps.KNOB_DC,
-                    R.string.aipq_dc_title, R.string.aipq_dc_summary,
-                    AipqProps.dcStrength(c));
+            addPageRow(builder, AipqProps.KNOB_DC, c.getString(R.string.aipq_dc_title),
+                    strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
         }
         addSwitchRow(builder, c, AipqProps.KNOB_MEMC,
                 R.string.aipq_memc_title, R.string.aipq_memc_summary,
@@ -116,13 +133,75 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                     AipqProps.isSdOn(c));
         }
 
-        addDemoGroup(builder, c);
+        addPageRow(builder, AipqProps.KNOB_DEMO, c.getString(R.string.aipq_demo_title),
+                c.getString(DEMO_LABELS[AipqProps.demoMode(c)]), DEMO_URI);
 
         builder.addPreference(new RowBuilder()
                 .setKey("aipq_note")
                 .setTitle(c.getString(R.string.aipq_note))
                 .setSelectable(false));
         return true;
+    }
+
+    private boolean createSrSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.aipq_sr_title))
+                .setPageId(PAGE_ID + 4));
+        addStrengthGroup(builder, c, AipqProps.KNOB_SR,
+                R.string.aipq_sr_title, R.string.aipq_sr_summary,
+                AipqProps.srStrength(c));
+        if (RkOutputClient.IS_RK3576) {
+            addSwitchRow(builder, c, AipqProps.KNOB_SR_FORCE,
+                    R.string.aipq_sr_force_title, R.string.aipq_sr_force_summary,
+                    AipqProps.isSrForced(c));
+        }
+        return true;
+    }
+
+    private boolean createDcSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.aipq_dc_title))
+                .setPageId(PAGE_ID + 5));
+        addStrengthGroup(builder, c, AipqProps.KNOB_DC,
+                R.string.aipq_dc_title, R.string.aipq_dc_summary,
+                AipqProps.dcStrength(c));
+        return true;
+    }
+
+    private boolean createDemoSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.aipq_demo_title))
+                .setPageId(PAGE_ID + 6));
+        addDemoGroup(builder, c);
+        return true;
+    }
+
+    /** Main-page row that opens a sub-page and shows its current value. */
+    private static void addPageRow(PreferenceSliceBuilder builder, String knob,
+            String title, String value, Uri target) {
+        builder.addPreference(new RowBuilder()
+                .setKey("aipq_" + knob + "_page")
+                .setTitle(title)
+                .setSubtitle(value)
+                .setTargetSliceUri(target.toString()));
+    }
+
+    private static final int[] STRENGTH_LABELS = {R.string.aipq_strength_off,
+            R.string.aipq_strength_low, R.string.aipq_strength_medium,
+            R.string.aipq_strength_strong};
+    private static final int[] DEMO_LABELS = {R.string.aipq_strength_off,
+            R.string.aipq_demo_on, R.string.aipq_demo_dynamic, R.string.aipq_demo_watermark};
+
+    private static String strengthLabel(Context c, int value) {
+        for (int i = 0; i < AipqProps.STRENGTHS.length; i++) {
+            if (AipqProps.STRENGTHS[i] == value) {
+                return c.getString(STRENGTH_LABELS[i]);
+            }
+        }
+        return value + "%";
     }
 
     /** Non-selectable header row + flat radio rows, backlight style. */
@@ -133,8 +212,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(c.getString(titleRes))
                 .setSubtitle(c.getString(summaryRes))
                 .setSelectable(false));
-        int[] labels = {R.string.aipq_strength_off, R.string.aipq_strength_low,
-                R.string.aipq_strength_medium, R.string.aipq_strength_strong};
+        int[] labels = STRENGTH_LABELS;
         for (int i = 0; i < AipqProps.STRENGTHS.length; i++) {
             int value = AipqProps.STRENGTHS[i];
             builder.addPreference(new RowBuilder()
@@ -154,8 +232,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(c.getString(R.string.aipq_demo_title))
                 .setSubtitle(c.getString(R.string.aipq_demo_summary))
                 .setSelectable(false));
-        int[] labels = {R.string.aipq_strength_off, R.string.aipq_demo_on,
-                R.string.aipq_demo_dynamic, R.string.aipq_demo_watermark};
+        int[] labels = DEMO_LABELS;
         int current = AipqProps.demoMode(c);
         for (int i = 0; i < labels.length; i++) {
             builder.addPreference(new RowBuilder()

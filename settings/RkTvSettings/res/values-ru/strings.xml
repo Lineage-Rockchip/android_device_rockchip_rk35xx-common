@@ -6,7 +6,10 @@
     <string name="aipq_master_summary">Общий переключатель; в положении Выкл конвейер AI-обработки изображения отключается</string>
 
     <string name="aipq_sr_title">AI-SR</string>
-    <string name="aipq_sr_summary">Суперразрешение</string>
+    <string name="aipq_sr_summary">Суперразрешение · Авто пропускает видео 60 fps</string>
+    <string name="aipq_sr_force_title">Принудительно SR на 60 fps</string>
+    <string name="aipq_sr_force_summary">Улучшает и 720p60; на 1080p60 возможны рывки</string>
+    <string name="aipq_sr_forced_short">принудительно на 60 fps</string>
     <string name="aipq_dc_title">AI-DC</string>
     <string name="aipq_dc_summary">Управление затемнением</string>
     <string name="aipq_memc_title">AI-MEMC</string>
