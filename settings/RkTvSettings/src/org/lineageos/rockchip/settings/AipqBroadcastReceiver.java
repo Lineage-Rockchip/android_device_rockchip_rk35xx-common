@@ -46,7 +46,7 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 AipqProps.applyDc(context, intent.getIntExtra(EXTRA_VALUE, 0));
                 break;
             case AipqProps.KNOB_MEMC:
-                AipqProps.applyMemc(context, intent.getIntExtra(EXTRA_VALUE, 0));
+                AipqProps.applyMemc(context, !AipqProps.isMemcOn(context));
                 break;
             case AipqProps.KNOB_FE:
                 AipqProps.applyFe(context, !AipqProps.isFeOn(context));

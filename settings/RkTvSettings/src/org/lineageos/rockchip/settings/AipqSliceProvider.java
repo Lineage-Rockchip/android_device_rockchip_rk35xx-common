@@ -98,10 +98,9 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                     R.string.aipq_dc_title, R.string.aipq_dc_summary,
                     AipqProps.dcStrength(c));
         }
-        addStrengthGroup(builder, c, AipqProps.KNOB_MEMC,
+        addSwitchRow(builder, c, AipqProps.KNOB_MEMC,
                 R.string.aipq_memc_title, R.string.aipq_memc_summary,
-                AipqProps.memcStrength(c));
-
+                AipqProps.isMemcOn(c));
         addSwitchRow(builder, c, AipqProps.KNOB_FE,
                 R.string.aipq_fe_title, R.string.aipq_fe_summary,
                 AipqProps.isFeOn(c));

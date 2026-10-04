@@ -55,7 +55,6 @@ final class AipqProps {
     private static final String P_SHP_EN = "persist.vendor.rkpq.hwpq_shp_en";
     private static final String P_LCE_RATIO = "persist.vendor.rkpq.hwpq_lce_ratio";
     private static final String P_MEMC_EN = "persist.vendor.rkpq.memc.enable";
-    private static final String P_MEMC_STR = "persist.vendor.rkpq.memc.strength";
     private static final String P_WATERMARK = "persist.vendor.rkpq.memc.watermark";
     private static final String P_SLIDER_EN = "persist.vendor.sculptor.slider.enable";
     private static final String P_SLIDER_DYN = "persist.vendor.sculptor.slider.dynamic";
@@ -86,8 +85,7 @@ final class AipqProps {
             return 0;
         }
         return Math.max(0, SystemProperties.getInt(
-                enProp.equals(P_SR_EN) ? P_SR_STR
-                        : enProp.equals(P_DC_EN) ? P_DC_STR : P_MEMC_STR, 100));
+                enProp.equals(P_SR_EN) ? P_SR_STR : P_DC_STR, 100));
     }
 
     /**
@@ -137,17 +135,13 @@ final class AipqProps {
         set(c, P_UPDATE_VDPP, 1);
     }
 
-    static int memcStrength(Context c) {
-        return strength(c, P_MEMC_EN, "-1");
+    /** MEMC: on is the blobs' -1, off is 0; applies from the next video. */
+    static boolean isMemcOn(Context c) {
+        return !"0".equals(SystemProperties.get(P_MEMC_EN, "-1"));
     }
 
-    static void applyMemc(Context c, int value) {
-        if (value > 0) {
-            set(c, P_MEMC_EN, -1);
-            set(c, P_MEMC_STR, value);
-        } else {
-            set(c, P_MEMC_EN, 0);
-        }
+    static void applyMemc(Context c, boolean on) {
+        set(c, P_MEMC_EN, on ? -1 : 0);
         set(c, P_UPDATE_VDPP, 1);
     }
 
