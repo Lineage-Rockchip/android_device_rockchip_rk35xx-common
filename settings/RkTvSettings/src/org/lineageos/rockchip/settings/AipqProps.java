@@ -136,11 +136,10 @@ final class AipqProps {
         set(c, P_DC_EN, value > 0 ? 1 : 0);
         if (value > 0) {
             set(c, P_DC_STR, value);
-            set(c, P_SHP_EN, 1);
-            set(c, P_LCE_RATIO, 10);
-        } else {
-            set(c, P_SHP_EN, 0);
-            set(c, P_LCE_RATIO, 0);
+        }
+        if (RkOutputClient.IS_RK3576) {
+            set(c, P_SHP_EN, value > 0 ? 1 : 0);
+            set(c, P_LCE_RATIO, value > 0 ? 10 : 0);
         }
         set(c, P_UPDATE_VDPP, 1);
     }
@@ -181,13 +180,16 @@ final class AipqProps {
         set(c, P_DCI_DC, on ? 1 : 0);
     }
 
+    /** Unset runs SD (RK3588 leaves it unset); hw_output writes -1 for on. */
     static boolean isSdOn(Context c) {
-        return flag(c, P_SD_EN);
+        return !"0".equals(SystemProperties.get(P_SD_EN, "1"));
     }
 
     static void applySd(Context c, boolean on) {
         set(c, P_SD_EN, on ? 1 : 0);
-        set(c, P_SD_HW, on ? 1 : 0);
+        if (RkOutputClient.IS_RK3576) {
+            set(c, P_SD_HW, on ? 1 : 0);
+        }
     }
 
     /**

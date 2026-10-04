@@ -111,10 +111,8 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             sr += " · " + c.getString(R.string.aipq_sr_forced_short);
         }
         addPageRow(builder, AipqProps.KNOB_SR, c.getString(R.string.aipq_sr_title), sr, SR_URI);
-        if (RkOutputClient.IS_RK3576) {
-            addPageRow(builder, AipqProps.KNOB_DC, c.getString(R.string.aipq_dc_title),
-                    strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
-        }
+        addPageRow(builder, AipqProps.KNOB_DC, c.getString(R.string.aipq_dc_title),
+                strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
         addSwitchRow(builder, c, AipqProps.KNOB_MEMC,
                 R.string.aipq_memc_title, R.string.aipq_memc_summary,
                 AipqProps.isMemcOn(c));
@@ -128,10 +126,10 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             addSwitchRow(builder, c, AipqProps.KNOB_DCI,
                     R.string.aipq_dci_title, R.string.aipq_dci_summary,
                     AipqProps.isDciOn(c));
-            addSwitchRow(builder, c, AipqProps.KNOB_SD,
-                    R.string.aipq_sd_title, R.string.aipq_sd_summary,
-                    AipqProps.isSdOn(c));
         }
+        addSwitchRow(builder, c, AipqProps.KNOB_SD,
+                R.string.aipq_sd_title, R.string.aipq_sd_summary,
+                AipqProps.isSdOn(c));
 
         addPageRow(builder, AipqProps.KNOB_DEMO, c.getString(R.string.aipq_demo_title),
                 c.getString(DEMO_LABELS[AipqProps.demoMode(c)]), DEMO_URI);

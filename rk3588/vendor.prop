@@ -21,6 +21,7 @@ persist.vendor.tvinput.rkpq.mode=3
 persist.vendor.vpp.type=0
 
 # AI-PQ menu: what the blobs run when unset
-persist.vendor.rkpq.dc.enable=-1
 persist.vendor.rkpq.memc.enable=-1
 persist.vendor.rkpq.sr.enable=-1
+# DC off: here it also compresses highlights and softens detail
+persist.vendor.rkpq.dc.enable=0
