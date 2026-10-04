@@ -22,3 +22,8 @@ persist.vendor.rkpq.mssr.initflag=26
 persist.vendor.rkpq.sr.strength=100
 persist.vendor.tvinput.rkpq.mode=3
 vendor.tvinput.rkpq.aisd_en=1
+
+# AI-PQ menu: what the blobs run when unset
+persist.vendor.rkpq.dc.enable=-1
+persist.vendor.rkpq.memc.enable=-1
+persist.vendor.rkpq.sr.enable=-1

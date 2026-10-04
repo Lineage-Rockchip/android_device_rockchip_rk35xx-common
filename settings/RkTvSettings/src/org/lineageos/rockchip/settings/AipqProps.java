@@ -81,7 +81,8 @@ final class AipqProps {
     }
 
     private static int strength(Context c, String enProp, String onValue) {
-        if (!onValue.equals(SystemProperties.get(enProp, "0"))) {
+        String en = SystemProperties.get(enProp, "0");
+        if (!onValue.equals(en) && !"-1".equals(en)) {
             return 0;
         }
         return Math.max(0, SystemProperties.getInt(
