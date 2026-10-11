@@ -26,10 +26,13 @@ list, the stock `dtbo.img` and `resource.img` template, `fstab.rk30board`,
 ## Kernel
 
 The kernel is built in-tree by LineageOS' own `kernel.mk`, out of
-`kernel/rockchip/kernel-6.1` -- Khadas' RK3576 BSP, linux 6.1.141, non-GKI. Its
-in-kernel Mali is `g25p0-00eac0`, which is what both halves of `libGLES_mali` in
-the current dump report, and the reason for preferring it over the 6.1.99
-Rockchip drop this port used earlier.
+`kernel/rockchip/kernel-6.1` -- Hardkernel's odroid tree on the Rockchip
+6.1.172 BSP, non-GKI (branch `rk35xx-odroid`; the Khadas 6.1.141 tree used
+until 2026-10 is kept as `m9s-6.1.141-backup`). Its in-kernel Mali is
+bifrost `g29p1-12eac0` for RK3576 and valhall `g29p1-11eac0` for RK3588, and
+`libGLES_mali` in `vendor/rockchip/{rk3576,rk3588}` is Hardkernel's matching
+g29p1 build, not the one from the dumps below. The valhall CSF firmware is
+built into the kernel (`MALI_CSF_INCLUDE_FW`).
 
 | What | Where |
 | --- | --- |
@@ -83,7 +86,8 @@ RKR one, and not the H96 Max M9S ROM this port started from (`ANDROID14_RKR5`,
 2025-03-14) nor the Khadas Edge-2L `ANDROID14_RKR8` dump used from 7.16. Same
 SoC, same vendor API level, same vendor security patch (2025-06-05) and the
 same Mali release (`g25p0-00eac0`) as that Edge-2L dump, so the compat fixups
-below still apply and the userspace still matches the kbase this tree builds.
+below still apply. (The Mali userspace has since been replaced by g29p1; see
+Kernel.)
 
 Two things make it the base rather than the Edge-2L dump:
 

@@ -26,8 +26,7 @@ include device/rockchip/rk35xx-common/BoardConfigCommon.mk
 
 ## Kernel
 TARGET_KERNEL_CONFIG_EXT += \
-    $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk3588.config \
-    $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk3588_android.config
+    $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk3588.config
 
 ## Properties
 TARGET_VENDOR_PROP += $(RK3588_PATH)/vendor.prop
