@@ -1,6 +1,7 @@
 # device/rockchip/rk35xx-common
 
-Shared LineageOS 23.2 tree for Rockchip RK3576 and RK3588 Android TV devices.
+Shared LineageOS 23.2 tree for Rockchip RK3576 and RK3588 devices, built as
+Android TV when the product sets `PRODUCT_IS_ATV := true` and as a tablet otherwise.
 
 It is modelled on `device/amlogic/ne-common`, with one extra layer:
 

@@ -140,6 +140,10 @@ ALL_PARTITIONS := $(SSI_PARTITIONS) $(TREBLE_PARTITIONS)
 
 BOARD_SUPER_PARTITION_GROUPS := rockchip_dynamic_partitions
 BOARD_ROCKCHIP_DYNAMIC_PARTITIONS_PARTITION_LIST := $(ALL_PARTITIONS)
+# Lineage's full non-ATV product reserve (1.9 GB) overflows a 4 GB super.
+ifneq ($(PRODUCT_IS_ATV),true)
+BOARD_PRODUCTIMAGE_MINIMAL_PARTITION_RESERVED_SIZE ?= true
+endif
 # BOARD_SUPER_PARTITION_SIZE - "reasonable overhead of 4 MiB" 4194304
 include vendor/lineage/config/BoardConfigReservedSize.mk
 BOARD_ROCKCHIP_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(($(BOARD_SUPER_PARTITION_SIZE) - 4194304)))

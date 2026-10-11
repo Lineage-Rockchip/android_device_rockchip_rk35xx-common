@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+     Copyright (C) 2025 The LineageOS Project
+
+     SPDX-License-Identifier: Apache-2.0
+-->
+<resources>
+    <!-- Mains powered, no lock: never sleep, no lockscreen. -->
+    <bool name="def_lockscreen_disabled">true</bool>
+    <bool name="def_stay_on_while_plugged_in">true</bool>
+    <integer name="def_screen_off_timeout">2147483647</integer>
+    <bool name="def_accelerometer_rotation">false</bool>
+</resources>

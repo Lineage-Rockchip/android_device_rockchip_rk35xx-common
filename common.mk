@@ -232,9 +232,11 @@ PRODUCT_PACKAGES += \
     android.hardware.graphics.composer3-service.rk35xx
 
 ## TvSettings pages: picture, HDMI output, screen scale, AI PQ
+ifeq ($(PRODUCT_IS_ATV),true)
 PRODUCT_PACKAGES += \
     RkTvSettings \
     TvSettingsRockchipOverlay
+endif
 
 ## Display
 PRODUCT_COPY_FILES += \
@@ -316,6 +318,27 @@ PRODUCT_COPY_FILES += \
 
 ## Overlays
 DEVICE_PACKAGE_OVERLAYS += $(COMMON_PATH)/overlay
+
+## Tablet
+# Built as a tablet unless the product sets PRODUCT_IS_ATV.
+ifneq ($(PRODUCT_IS_ATV),true)
+PRODUCT_CHARACTERISTICS := tablet
+
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/configs/permissions/tablet_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/tablet_core_hardware.xml
+
+PRODUCT_PACKAGES += \
+    FrameworksOverlayRk35xxTablet \
+    LineageSDKOverlayRk35xxTablet \
+    SettingsOverlayRk35xxTablet \
+    SettingsProviderOverlayRk35xxTablet \
+    SystemUIOverlayRk35xxTablet
+
+ifeq ($(WITH_GMS),true)
+GMS_MAKEFILE ?= gms_minimal.mk
+WITH_GMS_COMMS_SUITE ?= false
+endif
+endif
 
 ## Inherit from the common proprietary files makefile
 $(call inherit-product-if-exists, vendor/rockchip/rk35xx-common/rk35xx-common-vendor.mk)
