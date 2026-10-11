@@ -60,7 +60,6 @@
     <string name="scale_title">Screen scale</string>
     <string name="scale_horizontal">Horizontal size</string>
     <string name="scale_vertical">Vertical size</string>
-    <string name="hdr_header">HDR</string>
     <string name="hdr_title">HDR output</string>
     <string name="hdr_summary">Send HDR video as HDR when the TV supports it. Off: always SDR.</string>
 </resources>

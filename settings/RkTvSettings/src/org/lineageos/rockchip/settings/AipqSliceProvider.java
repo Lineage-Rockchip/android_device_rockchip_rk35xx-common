@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 
+import java.util.List;
+
 import com.android.tv.twopanelsettings.slices.TvSettingsSliceProvider;
 import com.android.tv.twopanelsettings.slices.builders.PreferenceSliceBuilder;
 import com.android.tv.twopanelsettings.slices.builders.PreferenceSliceBuilder.RowBuilder;
@@ -43,6 +45,15 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
     public static final Uri DEMO_URI =
             Uri.parse("content://" + AUTHORITY + "/demo");
 
+    static Uri pageUri(Uri parent, String knob) {
+        return parent.buildUpon().appendPath(knob).build();
+    }
+
+    static void invalidatePage(Context c, Uri parent, String knob) {
+        TvSettingsSliceProvider.invalidateSlice(c, pageUri(parent, knob));
+        TvSettingsSliceProvider.invalidateSlice(c, parent);
+    }
+
     /** The renderer fills in this extra (SlicesConstants.EXTRA_PREFERENCE_KEY). */
     static final String EXTRA_PREFERENCE_KEY = "extra_preference_key";
 
@@ -71,6 +82,10 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
 
     @Override
     protected boolean createSlice(PreferenceSliceBuilder builder, Uri sliceUri) {
+        List<String> path = sliceUri.getPathSegments();
+        if (path.size() == 2) {
+            return createSubSlice(builder, path.get(0), path.get(1));
+        }
         if (DISPLAY_URI.equals(sliceUri)) {
             return createDisplaySlice(builder);
         }
@@ -110,8 +125,8 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 && AipqProps.isSrForced(c)) {
             sr += " · " + c.getString(R.string.aipq_sr_forced_short);
         }
-        addPageRow(builder, AipqProps.KNOB_SR, c.getString(R.string.aipq_sr_title), sr, SR_URI);
-        addPageRow(builder, AipqProps.KNOB_DC, c.getString(R.string.aipq_dc_title),
+        addPageRow(builder, "aipq_sr_page", c.getString(R.string.aipq_sr_title), sr, SR_URI);
+        addPageRow(builder, "aipq_dc_page", c.getString(R.string.aipq_dc_title),
                 strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
         addSwitchRow(builder, c, AipqProps.KNOB_MEMC,
                 R.string.aipq_memc_title, R.string.aipq_memc_summary,
@@ -131,7 +146,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 R.string.aipq_sd_title, R.string.aipq_sd_summary,
                 AipqProps.isSdOn(c));
 
-        addPageRow(builder, AipqProps.KNOB_DEMO, c.getString(R.string.aipq_demo_title),
+        addPageRow(builder, "aipq_demo_page", c.getString(R.string.aipq_demo_title),
                 c.getString(DEMO_LABELS[AipqProps.demoMode(c)]), DEMO_URI);
 
         builder.addPreference(new RowBuilder()
@@ -178,10 +193,10 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
     }
 
     /** Main-page row that opens a sub-page and shows its current value. */
-    private static void addPageRow(PreferenceSliceBuilder builder, String knob,
+    private static void addPageRow(PreferenceSliceBuilder builder, String key,
             String title, String value, Uri target) {
         builder.addPreference(new RowBuilder()
-                .setKey("aipq_" + knob + "_page")
+                .setKey(key)
                 .setTitle(title)
                 .setSubtitle(value)
                 .setTargetSliceUri(target.toString()));
@@ -261,42 +276,69 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         return i;
     }
 
-    /**
-     * Display picture page: brightness/contrast/saturation/hue as percent
-     * radios over the outputmanager HIDL. Steps of 10 -- the renderer's
-     * seekbar dispatch is key-only (see the class comment), so radios are the
-     * only stateless slider equivalent.
-     */
+    private static final String[] BCSH_KNOBS = {AipqProps.KNOB_BRIGHTNESS,
+            AipqProps.KNOB_CONTRAST, AipqProps.KNOB_SATURATION, AipqProps.KNOB_HUE};
+    private static final int[] BCSH_TITLES = {R.string.disp_brightness,
+            R.string.disp_contrast, R.string.disp_saturation, R.string.disp_hue};
+    private static final int[] BCSH_SUMMARIES = {R.string.disp_brightness_summary,
+            R.string.disp_contrast_summary, R.string.disp_saturation_summary,
+            R.string.disp_hue_summary};
+
+    private boolean createSubSlice(PreferenceSliceBuilder builder, String page, String knob) {
+        if (DISPLAY_URI.getLastPathSegment().equals(page)) {
+            for (int i = 0; i < BCSH_KNOBS.length; i++) {
+                if (BCSH_KNOBS[i].equals(knob)) {
+                    return createBcshSlice(builder, i);
+                }
+            }
+        } else if (RESOLUTION_URI.getLastPathSegment().equals(page)) {
+            if (AipqProps.KNOB_RESOLUTION.equals(knob)) {
+                return createModeSlice(builder);
+            }
+            if (AipqProps.KNOB_COLOR.equals(knob)) {
+                return createColorSlice(builder);
+            }
+        } else if (SCALE_URI.getLastPathSegment().equals(page)) {
+            if (AipqProps.KNOB_SCALE_H.equals(knob)) {
+                return createScaleSubSlice(builder, knob, R.string.scale_horizontal, 0);
+            }
+            if (AipqProps.KNOB_SCALE_V.equals(knob)) {
+                return createScaleSubSlice(builder, knob, R.string.scale_vertical, 1);
+            }
+        }
+        return false;
+    }
+
     private boolean createDisplaySlice(PreferenceSliceBuilder builder) {
         Context c = getContext();
         builder.addScreenTitle(new RowBuilder()
                 .setTitle(c.getString(R.string.disp_title))
                 .setPageId(PAGE_ID + 1));
-        int[] bcsh = RkOutputClient.getBcsh(RkOutputClient.mainDisplay());
-        if (bcsh == null) {
-            bcsh = RkOutputClient.DEFAULT_BCSH;
-            builder.addPreference(new RowBuilder()
-                    .setKey("disp_unavailable")
-                    .setTitle(c.getString(R.string.disp_unavailable))
-                    .setSelectable(false));
+        int[] bcsh = displayBcsh(builder, c);
+        for (int i = 0; i < BCSH_KNOBS.length; i++) {
+            addPageRow(builder, "disp_" + BCSH_KNOBS[i] + "_page",
+                    c.getString(BCSH_TITLES[i]), String.valueOf(bcsh[i]),
+                    pageUri(DISPLAY_URI, BCSH_KNOBS[i]));
         }
-        addBcshGroup(builder, c, AipqProps.KNOB_BRIGHTNESS,
-                R.string.disp_brightness, R.string.disp_brightness_summary, bcsh[0]);
-        addBcshGroup(builder, c, AipqProps.KNOB_CONTRAST,
-                R.string.disp_contrast, R.string.disp_contrast_summary, bcsh[1]);
-        addBcshGroup(builder, c, AipqProps.KNOB_SATURATION,
-                R.string.disp_saturation, R.string.disp_saturation_summary, bcsh[2]);
-        addBcshGroup(builder, c, AipqProps.KNOB_HUE,
-                R.string.disp_hue, R.string.disp_hue_summary, bcsh[3]);
         return true;
     }
 
-    private void addBcshGroup(PreferenceSliceBuilder builder, Context c,
-            String knob, int titleRes, int summaryRes, int current) {
+    /**
+     * One BCSH value as percent radios over the outputmanager HIDL. Steps of
+     * 10 -- the renderer's seekbar dispatch is key-only (see the class
+     * comment), so radios are the only stateless slider equivalent.
+     */
+    private boolean createBcshSlice(PreferenceSliceBuilder builder, int index) {
+        Context c = getContext();
+        String knob = BCSH_KNOBS[index];
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(BCSH_TITLES[index]))
+                .setPageId(PAGE_ID + 7 + index));
+        int current = displayBcsh(builder, c)[index];
         builder.addPreference(new RowBuilder()
                 .setKey("disp_" + knob + "_header")
-                .setTitle(c.getString(titleRes))
-                .setSubtitle(c.getString(summaryRes))
+                .setTitle(c.getString(BCSH_TITLES[index]))
+                .setSubtitle(c.getString(BCSH_SUMMARIES[index]))
                 .setSelectable(false));
         for (int value = 0; value <= 100; value += 10) {
             builder.addPreference(new RowBuilder()
@@ -308,6 +350,19 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                                     .putExtra(AipqBroadcastReceiver.EXTRA_VALUE, value),
                             current == value));
         }
+        return true;
+    }
+
+    private static int[] displayBcsh(PreferenceSliceBuilder builder, Context c) {
+        int[] bcsh = RkOutputClient.getBcsh(RkOutputClient.mainDisplay());
+        if (bcsh != null) {
+            return bcsh;
+        }
+        builder.addPreference(new RowBuilder()
+                .setKey("disp_unavailable")
+                .setTitle(c.getString(R.string.disp_unavailable))
+                .setSelectable(false));
+        return RkOutputClient.DEFAULT_BCSH;
     }
 
     private boolean createResolutionSlice(PreferenceSliceBuilder builder) {
@@ -317,29 +372,18 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setPageId(PAGE_ID + 2));
         String[] modes = RkOutputClient.getModes(RkOutputClient.mainDisplay());
         if (modes == null || modes.length == 0) {
-            builder.addPreference(new RowBuilder()
-                    .setKey("res_unavailable")
-                    .setTitle(c.getString(R.string.disp_unavailable))
-                    .setSelectable(false));
+            addUnavailable(builder, c, "res_unavailable");
             return true;
         }
-        addHeader(builder, "res_header", c.getString(R.string.res_header));
-        String current = RkOutputClient.getMode(RkOutputClient.mainDisplay());
-        for (int i = 0; i < modes.length; i++) {
-            String mode = modes[i];
-            boolean auto = RkOutputClient.MODE_AUTO.equals(mode);
-            builder.addPreference(new RowBuilder()
-                    .setKey("res_" + i)
-                    .setTitle(auto ? c.getString(R.string.res_auto)
-                            : RkOutputClient.modeLabel(mode))
-                    .setRadioGroup("res")
-                    .addRadioButton(
-                            knobIntent(c, AipqProps.KNOB_RESOLUTION)
-                                    .putExtra(AipqBroadcastReceiver.EXTRA_MODE, mode),
-                            mode.equals(current)));
+        addPageRow(builder, "res_page", c.getString(R.string.res_header),
+                modeTitle(c, RkOutputClient.getMode(RkOutputClient.mainDisplay())),
+                pageUri(RESOLUTION_URI, AipqProps.KNOB_RESOLUTION));
+        String[] formats = RkOutputClient.getColorModes(RkOutputClient.mainDisplay());
+        if (formats != null && formats.length > 0) {
+            addPageRow(builder, "color_page", c.getString(R.string.color_header),
+                    formatTitle(c, RkOutputClient.getColorMode(RkOutputClient.mainDisplay())),
+                    pageUri(RESOLUTION_URI, AipqProps.KNOB_COLOR));
         }
-        addColorGroup(builder, c);
-        addHeader(builder, "hdr_header", c.getString(R.string.hdr_header));
         String hdrTitle = c.getString(R.string.hdr_title);
         builder.addPreference(new RowBuilder()
                 .setKey("hdr")
@@ -350,25 +394,69 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         return true;
     }
 
-    private void addColorGroup(PreferenceSliceBuilder builder, Context c) {
+    private boolean createModeSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.res_header))
+                .setPageId(PAGE_ID + 11));
+        String[] modes = RkOutputClient.getModes(RkOutputClient.mainDisplay());
+        if (modes == null || modes.length == 0) {
+            addUnavailable(builder, c, "res_unavailable");
+            return true;
+        }
+        String current = RkOutputClient.getMode(RkOutputClient.mainDisplay());
+        for (int i = 0; i < modes.length; i++) {
+            String mode = modes[i];
+            builder.addPreference(new RowBuilder()
+                    .setKey("res_" + i)
+                    .setTitle(modeTitle(c, mode))
+                    .setRadioGroup("res")
+                    .addRadioButton(
+                            knobIntent(c, AipqProps.KNOB_RESOLUTION)
+                                    .putExtra(AipqBroadcastReceiver.EXTRA_MODE, mode),
+                            mode.equals(current)));
+        }
+        return true;
+    }
+
+    private boolean createColorSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.color_header))
+                .setPageId(PAGE_ID + 12));
         String[] formats = RkOutputClient.getColorModes(RkOutputClient.mainDisplay());
         if (formats == null || formats.length == 0) {
-            return;
+            addUnavailable(builder, c, "color_unavailable");
+            return true;
         }
-        addHeader(builder, "color_header", c.getString(R.string.color_header));
         String current = RkOutputClient.getColorMode(RkOutputClient.mainDisplay());
         for (int i = 0; i < formats.length; i++) {
             String format = formats[i];
-            boolean auto = RkOutputClient.MODE_AUTO.equals(format);
             builder.addPreference(new RowBuilder()
                     .setKey("color_" + i)
-                    .setTitle(auto ? c.getString(R.string.res_auto) : format)
+                    .setTitle(formatTitle(c, format))
                     .setRadioGroup("color")
                     .addRadioButton(
                             knobIntent(c, AipqProps.KNOB_COLOR)
                                     .putExtra(AipqBroadcastReceiver.EXTRA_MODE, format),
                             format.equals(current)));
         }
+        return true;
+    }
+
+    private static String modeTitle(Context c, String mode) {
+        if (mode == null) {
+            return "";
+        }
+        return RkOutputClient.MODE_AUTO.equals(mode) ? c.getString(R.string.res_auto)
+                : RkOutputClient.modeLabel(mode);
+    }
+
+    private static String formatTitle(Context c, String format) {
+        if (format == null) {
+            return "";
+        }
+        return RkOutputClient.MODE_AUTO.equals(format) ? c.getString(R.string.res_auto) : format;
     }
 
     private boolean createScaleSlice(PreferenceSliceBuilder builder) {
@@ -378,20 +466,29 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setPageId(PAGE_ID + 3));
         int[] scale = RkOutputClient.getScale(RkOutputClient.mainDisplay());
         if (scale == null) {
-            builder.addPreference(new RowBuilder()
-                    .setKey("scale_unavailable")
-                    .setTitle(c.getString(R.string.disp_unavailable))
-                    .setSelectable(false));
+            addUnavailable(builder, c, "scale_unavailable");
             return true;
         }
-        addScaleGroup(builder, c, AipqProps.KNOB_SCALE_H, R.string.scale_horizontal, scale[0]);
-        addScaleGroup(builder, c, AipqProps.KNOB_SCALE_V, R.string.scale_vertical, scale[1]);
+        addPageRow(builder, AipqProps.KNOB_SCALE_H + "_page",
+                c.getString(R.string.scale_horizontal), scale[0] + "%",
+                pageUri(SCALE_URI, AipqProps.KNOB_SCALE_H));
+        addPageRow(builder, AipqProps.KNOB_SCALE_V + "_page",
+                c.getString(R.string.scale_vertical), scale[1] + "%",
+                pageUri(SCALE_URI, AipqProps.KNOB_SCALE_V));
         return true;
     }
 
-    private void addScaleGroup(PreferenceSliceBuilder builder, Context c, String knob,
-            int titleRes, int current) {
-        addHeader(builder, knob + "_header", c.getString(titleRes));
+    private boolean createScaleSubSlice(PreferenceSliceBuilder builder, String knob,
+            int titleRes, int index) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(titleRes))
+                .setPageId(PAGE_ID + 13 + index));
+        int[] scale = RkOutputClient.getScale(RkOutputClient.mainDisplay());
+        if (scale == null) {
+            addUnavailable(builder, c, "scale_unavailable");
+            return true;
+        }
         for (int value = 100; value >= SCALE_MIN; value -= SCALE_STEP) {
             builder.addPreference(new RowBuilder()
                     .setKey(knob + "_" + value)
@@ -400,14 +497,15 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                     .addRadioButton(
                             knobIntent(c, knob)
                                     .putExtra(AipqBroadcastReceiver.EXTRA_VALUE, value),
-                            current == value));
+                            scale[index] == value));
         }
+        return true;
     }
 
-    private static void addHeader(PreferenceSliceBuilder builder, String key, String title) {
+    private static void addUnavailable(PreferenceSliceBuilder builder, Context c, String key) {
         builder.addPreference(new RowBuilder()
                 .setKey(key)
-                .setTitle(title)
+                .setTitle(c.getString(R.string.disp_unavailable))
                 .setSelectable(false));
     }
 }

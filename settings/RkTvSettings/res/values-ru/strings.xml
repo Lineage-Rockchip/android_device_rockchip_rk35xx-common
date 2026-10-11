@@ -59,7 +59,6 @@
     <string name="scale_title">Масштаб экрана</string>
     <string name="scale_horizontal">Размер по горизонтали</string>
     <string name="scale_vertical">Размер по вертикали</string>
-    <string name="hdr_header">HDR</string>
     <string name="hdr_title">Вывод HDR</string>
     <string name="hdr_summary">Выводить HDR-видео в HDR, если телевизор поддерживает. Выкл.: всегда SDR.</string>
 </resources>

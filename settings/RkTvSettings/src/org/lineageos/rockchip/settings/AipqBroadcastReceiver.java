@@ -84,13 +84,11 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 break;
             case AipqProps.KNOB_RESOLUTION:
                 applyResolution(context, intent.getStringExtra(EXTRA_MODE));
-                TvSettingsSliceProvider.invalidateSlice(context,
-                        AipqSliceProvider.RESOLUTION_URI);
+                AipqSliceProvider.invalidatePage(context, AipqSliceProvider.RESOLUTION_URI, knob);
                 return;
             case AipqProps.KNOB_COLOR:
                 applyColor(context, intent.getStringExtra(EXTRA_MODE));
-                TvSettingsSliceProvider.invalidateSlice(context,
-                        AipqSliceProvider.RESOLUTION_URI);
+                AipqSliceProvider.invalidatePage(context, AipqSliceProvider.RESOLUTION_URI, knob);
                 return;
             case AipqProps.KNOB_HDR:
                 RkOutputClient.setHdrEnabled(!RkOutputClient.isHdrEnabled());
@@ -102,8 +100,7 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 RkOutputClient.setScale(RkOutputClient.mainDisplay(),
                         AipqProps.KNOB_SCALE_H.equals(knob),
                         intent.getIntExtra(EXTRA_VALUE, 100));
-                TvSettingsSliceProvider.invalidateSlice(context,
-                        AipqSliceProvider.SCALE_URI);
+                AipqSliceProvider.invalidatePage(context, AipqSliceProvider.SCALE_URI, knob);
                 return;
             default:
                 return;
@@ -113,8 +110,7 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
             case AipqProps.KNOB_CONTRAST:
             case AipqProps.KNOB_SATURATION:
             case AipqProps.KNOB_HUE:
-                TvSettingsSliceProvider.invalidateSlice(context,
-                        AipqSliceProvider.DISPLAY_URI);
+                AipqSliceProvider.invalidatePage(context, AipqSliceProvider.DISPLAY_URI, knob);
                 break;
             case AipqProps.KNOB_SR:
             case AipqProps.KNOB_SR_FORCE:

@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
-import com.android.tv.twopanelsettings.slices.TvSettingsSliceProvider;
-
 public class ResolutionConfirmActivity extends Activity {
 
     static final String EXTRA_KIND = "kind";
@@ -81,7 +79,8 @@ public class ResolutionConfirmActivity extends Activity {
                 RkOutputClient.setMode(RkOutputClient.mainDisplay(), mPrevious);
             }
         }
-        TvSettingsSliceProvider.invalidateSlice(this, AipqSliceProvider.RESOLUTION_URI);
+        AipqSliceProvider.invalidatePage(this, AipqSliceProvider.RESOLUTION_URI,
+                mColor ? AipqProps.KNOB_COLOR : AipqProps.KNOB_RESOLUTION);
         if (mDialog != null) {
             mDialog.dismiss();
         }
