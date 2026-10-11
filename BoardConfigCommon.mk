@@ -144,6 +144,13 @@ BOARD_ROCKCHIP_DYNAMIC_PARTITIONS_PARTITION_LIST := $(ALL_PARTITIONS)
 ifneq ($(PRODUCT_IS_ATV),true)
 BOARD_PRODUCTIMAGE_MINIMAL_PARTITION_RESERVED_SIZE ?= true
 endif
+
+## Display
+# A tablet needs sw >= 600dp at 1080p, or Launcher3 treats it as a phone.
+ifneq ($(PRODUCT_IS_ATV),true)
+TARGET_SCREEN_DENSITY := 240
+endif
+
 # BOARD_SUPER_PARTITION_SIZE - "reasonable overhead of 4 MiB" 4194304
 include vendor/lineage/config/BoardConfigReservedSize.mk
 BOARD_ROCKCHIP_DYNAMIC_PARTITIONS_SIZE := $(shell echo $$(($(BOARD_SUPER_PARTITION_SIZE) - 4194304)))
