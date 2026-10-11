@@ -11,13 +11,6 @@ ROCKCHIP_SOC := rk3588
 PRODUCT_COPY_FILES += \
     kernel/rockchip/kernel-6.1/drivers/gpu/arm/valhall/mali_csffw.bin:$(TARGET_COPY_OUT_VENDOR)/etc/firmware/g29p0-00eac0.mali_csffw.bin
 
-## Mali userspace (MaliG610)
-PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG610
-PRODUCT_PACKAGES += \
-    libGLES_mali \
-    libgpudataproducer \
-    vulkan.mali
-
 ## Composer
 PRODUCT_PACKAGES += \
     hwcomposer.rk3588
@@ -25,8 +18,6 @@ PRODUCT_PACKAGES += \
 ## AI-PQ: librkswpq SR/MEMC in the decoder (libsculptor), on the NPU and Mali OpenCL
 PRODUCT_PACKAGES += \
     aipq_config.json \
-    libOpenCL_symlink32 \
-    libOpenCL_symlink64 \
     rkaipq_models.rk3588
 
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3588.xml)
@@ -40,3 +31,4 @@ PRODUCT_COPY_FILES += \
     $(RK3588_PATH)/init.rk3588.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3588.rc
 
 $(call inherit-product, device/rockchip/rk35xx-common/common.mk)
+$(call inherit-product, vendor/rockchip/rk3588/rk3588-vendor.mk)

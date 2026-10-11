@@ -18,13 +18,6 @@ PRODUCT_PACKAGES += \
     rkaipq_models.rk3576 \
     vop_base_config.json.rk3576
 
-## Mali userspace (MaliG52)
-PRODUCT_SOONG_NAMESPACES += vendor/rockchip/gpu/MaliG52
-PRODUCT_PACKAGES += \
-    libGLES_mali \
-    libgpudataproducer \
-    vulkan.mali
-
 ## Codec 2 component lists (Rockchip's media_codecs_*_rk3576.xml)
 PRODUCT_COPY_FILES += \
     $(RK3576_PATH)/configs/media/media_codecs_c2_base.xml:$(TARGET_COPY_OUT_VENDOR)/etc/media_codecs_c2_base.xml \
@@ -36,3 +29,4 @@ PRODUCT_COPY_FILES += \
     $(RK3576_PATH)/init.rk3576.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/hw/init.rk3576.rc
 
 $(call inherit-product, device/rockchip/rk35xx-common/common.mk)
+$(call inherit-product, vendor/rockchip/rk3576/rk3576-vendor.mk)
