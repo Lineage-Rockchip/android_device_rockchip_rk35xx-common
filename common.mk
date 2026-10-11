@@ -204,8 +204,14 @@ PRODUCT_COPY_FILES += \
     frameworks/av/services/audiopolicy/config/usb_audio_policy_configuration.xml:$(TARGET_COPY_OUT_VENDOR)/etc/usb_audio_policy_configuration.xml
 
 ## Codec 2
-# libcodec2_rk_{store,component}.so and libcodec2_hidl_plugin.so are extracted;
-# these are the AOSP halves no blob names in NEEDED.
+# The Rockchip service, store and component are built from hardware/rockchip/codec2;
+# libcodec2_hidl_plugin.so is extracted. The component is dlopened by the store.
+PRODUCT_SOONG_NAMESPACES += hardware/rockchip/codec2
+PRODUCT_PACKAGES += \
+    android.hardware.media.c2@1.1-service \
+    libcodec2_rk_component
+
+# The AOSP halves no Rockchip library names in NEEDED.
 PRODUCT_PACKAGES += \
     libcodec2_soft_common.vendor \
     libstagefright_bufferpool@2.0.vendor

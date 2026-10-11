@@ -348,19 +348,11 @@ vendor/etc/init/lights-rockchip.rc
 vendor/etc/vintf/manifest/lights-rockchip.xml
 
 ## Media codec2 / MPP
-vendor/bin/hw/android.hardware.media.c2@1.1-service
 vendor/bin/hw/rockchip.hardware.rockit.hw@1.0-service
-vendor/etc/init/android.hardware.media.c2@1.1-service.rc
 vendor/etc/init/rockchip.hardware.rockit.hw@1.0-service.rc
-vendor/etc/seccomp_policy/android.hardware.media.c2@1.1-seccomp_policy
 vendor/etc/seccomp_policy/rockit.vendor.base.policy
-vendor/etc/vintf/manifest/manifest_media_c2_V1_1.xml
 vendor/etc/vintf/manifest/rockchip.hardware.rockit.hw@1.0-service.xml
-vendor/lib/libcodec2_rk_component.so
-vendor/lib/libcodec2_rk_store.so
 vendor/lib/libmpp.so
-vendor/lib64/libcodec2_rk_component.so
-vendor/lib64/libcodec2_rk_store.so
 vendor/lib64/libmpp.so
 vendor/lib64/librockit_hw_hidl@1.0.so
 vendor/lib64/rockchip.hardware.rockit.hw@1.0.so
