@@ -18,14 +18,15 @@
 # the board boots a new kernel against an old device tree.  Android.mk wires
 # this into the build so that cannot be forgotten.
 #
-# The bitmaps are not built from source; they are lifted out of the stock image,
-# which is why that image is still needed as a template.
+# The bitmaps are lifted out of the stock image, which is why that image is
+# still needed as a template. Any <bitmap.bmp> given replaces the entry of the
+# same name, or is added if the template has none; a later one wins.
 #
 # The packer is Rockchip's own scripts/resource_tool, built as a host tool by
 # any kernel build (hostprogs-always-$(CONFIG_ARCH_ROCKCHIP)).
 #
 # Usage:
-#   tools/pack-resource-img.sh <template.img> <rk-kernel.dtb> <resource_tool> <out.img>
+#   tools/pack-resource-img.sh <template.img> <rk-kernel.dtb> <resource_tool> <out.img> [bitmap.bmp...]
 #
 # Entry order is preserved exactly as stock shipped it. U-Boot looks entries up
 # by name so order should not matter, but there is no reason to find out.
@@ -36,6 +37,7 @@ TEMPLATE=${1:?usage: $0 <template.img> <rk-kernel.dtb> <resource_tool> <out.img>
 DTB=${2:?usage: $0 <template.img> <rk-kernel.dtb> <resource_tool> <out.img>}
 TOOL=${3:?usage: $0 <template.img> <rk-kernel.dtb> <resource_tool> <out.img>}
 OUT=${4:?usage: $0 <template.img> <rk-kernel.dtb> <resource_tool> <out.img>}
+shift 4
 
 TOOL=$(readlink -f "$TOOL")
 TEMPLATE=$(readlink -f "$TEMPLATE")
@@ -55,6 +57,12 @@ cp "$DTB" "$WORK/out/rk-kernel.dtb"
 # Every entry the template carries, in the template's own order.
 mapfile -t ENTRIES < <("$TOOL" --print --unpack --image="$TEMPLATE" | sed -n 's/^[[:space:]]*path:\(.*\)$/\1/p')
 [[ " ${ENTRIES[*]} " == *" rk-kernel.dtb "* ]] || { echo "template has no rk-kernel.dtb"; exit 1; }
+
+for bmp in "$@"; do
+    name=$(basename "$bmp")
+    cp "$bmp" "$WORK/out/$name"
+    [[ " ${ENTRIES[*]} " == *" $name "* ]] || ENTRIES+=("$name")
+done
 
 ( cd "$WORK/out" && "$TOOL" --pack --root=. --image="$WORK/new.img" "${ENTRIES[@]}" >/dev/null )
 
