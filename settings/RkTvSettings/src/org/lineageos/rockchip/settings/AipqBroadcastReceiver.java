@@ -24,6 +24,13 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        if (ResolutionConfirmActivity.ACTION_OUTPUT_CHANGED.equals(intent.getAction())) {
+            AipqSliceProvider.invalidatePage(context, AipqSliceProvider.RESOLUTION_URI,
+                    ResolutionConfirmActivity.KIND_COLOR.equals(intent.getStringExtra(
+                            ResolutionConfirmActivity.EXTRA_KIND))
+                            ? AipqProps.KNOB_COLOR : AipqProps.KNOB_RESOLUTION);
+            return;
+        }
         if (!ACTION_KNOB.equals(intent.getAction())) {
             return;
         }

@@ -120,14 +120,14 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                         c.getString(R.string.aipq_master_title),
                         AipqProps.isMasterOn(c)));
 
-        String sr = strengthLabel(c, AipqProps.srStrength(c));
+        String sr = RkLabels.strengthLabel(c, AipqProps.srStrength(c));
         if (RkOutputClient.IS_RK3576 && AipqProps.srStrength(c) > 0
                 && AipqProps.isSrForced(c)) {
             sr += " · " + c.getString(R.string.aipq_sr_forced_short);
         }
         addPageRow(builder, "aipq_sr_page", c.getString(R.string.aipq_sr_title), sr, SR_URI);
         addPageRow(builder, "aipq_dc_page", c.getString(R.string.aipq_dc_title),
-                strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
+                RkLabels.strengthLabel(c, AipqProps.dcStrength(c)), DC_URI);
         addSwitchRow(builder, c, AipqProps.KNOB_MEMC,
                 R.string.aipq_memc_title, R.string.aipq_memc_summary,
                 AipqProps.isMemcOn(c));
@@ -147,7 +147,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 AipqProps.isSdOn(c));
 
         addPageRow(builder, "aipq_demo_page", c.getString(R.string.aipq_demo_title),
-                c.getString(DEMO_LABELS[AipqProps.demoMode(c)]), DEMO_URI);
+                c.getString(RkLabels.DEMO_LABELS[AipqProps.demoMode(c)]), DEMO_URI);
 
         builder.addPreference(new RowBuilder()
                 .setKey("aipq_note")
@@ -202,21 +202,6 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTargetSliceUri(target.toString()));
     }
 
-    private static final int[] STRENGTH_LABELS = {R.string.aipq_strength_off,
-            R.string.aipq_strength_low, R.string.aipq_strength_medium,
-            R.string.aipq_strength_strong};
-    private static final int[] DEMO_LABELS = {R.string.aipq_strength_off,
-            R.string.aipq_demo_on, R.string.aipq_demo_dynamic, R.string.aipq_demo_watermark};
-
-    private static String strengthLabel(Context c, int value) {
-        for (int i = 0; i < AipqProps.STRENGTHS.length; i++) {
-            if (AipqProps.STRENGTHS[i] == value) {
-                return c.getString(STRENGTH_LABELS[i]);
-            }
-        }
-        return value + "%";
-    }
-
     /** Non-selectable header row + flat radio rows, backlight style. */
     private void addStrengthGroup(PreferenceSliceBuilder builder, Context c,
             String knob, int titleRes, int summaryRes, int current) {
@@ -225,7 +210,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(c.getString(titleRes))
                 .setSubtitle(c.getString(summaryRes))
                 .setSelectable(false));
-        int[] labels = STRENGTH_LABELS;
+        int[] labels = RkLabels.STRENGTH_LABELS;
         for (int i = 0; i < AipqProps.STRENGTHS.length; i++) {
             int value = AipqProps.STRENGTHS[i];
             builder.addPreference(new RowBuilder()
@@ -245,7 +230,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(c.getString(R.string.aipq_demo_title))
                 .setSubtitle(c.getString(R.string.aipq_demo_summary))
                 .setSelectable(false));
-        int[] labels = DEMO_LABELS;
+        int[] labels = RkLabels.DEMO_LABELS;
         int current = AipqProps.demoMode(c);
         for (int i = 0; i < labels.length; i++) {
             builder.addPreference(new RowBuilder()
@@ -376,12 +361,13 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             return true;
         }
         addPageRow(builder, "res_page", c.getString(R.string.res_header),
-                modeTitle(c, RkOutputClient.getMode(RkOutputClient.mainDisplay())),
+                RkLabels.modeTitle(c, RkOutputClient.getMode(RkOutputClient.mainDisplay())),
                 pageUri(RESOLUTION_URI, AipqProps.KNOB_RESOLUTION));
         String[] formats = RkOutputClient.getColorModes(RkOutputClient.mainDisplay());
         if (formats != null && formats.length > 0) {
             addPageRow(builder, "color_page", c.getString(R.string.color_header),
-                    formatTitle(c, RkOutputClient.getColorMode(RkOutputClient.mainDisplay())),
+                    RkLabels.formatTitle(c,
+                            RkOutputClient.getColorMode(RkOutputClient.mainDisplay())),
                     pageUri(RESOLUTION_URI, AipqProps.KNOB_COLOR));
         }
         String hdrTitle = c.getString(R.string.hdr_title);
@@ -409,7 +395,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             String mode = modes[i];
             builder.addPreference(new RowBuilder()
                     .setKey("res_" + i)
-                    .setTitle(modeTitle(c, mode))
+                    .setTitle(RkLabels.modeTitle(c, mode))
                     .setRadioGroup("res")
                     .addRadioButton(
                             knobIntent(c, AipqProps.KNOB_RESOLUTION)
@@ -434,7 +420,7 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             String format = formats[i];
             builder.addPreference(new RowBuilder()
                     .setKey("color_" + i)
-                    .setTitle(formatTitle(c, format))
+                    .setTitle(RkLabels.formatTitle(c, format))
                     .setRadioGroup("color")
                     .addRadioButton(
                             knobIntent(c, AipqProps.KNOB_COLOR)
@@ -442,21 +428,6 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                             format.equals(current)));
         }
         return true;
-    }
-
-    private static String modeTitle(Context c, String mode) {
-        if (mode == null) {
-            return "";
-        }
-        return RkOutputClient.MODE_AUTO.equals(mode) ? c.getString(R.string.res_auto)
-                : RkOutputClient.modeLabel(mode);
-    }
-
-    private static String formatTitle(Context c, String format) {
-        if (format == null) {
-            return "";
-        }
-        return RkOutputClient.MODE_AUTO.equals(format) ? c.getString(R.string.res_auto) : format;
     }
 
     private boolean createScaleSlice(PreferenceSliceBuilder builder) {

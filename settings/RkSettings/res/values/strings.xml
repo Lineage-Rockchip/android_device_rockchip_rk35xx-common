@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rk_settings_title">Rockchip display</string>
+    <string name="rk_settings_summary">AI picture quality, picture, HDMI output and screen scale</string>
+    <string name="aipq_on">On</string>
+    <string name="aipq_off">Off</string>
+    <string name="disp_reset">Reset to defaults</string>
+    <string name="scale_summary">%1$d%% × %2$d%%</string>
+</resources>

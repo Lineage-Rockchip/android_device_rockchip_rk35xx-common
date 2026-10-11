@@ -328,6 +328,9 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/permissions/tablet_core_hardware.xml:$(TARGET_COPY_OUT_VENDOR)/etc/permissions/tablet_core_hardware.xml
 
 PRODUCT_PACKAGES += \
+    RkSettings
+
+PRODUCT_PACKAGES += \
     FrameworksOverlayRk35xxTablet \
     LineageSDKOverlayRk35xxTablet \
     SettingsOverlayRk35xxTablet \

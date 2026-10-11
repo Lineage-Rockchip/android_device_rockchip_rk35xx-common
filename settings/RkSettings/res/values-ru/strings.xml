@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="rk_settings_title">Дисплей Rockchip</string>
+    <string name="rk_settings_summary">AI-качество изображения, изображение, выход HDMI и масштаб экрана</string>
+    <string name="aipq_on">Вкл</string>
+    <string name="aipq_off">Выкл</string>
+    <string name="disp_reset">Сбросить</string>
+    <string name="scale_summary">%1$d%% × %2$d%%</string>
+</resources>

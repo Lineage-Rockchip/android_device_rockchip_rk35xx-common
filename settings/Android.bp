@@ -1,0 +1,76 @@
+// Rockchip display and AI PQ settings, in two front ends over one backend
+// (common/): RkTvSettings for ATV builds, rendered by TvSettings, and
+// RkSettings for tablet builds, injected into the Settings Display page. Both
+// are org.lineageos.rockchip.settings; a product installs one or the other.
+//
+// The AI PQ knob semantics are decoded from the NanoPi MS dump's TvSettings
+// fork (its ai_lab/AiLabFragment), recorded in BRINGUP-NOTES.md 7.33.
+
+java_defaults {
+    name: "RkSettingsDefaults",
+    platform_apis: true,
+    certificate: "platform",
+    privileged: true,
+    system_ext_specific: true,
+    static_libs: ["rockchip-framework-client"],
+    // Tiny apps; no benefit in shrinking and proguard has been known to break
+    // slice action PendingIntents resolved by intent comparison.
+    optimize: {
+        enabled: false,
+    },
+    required: ["org.lineageos.rockchip.settings.xml"],
+}
+
+// TvSliceLib ("TV Settings Slice Library") is the published partner-facing
+// subset of TwoPanelSettingsLib: the PreferenceSliceBuilder facade, the
+// TvSettingsSliceProvider base class and the compat core. Linking the whole
+// TwoPanelSettingsLib instead packages its full transitive closure
+// (SettingsLib, WifiTrackerLib, leanback, zxing...) -- 44 MB of dex for three
+// classes of ours.
+android_app {
+    name: "RkTvSettings",
+    defaults: ["RkSettingsDefaults"],
+    manifest: "RkTvSettings/AndroidManifest.xml",
+    srcs: [
+        "common/src/**/*.java",
+        "RkTvSettings/src/**/*.java",
+    ],
+    resource_dirs: ["common/res"],
+    static_libs: [
+        "TvSliceLib",
+        // TvSliceLib defers style/attr resolution to the consuming app; its
+        // resources parent from leanback-preference and Material3 styles.
+        "androidx.leanback_leanback-preference",
+        "com.google.android.material_material",
+    ],
+}
+
+android_app {
+    name: "RkSettings",
+    defaults: ["RkSettingsDefaults"],
+    manifest: "RkSettings/AndroidManifest.xml",
+    srcs: [
+        "common/src/**/*.java",
+        "RkSettings/src/**/*.java",
+    ],
+    resource_dirs: [
+        "common/res",
+        "RkSettings/res",
+    ],
+    static_libs: [
+        "androidx.preference_preference",
+        "SettingsLibCollapsingToolbarBaseActivity",
+        "SettingsLibFooterPreference",
+        "SettingsLibMainSwitchPreference",
+        "SettingsLibSettingsTheme",
+        "SettingsLibSliderPreference",
+    ],
+}
+
+prebuilt_etc {
+    name: "org.lineageos.rockchip.settings.xml",
+    sub_dir: "permissions",
+    system_ext_specific: true,
+    src: "org.lineageos.rockchip.settings.xml",
+    filename_from_src: true,
+}

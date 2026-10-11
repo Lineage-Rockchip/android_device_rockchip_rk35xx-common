@@ -22,7 +22,11 @@
 
         <receiver
             android:name=".AipqBroadcastReceiver"
-            android:exported="false"/>
+            android:exported="false">
+            <intent-filter>
+                <action android:name="org.lineageos.rockchip.settings.action.OUTPUT_CHANGED"/>
+            </intent-filter>
+        </receiver>
 
         <activity
             android:name=".ResolutionConfirmActivity"

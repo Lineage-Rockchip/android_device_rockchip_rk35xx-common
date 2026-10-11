@@ -3,12 +3,15 @@ package org.lineageos.rockchip.settings;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 
 public class ResolutionConfirmActivity extends Activity {
 
+    static final String ACTION_OUTPUT_CHANGED =
+            "org.lineageos.rockchip.settings.action.OUTPUT_CHANGED";
     static final String EXTRA_KIND = "kind";
     static final String KIND_MODE = "mode";
     static final String KIND_COLOR = "color";
@@ -79,8 +82,9 @@ public class ResolutionConfirmActivity extends Activity {
                 RkOutputClient.setMode(RkOutputClient.mainDisplay(), mPrevious);
             }
         }
-        AipqSliceProvider.invalidatePage(this, AipqSliceProvider.RESOLUTION_URI,
-                mColor ? AipqProps.KNOB_COLOR : AipqProps.KNOB_RESOLUTION);
+        sendBroadcast(new Intent(ACTION_OUTPUT_CHANGED)
+                .setPackage(getPackageName())
+                .putExtra(EXTRA_KIND, mColor ? KIND_COLOR : KIND_MODE));
         if (mDialog != null) {
             mDialog.dismiss();
         }
