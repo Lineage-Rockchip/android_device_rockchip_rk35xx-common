@@ -6,4 +6,5 @@
     <string name="aipq_off">Off</string>
     <string name="disp_reset">Reset to defaults</string>
     <string name="scale_summary">%1$d%% × %2$d%%</string>
+    <string name="usb_summary">Host or OTG for the USB 3.0 port</string>
 </resources>

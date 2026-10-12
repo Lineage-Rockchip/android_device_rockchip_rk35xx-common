@@ -61,4 +61,7 @@
     <string name="scale_vertical">Размер по вертикали</string>
     <string name="hdr_title">Вывод HDR</string>
     <string name="hdr_summary">Выводить HDR-видео в HDR, если телевизор поддерживает. Выкл.: всегда SDR.</string>
+    <string name="usb_title">Режим порта USB</string>
+    <string name="usb_host_title">Режим хоста USB</string>
+    <string name="usb_host_summary">Держать порт USB 3.0 в режиме хоста. Выкл.: OTG, порт переходит в режим устройства при подключении компьютера, это нужно для отладки по USB.</string>
 </resources>

@@ -102,6 +102,10 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 TvSettingsSliceProvider.invalidateSlice(context,
                         AipqSliceProvider.RESOLUTION_URI);
                 return;
+            case UsbMode.KNOB_HOST:
+                UsbMode.setHost(!UsbMode.isHost());
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.USB_URI);
+                return;
             case AipqProps.KNOB_SCALE_H:
             case AipqProps.KNOB_SCALE_V:
                 RkOutputClient.setScale(RkOutputClient.mainDisplay(),

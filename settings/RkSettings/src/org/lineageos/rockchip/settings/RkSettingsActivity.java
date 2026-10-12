@@ -17,9 +17,13 @@ public class RkSettingsActivity extends CollapsingToolbarBaseActivity
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
                     .replace(com.android.settingslib.collapsingtoolbar.R.id.content_frame,
-                            new MainFragment())
+                            rootFragment())
                     .commit();
         }
+    }
+
+    Fragment rootFragment() {
+        return new MainFragment();
     }
 
     @Override

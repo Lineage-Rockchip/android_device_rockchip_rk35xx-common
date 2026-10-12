@@ -26,6 +26,28 @@
                 android:resource="@string/rk_settings_summary"/>
         </activity>
 
+        <!-- Injected into Developer options, right below the Debugging category. -->
+        <activity
+            android:name=".UsbSettingsActivity"
+            android:exported="true"
+            android:label="@string/usb_title">
+            <intent-filter>
+                <action android:name="com.android.settings.action.IA_SETTINGS"/>
+            </intent-filter>
+            <meta-data
+                android:name="com.android.settings.category"
+                android:value="com.android.settings.category.ia.development"/>
+            <meta-data
+                android:name="com.android.settings.order"
+                android:value="-1"/>
+            <meta-data
+                android:name="com.android.settings.title"
+                android:resource="@string/usb_title"/>
+            <meta-data
+                android:name="com.android.settings.summary"
+                android:resource="@string/usb_summary"/>
+        </activity>
+
         <activity
             android:name=".ResolutionConfirmActivity"
             android:exported="false"

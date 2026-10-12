@@ -129,3 +129,6 @@ on property:vendor.vpp.aipq.meta_enable=1
 
 on property:vendor.vpp.aipq.meta_enable=0
     setprop sys.rkai.performance.enable 0
+
+on property:persist.vendor.usb.otg_mode=*
+    write /sys/devices/platform/2602e000.syscon/2602e000.syscon:usb2-phy@0/otg_mode ${persist.vendor.usb.otg_mode}

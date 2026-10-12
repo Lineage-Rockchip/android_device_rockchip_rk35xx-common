@@ -1,0 +1,393 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  Compile-time stand-ins for the target strings and arrays referenced by
+  xml/development_prefs.xml, copied verbatim from com.android.tv.settings'
+  default values (Apache-2.0), like values/strings.xml.
+-->
+<resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
+    <string name="adb_over_network" translatable="false">ADB over network</string>
+    <string name="adb_over_network_summary" translatable="false">Enable TCP/IP debugging over network interfaces (Wi\u2011Fi, USB networks). This setting is reset on reboot</string>
+    <string name="animator_duration_scale_title" translatable="false">Animator duration scale</string>
+    <string name="app_process_limit_title" translatable="false">Background process limit</string>
+    <string name="audio_category" translatable="false">Audio</string>
+    <string name="bt_hci_snoop_log" translatable="false">Enable Bluetooth HCI snoop log</string>
+    <string name="bt_hci_snoop_log_summary" translatable="false">Capture Bluetooth packets. (Toggle Bluetooth after changing this setting)</string>
+    <string name="clear_adb_keys" translatable="false">Revoke USB debugging authorizations</string>
+    <string name="connectivity_summary_no_network_connected" translatable="false">No network connected</string>
+    <string name="daltonizer_mode_deuteranomaly" translatable="false">Deuteranomaly (red-green)</string>
+    <string name="daltonizer_mode_disabled" translatable="false">Disabled</string>
+    <string name="daltonizer_mode_monochromacy" translatable="false">Monochromacy</string>
+    <string name="daltonizer_mode_protanomaly" translatable="false">Protanomaly (red-green)</string>
+    <string name="daltonizer_mode_tritanomaly" translatable="false">Tritanomaly (blue-yellow)</string>
+    <string name="debug_app" translatable="false">Select debug app</string>
+    <string name="debug_applications_category" translatable="false">Apps</string>
+    <string name="debug_debugging_category" translatable="false">Debugging</string>
+    <string name="debug_drawing_category" translatable="false">Drawing</string>
+    <string name="debug_hw_drawing_category" translatable="false">Hardware accelerated rendering</string>
+    <string name="debug_hw_overdraw" translatable="false">Debug GPU overdraw</string>
+    <string name="debug_input_category" translatable="false">Input</string>
+    <string name="debug_layout" translatable="false">Show layout bounds</string>
+    <string name="debug_layout_summary" translatable="false">Show clip bounds, margins, etc.</string>
+    <string name="debug_monitoring_category" translatable="false">Monitoring</string>
+    <string name="debug_networking_category" translatable="false">Networking</string>
+    <string name="debug_view_attributes" translatable="false">Enable view attribute inspection</string>
+    <string name="development_settings_enable" translatable="false">Enable developer options</string>
+    <string name="development_settings_title" translatable="false">Developer options</string>
+    <string name="disable_overlays" translatable="false">Disable HW overlays</string>
+    <string name="disable_overlays_summary" translatable="false">Always use GPU for screen compositing</string>
+    <string name="empty_audio_duration_title" translatable="false">Duration of empty audio</string>
+    <string name="enable_adb" translatable="false">USB debugging</string>
+    <string name="enable_adb_root" translatable="false">Rooted debugging</string>
+    <string name="enable_adb_root_summary" translatable="false">Allow running Android debugging as root</string>
+    <string name="enable_adb_summary" translatable="false">Debug mode when USB is connected</string>
+    <string name="enable_adb_wireless" translatable="false">Wireless debugging</string>
+    <string name="enable_angle_as_system_driver" translatable="false">Enable ANGLE as default OpenGL ES driver</string>
+    <string name="enable_angle_as_system_driver_summary" translatable="false">Experimental, requires reboot.</string>
+    <string name="enable_opengl_traces_title" translatable="false">Enable OpenGL traces</string>
+    <string name="enable_terminal_summary" translatable="false">Enable terminal app that offers local shell access</string>
+    <string name="enable_terminal_title" translatable="false">Local terminal</string>
+    <string name="force_allow_on_external" translatable="false">Force allow apps on external</string>
+    <string name="force_allow_on_external_summary" translatable="false">Makes any app eligible to be written to external storage, regardless of manifest values</string>
+    <string name="force_msaa" translatable="false">Force 4x MSAA</string>
+    <string name="force_msaa_summary" translatable="false">Enable 4x MSAA in OpenGL ES 2.0 apps</string>
+    <string name="force_resizable_activities" translatable="false">Force activities to be resizable</string>
+    <string name="force_resizable_activities_summary" translatable="false">Make all activities resizable for multi-window, regardless of manifest values.</string>
+    <string name="force_rtl_layout_all_locales" translatable="false">Force RTL layout direction</string>
+    <string name="force_rtl_layout_all_locales_summary" translatable="false">Force screen layout direction to RTL for all locales</string>
+    <string name="hdcp_checking_dialog_title" translatable="false">Set HDCP checking behavior</string>
+    <string name="hdcp_checking_title" translatable="false">HDCP checking</string>
+    <string name="immediately_destroy_activities" translatable="false">Don\u2019t keep activities</string>
+    <string name="immediately_destroy_activities_summary" translatable="false">Destroy every activity as soon as
+        the user leaves it</string>
+    <string name="inactive_apps_title" translatable="false">Standby apps</string>
+    <string name="keep_screen_on" translatable="false">Stay awake</string>
+    <string name="keep_screen_on_summary" translatable="false">Screen will never sleep</string>
+    <string name="local_backup_password_summary_none" translatable="false">Desktop full backups aren\u2019t currently protected</string>
+    <string name="local_backup_password_title" translatable="false">Desktop backup password</string>
+    <string name="media_category" translatable="false">Media</string>
+    <string name="mobile_data_always_on" translatable="false">Mobile data always active</string>
+    <string name="mobile_data_always_on_summary" translatable="false">Always keep mobile data active, even when Wi\u2011Fi is active (for fast network switching).</string>
+    <string name="mock_location_app" translatable="false">Select mock location app</string>
+    <string name="oem_unlock_enable" translatable="false">OEM unlocking</string>
+    <string name="oem_unlock_enable_summary" translatable="false">Allow the bootloader to be unlocked</string>
+    <string name="overlay_display_devices_title" translatable="false">Simulate secondary displays</string>
+    <string name="picture_color_mode" translatable="false">Picture color mode</string>
+    <string name="picture_color_mode_desc" translatable="false">Use sRGB</string>
+    <string name="play_recorded_audio_title" translatable="false">Play recorded audio</string>
+    <string name="pointer_location" translatable="false">Pointer location</string>
+    <string name="pointer_location_summary" translatable="false">Screen overlay showing current touch data</string>
+    <string name="record_audio" translatable="false">Record audio</string>
+    <string name="record_audio_source_dialog_title" translatable="false">Select recorded audio source for next recording</string>
+    <string name="record_audio_source_title" translatable="false">Recorded audio source</string>
+    <string name="record_audio_summary_off" translatable="false">Enable to immediately start recording audio</string>
+    <string name="record_audio_summary_on" translatable="false">Disable to stop recording audio</string>
+    <string name="runningservices_settings_summary" translatable="false">View and control currently running services</string>
+    <string name="runningservices_settings_title" translatable="false">Running services</string>
+    <string name="save_recorded_audio_title" translatable="false">Save recorded audio</string>
+    <string name="select_logd_size_dialog_title" translatable="false">Select Logger sizes per log buffer</string>
+    <string name="select_logd_size_title" translatable="false">Logger buffer size</string>
+    <string name="select_logpersist_dialog_title" translatable="false">Select log buffers to store persistently on device</string>
+    <string name="select_logpersist_title" translatable="false">Store logger data persistently on device</string>
+    <string name="select_usb_configuration_dialog_title" translatable="false">Select USB Configuration</string>
+    <string name="select_usb_configuration_title" translatable="false">Select USB Configuration</string>
+    <string name="show_all_anrs" translatable="false">Show background ANRs</string>
+    <string name="show_all_anrs_summary" translatable="false">Display App Not Responding dialog for background apps</string>
+    <string name="show_hw_layers_updates" translatable="false">Show hardware layers updates</string>
+    <string name="show_hw_layers_updates_summary" translatable="false">Flash hardware layers green when they update</string>
+    <string name="show_hw_screen_updates" translatable="false">Show view updates</string>
+    <string name="show_hw_screen_updates_summary" translatable="false">Flash views inside windows when drawn</string>
+    <string name="show_non_rect_clip" translatable="false">Debug non-rectangular clip operations</string>
+    <string name="show_screen_updates" translatable="false">Show surface updates</string>
+    <string name="show_screen_updates_summary" translatable="false">Flash entire window surfaces when they update</string>
+    <string name="show_touches" translatable="false">Show taps</string>
+    <string name="show_touches_summary" translatable="false">Show visual feedback for taps</string>
+    <string name="simulate_color_space" translatable="false">Simulate color space</string>
+    <string name="strict_mode" translatable="false">Strict mode enabled</string>
+    <string name="strict_mode_summary" translatable="false">Flash screen when apps do long operations
+        on main thread</string>
+    <string name="time_to_start_read_title" translatable="false">Time to start reading</string>
+    <string name="time_to_valid_audio_title" translatable="false">Time to valid audio data</string>
+    <string name="track_frame_time" translatable="false">Profile HWUI rendering</string>
+    <string name="transition_animation_scale_title" translatable="false">Transition animation scale</string>
+    <string name="usb_audio_disable_routing" translatable="false">Disable USB audio routing</string>
+    <string name="usb_audio_disable_routing_summary" translatable="false">Disable automatic routing to USB audio peripherals</string>
+    <string name="verify_apps_over_usb_summary" translatable="false">Check apps installed via ADB/ADT for harmful behavior.</string>
+    <string name="verify_apps_over_usb_title" translatable="false">Verify apps over USB</string>
+    <string name="wait_for_debugger" translatable="false">Wait for debugger</string>
+    <string name="wait_for_debugger_summary" translatable="false">Debugged application waits for debugger to
+        attach before executing</string>
+    <string name="wifi_display_certification" translatable="false">Wireless display certification</string>
+    <string name="wifi_display_certification_summary" translatable="false">Show options for wireless display certification</string>
+    <string name="wifi_verbose_logging" translatable="false">Enable Wi\u2011Fi Verbose Logging</string>
+    <string name="wifi_verbose_logging_summary" translatable="false">Increase Wi\u2011Fi logging level, show per SSID RSSI in Wi\u2011Fi Picker</string>
+    <string name="window_animation_scale_title" translatable="false">Window animation scale</string>
+    <string name="window_blurs" translatable="false">Allow window-level blurs</string>
+    <string-array name="animator_duration_scale_entries" translatable="false">
+        <item>Animation off</item>
+        <item>Animation scale .5x</item>
+        <item>Animation scale 1x</item>
+        <item>Animation scale 1.5x</item>
+        <item>Animation scale 2x</item>
+        <item>Animation scale 5x</item>
+        <item>Animation scale 10x</item>
+    </string-array>
+    <string-array name="animator_duration_scale_values" translatable="false" >
+        <item>0</item>
+        <item>.5</item>
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="app_process_limit_entries" translatable="false">
+        <item>Standard limit</item>
+        <item>No background processes</item>
+        <item>At most 1 process</item>
+        <item>At most 2 processes</item>
+        <item>At most 3 processes</item>
+        <item>At most 4 processes</item>
+    </string-array>
+    <string-array name="app_process_limit_values" translatable="false" >
+        <item>-1</item>
+        <item>0</item>
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+    </string-array>
+    <string-array name="bt_hci_snoop_log_entries" translatable="false">
+        <item>Disabled</item>
+        <item>Enabled Filtered</item>
+        <item>Enabled</item>
+    </string-array>
+    <string-array name="bt_hci_snoop_log_values" translatable="false">
+        <item>disabled</item>
+        <item>filtered</item>
+        <item>full</item>
+    </string-array>
+    <string-array name="debug_hw_overdraw_entries" translatable="false">
+        <item>Off</item>
+        <item>Show overdraw areas</item>
+        <item>Show areas for Deuteranomaly</item>
+    </string-array>
+    <string-array name="debug_hw_overdraw_values" translatable="false" >
+        <item>false</item>
+        <item>show</item>
+        <item>show_deuteranomaly</item>
+    </string-array>
+    <string-array name="enable_opengl_traces_entries" translatable="false">
+        <item>None</item>
+        <item>Logcat</item>
+        <item>Systrace (Graphics)</item>
+        <item>Call stack on glGetError</item>
+    </string-array>
+    <string-array name="enable_opengl_traces_values" translatable="false" >
+        <item>0</item>
+        <item>1</item>
+        <item>systrace</item>
+        <item>error</item>
+    </string-array>
+    <string-array name="hdcp_checking_titles" translatable="false">
+        <item>Never check</item>
+        <item>Check for DRM content only</item>
+        <item>Always check</item>
+    </string-array>
+    <string-array name="hdcp_checking_values" translatable="false" >
+        <item>never</item>
+        <item>drm-only</item>
+        <item>always</item>
+    </string-array>
+    <string-array name="overlay_display_devices_entries" translatable="false">
+        <item>None</item>
+        <item>480p</item>
+        <item>480p (secure)</item>
+        <item>720p</item>
+        <item>720p (secure)</item>
+        <item>1080p</item>
+        <item>1080p (secure)</item>
+        <item>4K</item>
+        <item>4K (secure)</item>
+        <item>4K (upscaled)</item>
+        <item>4K (upscaled, secure)</item>
+        <item>720p, 1080p (dual screen)</item>
+    </string-array>
+    <string-array name="overlay_display_devices_values" translatable="false" >
+        <item></item>
+        <item>720x480/142</item>
+        <item>720x480/142,secure</item>
+        <item>1280x720/213</item>
+        <item>1280x720/213,secure</item>
+        <item>1920x1080/320</item>
+        <item>1920x1080/320,secure</item>
+        <item>3840x2160/320</item>
+        <item>3840x2160/320,secure</item>
+        <item>1920x1080/320|3840x2160/640</item>
+        <item>1920x1080/320|3840x2160/640,secure</item>
+        <item>1280x720/213;1920x1080/320</item>
+    </string-array>
+    <string-array name="record_audio_source_entries" translatable="false">
+        <!-- Do not translate. -->
+        <item>DEFAULT</item>
+        <!-- Do not translate. -->
+        <item>MIC</item>
+        <!-- Do not translate. -->
+        <item>VOICE_UPLINK</item>
+        <!-- Do not translate. -->
+        <item>VOICE_DOWNLINK</item>
+        <!-- Do not translate. -->
+        <item>VOICE_CALL</item>
+        <!-- Do not translate. -->
+        <item>CAMCORDER</item>
+        <!-- Do not translate. -->
+        <item>VOICE_RECOGNITION</item>
+        <!-- Do not translate. -->
+        <item>VOICE_COMMUNICATION</item>
+        <!-- Do not translate. -->
+        <item>UNPROCESSED</item>
+        <!-- Do not translate. -->
+        <item>VOICE_PERFORMANCE</item>
+    </string-array>
+    <string-array name="record_audio_source_values" translatable="false">
+        <!-- Do not translate. -->
+        <item>0</item>
+        <!-- Do not translate. -->
+        <item>1</item>
+        <!-- Do not translate. -->
+        <item>2</item>
+        <!-- Do not translate. -->
+        <item>3</item>
+        <!-- Do not translate. -->
+        <item>4</item>
+        <!-- Do not translate. -->
+        <item>5</item>
+        <!-- Do not translate. -->
+        <item>6</item>
+        <!-- Do not translate. -->
+        <item>7</item>
+        <!-- Do not translate. --><!-- Value 8 is REMOTE_SUBMIX, which is internal -->
+        <item>9</item>
+        <!-- Do not translate. -->
+        <item>10</item>
+    </string-array>
+    <string-array name="select_logd_size_titles" translatable="false">
+        <item>Off</item>
+        <item>64K</item>
+        <item>256K</item>
+        <item>1M</item>
+        <item>4M</item>
+        <item>8M</item>
+    </string-array>
+    <string-array name="select_logd_size_values" translatable="false" >
+        <item>32768</item>
+        <item>65536</item>
+        <item>262144</item>
+        <item>1048576</item>
+        <item>4194304</item>
+        <item>8388608</item>
+    </string-array>
+    <string-array name="select_logpersist_titles" translatable="false">
+        <item>Off</item>
+        <item>All</item>
+        <item>All but radio</item>
+        <item>kernel only</item>
+    </string-array>
+    <string-array name="select_logpersist_values" translatable="false" >
+        <item></item>
+        <item>all</item>
+        <item>default,security,kernel</item>
+        <item>kernel</item>
+    </string-array>
+    <string-array name="show_non_rect_clip_entries" translatable="false">
+        <item>Off</item>
+        <item>Draw non-rectangular clip region in blue</item>
+        <item>Highlight tested drawing commands in green</item>
+    </string-array>
+    <string-array name="show_non_rect_clip_values" translatable="false" >
+        <item>hide</item>
+        <item>region</item>
+        <item>highlight</item>
+    </string-array>
+    <string-array name="simulate_color_space_entries" translatable="false">
+        <item>@string/daltonizer_mode_disabled</item>
+        <item>@string/daltonizer_mode_monochromacy</item>
+        <item>@string/daltonizer_mode_deuteranomaly</item>
+        <item>@string/daltonizer_mode_protanomaly</item>
+        <item>@string/daltonizer_mode_tritanomaly</item>
+    </string-array>
+    <string-array name="simulate_color_space_values" translatable="false">
+        <item>-1</item>
+        <item>0</item>
+        <item>2</item>
+        <item>1</item>
+        <item>3</item>
+    </string-array>
+    <string-array name="track_frame_time_entries" translatable="false">
+        <item>Off</item>
+        <item>On screen as bars</item>
+        <item>In <xliff:g id="as_typed_command">adb shell dumpsys gfxinfo</xliff:g></item>
+    </string-array>
+    <string-array name="track_frame_time_values" translatable="false" >
+        <item>false</item>
+        <item>visual_bars</item>
+        <item>true</item>
+    </string-array>
+    <string-array name="transition_animation_scale_entries" translatable="false">
+        <item>Animation off</item>
+        <item>Animation scale .5x</item>
+        <item>Animation scale 1x</item>
+        <item>Animation scale 1.5x</item>
+        <item>Animation scale 2x</item>
+        <item>Animation scale 5x</item>
+        <item>Animation scale 10x</item>
+    </string-array>
+    <string-array name="transition_animation_scale_values" translatable="false" >
+        <item>0</item>
+        <item>.5</item>
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+    <string-array name="usb_configuration_titles" translatable="false">
+        <item>Charging</item>
+        <item>MTP (Media Transfer Protocol)</item>
+        <item>PTP (Picture Transfer Protocol)</item>
+        <item>RNDIS (USB Ethernet)</item>
+        <item>Audio Source</item>
+        <item>MIDI</item>
+    </string-array>
+    <string-array name="usb_configuration_values" translatable="false">
+        <!-- Do not translate. -->
+        <item>none</item>
+        <!-- Do not translate. -->
+        <item>mtp</item>
+        <!-- Do not translate. -->
+        <item>ptp</item>
+        <!-- Do not translate. -->
+        <item>rndis</item>
+        <!-- Do not translate. -->
+        <item>audio_source</item>
+        <!-- Do not translate. -->
+        <item>midi</item>
+    </string-array>
+    <string-array name="window_animation_scale_entries" translatable="false">
+        <item>Animation off</item>
+        <item>Animation scale .5x</item>
+        <item>Animation scale 1x</item>
+        <item>Animation scale 1.5x</item>
+        <item>Animation scale 2x</item>
+        <item>Animation scale 5x</item>
+        <item>Animation scale 10x</item>
+    </string-array>
+    <string-array name="window_animation_scale_values" translatable="false" >
+        <item>0</item>
+        <item>.5</item>
+        <item>1</item>
+        <item>1.5</item>
+        <item>2</item>
+        <item>5</item>
+        <item>10</item>
+    </string-array>
+</resources>

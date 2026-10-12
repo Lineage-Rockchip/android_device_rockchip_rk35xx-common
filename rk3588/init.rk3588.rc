@@ -87,3 +87,6 @@ on early-init
 
     # usb controller
     setprop sys.usb.controller "fc000000.usb"
+
+on property:persist.vendor.usb.otg_mode=*
+    write /sys/devices/platform/fd5d0000.syscon/fd5d0000.syscon:usb2-phy@0/otg_mode ${persist.vendor.usb.otg_mode}

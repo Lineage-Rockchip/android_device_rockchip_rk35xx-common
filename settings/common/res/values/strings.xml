@@ -62,4 +62,7 @@
     <string name="scale_vertical">Vertical size</string>
     <string name="hdr_title">HDR output</string>
     <string name="hdr_summary">Send HDR video as HDR when the TV supports it. Off: always SDR.</string>
+    <string name="usb_title">USB port mode</string>
+    <string name="usb_host_title">USB host mode</string>
+    <string name="usb_host_summary">Keep the USB 3.0 port in host mode. Off: OTG, the port switches to device mode when a computer is connected, which USB debugging needs.</string>
 </resources>

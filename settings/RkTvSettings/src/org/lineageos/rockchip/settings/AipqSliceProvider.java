@@ -44,6 +44,8 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             Uri.parse("content://" + AUTHORITY + "/dc");
     public static final Uri DEMO_URI =
             Uri.parse("content://" + AUTHORITY + "/demo");
+    public static final Uri USB_URI =
+            Uri.parse("content://" + AUTHORITY + "/usb");
 
     static Uri pageUri(Uri parent, String knob) {
         return parent.buildUpon().appendPath(knob).build();
@@ -103,6 +105,9 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         }
         if (DEMO_URI.equals(sliceUri)) {
             return createDemoSlice(builder);
+        }
+        if (USB_URI.equals(sliceUri)) {
+            return createUsbSlice(builder);
         }
         if (!SLICE_URI.equals(sliceUri)) {
             return false;
@@ -189,6 +194,20 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(c.getString(R.string.aipq_demo_title))
                 .setPageId(PAGE_ID + 6));
         addDemoGroup(builder, c);
+        return true;
+    }
+
+    private boolean createUsbSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.usb_title))
+                .setPageId(PAGE_ID + 15));
+        String title = c.getString(R.string.usb_host_title);
+        builder.addPreference(new RowBuilder()
+                .setKey("usb_" + UsbMode.KNOB_HOST)
+                .setTitle(title)
+                .setSubtitle(c.getString(R.string.usb_host_summary))
+                .addSwitch(knobIntent(c, UsbMode.KNOB_HOST), title, UsbMode.isHost()));
         return true;
     }
 
