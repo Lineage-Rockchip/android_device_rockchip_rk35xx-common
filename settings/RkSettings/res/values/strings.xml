@@ -7,4 +7,18 @@
     <string name="disp_reset">Reset to defaults</string>
     <string name="scale_summary">%1$d%% × %2$d%%</string>
     <string name="usb_summary">Host or OTG for the USB 3.0 port</string>
+    <string name="cec_title">HDMI-CEC</string>
+    <string name="cec_summary">Control the TV over HDMI and use its remote</string>
+    <string name="cec_enabled_title">HDMI-CEC</string>
+    <string name="cec_enabled_summary">Let the TV remote control this device, and turn the TV on with it</string>
+    <string name="cec_power_title">Turn off on sleep</string>
+    <string name="cec_power_tv">TV</string>
+    <string name="cec_power_tv_audio">TV and audio system</string>
+    <string name="cec_power_broadcast">All HDMI devices</string>
+    <string name="cec_power_none">Nothing</string>
+    <string name="cec_source_lost_title">Sleep when the TV changes input</string>
+    <string name="cec_source_lost_summary">Go to sleep when the TV switches to another HDMI input</string>
+    <string name="cec_volume_title">TV volume control</string>
+    <string name="cec_volume_summary">Volume keys change the TV or audio system volume over CEC. Turn off if volume resets to maximum after reboot on a TV without CEC.</string>
+    <string name="cec_unavailable">HDMI-CEC is not available</string>
 </resources>

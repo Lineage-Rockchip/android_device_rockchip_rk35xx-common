@@ -7,4 +7,18 @@
     <string name="disp_reset">Сбросить</string>
     <string name="scale_summary">%1$d%% × %2$d%%</string>
     <string name="usb_summary">Хост или OTG для порта USB 3.0</string>
+    <string name="cec_title">HDMI-CEC</string>
+    <string name="cec_summary">Управление телевизором по HDMI и его пультом</string>
+    <string name="cec_enabled_title">HDMI-CEC</string>
+    <string name="cec_enabled_summary">Управлять устройством с пульта телевизора и включать телевизор вместе с ним</string>
+    <string name="cec_power_title">Выключать при переходе в сон</string>
+    <string name="cec_power_tv">Телевизор</string>
+    <string name="cec_power_tv_audio">Телевизор и аудиосистему</string>
+    <string name="cec_power_broadcast">Все HDMI-устройства</string>
+    <string name="cec_power_none">Ничего</string>
+    <string name="cec_source_lost_title">Засыпать при смене входа</string>
+    <string name="cec_source_lost_summary">Переходить в сон, когда телевизор переключается на другой вход HDMI</string>
+    <string name="cec_volume_title">Громкость телевизора</string>
+    <string name="cec_volume_summary">Кнопки громкости меняют громкость телевизора или аудиосистемы по CEC. Выключите, если на телевизоре без CEC громкость после перезагрузки сбрасывается на максимум.</string>
+    <string name="cec_unavailable">HDMI-CEC недоступен</string>
 </resources>

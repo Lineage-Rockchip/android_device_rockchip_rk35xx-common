@@ -2,6 +2,7 @@
 <permissions>
     <privapp-permissions package="org.lineageos.rockchip.settings">
         <permission name="android.permission.FORCE_STOP_PACKAGES"/>
+        <permission name="android.permission.HDMI_CEC"/>
         <permission name="android.permission.DUMP"/>
         <permission name="android.permission.WRITE_SECURE_SETTINGS"/>
         <permission name="android.permission.MANAGE_USERS"/>
