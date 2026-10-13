@@ -1,0 +1,18 @@
+//
+// Copyright (C) 2026 The LineageOS Project
+//
+// SPDX-License-Identifier: Apache-2.0
+//
+
+cc_binary {
+    name: "vk_ahb_probe",
+    srcs: ["vk_ahb_probe.cpp"],
+    shared_libs: [
+        "libvulkan",
+        "libnativewindow",
+    ],
+    cflags: [
+        "-Wall",
+        "-Werror",
+    ],
+}
