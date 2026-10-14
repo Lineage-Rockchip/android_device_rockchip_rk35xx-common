@@ -1,0 +1,5 @@
+type dockerd, domain;
+type dockerd_exec, exec_type, vendor_file_type, file_type;
+
+init_daemon_domain(dockerd)
+userdebug_or_eng(`permissive dockerd;')

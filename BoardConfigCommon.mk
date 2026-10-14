@@ -44,6 +44,11 @@ TARGET_KERNEL_CONFIG := rockchip_defconfig
 TARGET_KERNEL_CONFIG_EXT := \
     $(TARGET_KERNEL_SOURCE)/kernel/configs/android-14.config
 
+ifeq ($(TARGET_SUPPORTS_DOCKER),true)
+TARGET_KERNEL_CONFIG_EXT += \
+    $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk35xx_docker.config
+endif
+
 BOARD_KERNEL_IMAGE_NAME := Image
 
 # Matches the stock boot.img header exactly (header v2, 2048 byte pages).
@@ -219,6 +224,9 @@ DEVICE_FRAMEWORK_COMPATIBILITY_MATRIX_FILE += \
 ## SELinux
 # BRING-UP ONLY -- stock boots permissive too.
 BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/vendor
+ifeq ($(TARGET_SUPPORTS_DOCKER),true)
+BOARD_SEPOLICY_DIRS += $(COMMON_PATH)/sepolicy/docker
+endif
 include hardware/rockchip/fwkservices/BoardConfig.mk
 SELINUX_IGNORE_NEVERALLOWS := true
 

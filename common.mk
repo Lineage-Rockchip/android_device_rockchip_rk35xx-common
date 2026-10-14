@@ -274,6 +274,14 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/init-files/init.system.rc:$(TARGET_COPY_OUT_SYSTEM)/etc/init/init.rockchip.rc
 
 
+## Docker
+# The engine itself lives in /data/docker; see tools/docker-media-install.sh.
+ifeq ($(TARGET_SUPPORTS_DOCKER),true)
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/init-files/dockerd-launch.sh:$(TARGET_COPY_OUT_VENDOR)/bin/dockerd-launch.sh \
+    $(COMMON_PATH)/init-files/init.docker.rc:$(TARGET_COPY_OUT_VENDOR)/etc/init/init.docker.rc
+endif
+
 ## Recovery init
 # Switches recovery's USB gadget to configfs, without which neither adb nor
 # fastbootd work over USB. See the file itself.

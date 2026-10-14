@@ -1,0 +1,1 @@
+/vendor/bin/dockerd-launch\.sh                  u:object_r:dockerd_exec:s0

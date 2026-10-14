@@ -1,0 +1,22 @@
+# overlay2 cannot use an fscrypt-encrypted upper dir.
+on post-fs-data
+    mkdir /data/docker 0700 root root encryption=None
+
+service dockerd /vendor/bin/dockerd-launch.sh
+    user root
+    group root
+    disabled
+    oom_score_adjust -600
+
+# init's stop is a SIGKILL, which would orphan the running containers.
+service dockerd-stop /vendor/bin/dockerd-launch.sh --stop
+    user root
+    group root
+    disabled
+    oneshot
+
+on property:sys.boot_completed=1 && property:persist.vendor.docker.enable=1
+    start dockerd
+
+on property:persist.vendor.docker.enable=0
+    start dockerd-stop

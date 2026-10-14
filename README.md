@@ -172,3 +172,12 @@ either version alone.
 Stock ships a completely unsigned `vbmeta` (AVB0 header, algorithm 0, no
 descriptors), so `BOARD_AVB_ENABLE := false`. Stock also boots with
 `androidboot.selinux=permissive`, which is kept for bring-up.
+
+## Docker
+
+A board that sets `TARGET_SUPPORTS_DOCKER := true` in its `device.mk` gets the
+kernel options Docker needs (`rk35xx_docker.config`), the `dockerd` init
+service and its sepolicy. The engine itself is not part of the image:
+`tools/docker-media-install.sh` installs it over adb into `/data/docker` and
+starts Jellyfin, Sonarr, Prowlarr and qBittorrent. It needs a userdebug build.
+Boards without the flag build exactly as before.
