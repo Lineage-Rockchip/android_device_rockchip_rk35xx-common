@@ -247,6 +247,7 @@ TARGET_USES_C2_COMPONENT := true
 
 ## SoC, for select() in blueprints
 $(call soong_config_set,rockchip,soc,$(TARGET_BOARD_PLATFORM))
+$(call soong_config_set,rockchip,docker,$(if $(filter true,$(TARGET_SUPPORTS_DOCKER)),true,false))
 
 ## Audio HAL service bitness
 # Must match the extracted binary, or the two collide on the install path.

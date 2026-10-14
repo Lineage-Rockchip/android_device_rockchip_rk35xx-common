@@ -46,6 +46,8 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
             Uri.parse("content://" + AUTHORITY + "/demo");
     public static final Uri USB_URI =
             Uri.parse("content://" + AUTHORITY + "/usb");
+    public static final Uri DOCKER_URI =
+            Uri.parse("content://" + AUTHORITY + "/docker");
 
     static Uri pageUri(Uri parent, String knob) {
         return parent.buildUpon().appendPath(knob).build();
@@ -108,6 +110,9 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
         }
         if (USB_URI.equals(sliceUri)) {
             return createUsbSlice(builder);
+        }
+        if (DOCKER_URI.equals(sliceUri)) {
+            return createDockerSlice(builder);
         }
         if (!SLICE_URI.equals(sliceUri)) {
             return false;
@@ -208,6 +213,20 @@ public class AipqSliceProvider extends TvSettingsSliceProvider {
                 .setTitle(title)
                 .setSubtitle(c.getString(R.string.usb_host_summary))
                 .addSwitch(knobIntent(c, UsbMode.KNOB_HOST), title, UsbMode.isHost()));
+        return true;
+    }
+
+    private boolean createDockerSlice(PreferenceSliceBuilder builder) {
+        Context c = getContext();
+        builder.addScreenTitle(new RowBuilder()
+                .setTitle(c.getString(R.string.docker_title))
+                .setPageId(PAGE_ID + 16));
+        String title = c.getString(R.string.docker_enable_title);
+        builder.addPreference(new RowBuilder()
+                .setKey("docker_" + Docker.KNOB_ENABLE)
+                .setTitle(title)
+                .setSubtitle(c.getString(R.string.docker_enable_summary))
+                .addSwitch(knobIntent(c, Docker.KNOB_ENABLE), title, Docker.isEnabled()));
         return true;
     }
 

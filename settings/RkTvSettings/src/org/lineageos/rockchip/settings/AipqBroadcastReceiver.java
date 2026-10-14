@@ -106,6 +106,10 @@ public class AipqBroadcastReceiver extends BroadcastReceiver {
                 UsbMode.setHost(!UsbMode.isHost());
                 TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.USB_URI);
                 return;
+            case Docker.KNOB_ENABLE:
+                Docker.setEnabled(!Docker.isEnabled());
+                TvSettingsSliceProvider.invalidateSlice(context, AipqSliceProvider.DOCKER_URI);
+                return;
             case AipqProps.KNOB_SCALE_H:
             case AipqProps.KNOB_SCALE_V:
                 RkOutputClient.setScale(RkOutputClient.mainDisplay(),

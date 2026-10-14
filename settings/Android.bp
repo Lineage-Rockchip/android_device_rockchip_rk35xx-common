@@ -56,7 +56,10 @@ android_app {
     resource_dirs: [
         "common/res",
         "RkSettings/res",
-    ],
+    ] + select(soong_config_variable("rockchip", "docker"), {
+        "true": ["RkSettings/res-docker"],
+        default: ["RkSettings/res-nodocker"],
+    }),
     static_libs: [
         "androidx.preference_preference",
         "SettingsLibCollapsingToolbarBaseActivity",

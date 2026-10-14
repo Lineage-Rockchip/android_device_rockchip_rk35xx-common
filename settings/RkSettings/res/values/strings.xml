@@ -7,6 +7,7 @@
     <string name="disp_reset">Reset to defaults</string>
     <string name="scale_summary">%1$d%% × %2$d%%</string>
     <string name="usb_summary">Host or OTG for the USB 3.0 port</string>
+    <string name="docker_summary">Docker engine for media server containers</string>
     <string name="cec_title">HDMI-CEC</string>
     <string name="cec_summary">Control the TV over HDMI and use its remote</string>
     <string name="cec_enabled_title">HDMI-CEC</string>

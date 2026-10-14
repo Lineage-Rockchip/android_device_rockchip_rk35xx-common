@@ -1,0 +1,10 @@
+
+        <Preference
+            android:key="rk_docker"
+            android:title="Docker"
+            android:summary="Docker engine for media server containers"
+            android:fragment="com.android.tv.twopanelsettings.slices.SliceFragment">
+            <extra
+                android:name="TAG_TARGET_URI"
+                android:value="content://org.lineageos.rockchip.settings/docker"/>
+        </Preference>

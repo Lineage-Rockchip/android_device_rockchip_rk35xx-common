@@ -15,4 +15,24 @@ runtime_resource_overlay {
     certificate: "platform",
     product_specific: true,
     sdk_version: "current",
+    resource_zips: [":TvSettingsRockchipOverlayDevelopmentPrefs"],
+}
+
+// Splices the Docker row into the developer page on TARGET_SUPPORTS_DOCKER builds.
+genrule {
+    name: "TvSettingsRockchipOverlayDevelopmentPrefs",
+    srcs: [
+        "res/xml/development_prefs.xml",
+        "docker_row.xml",
+    ],
+    out: ["development_prefs.zip"],
+    tools: ["soong_zip"],
+    cmd: "mkdir -p $(genDir)/res/xml && " +
+        select(soong_config_variable("rockchip", "docker"), {
+            "true": "sed -e '/android:key=\"rk_usb_mode\"/,/<\\/Preference>/{' " +
+                "-e '/<\\/Preference>/r $(location docker_row.xml)' -e '}' ",
+            default: "cat ",
+        }) +
+        "$(location res/xml/development_prefs.xml) > $(genDir)/res/xml/development_prefs.xml && " +
+        "$(location soong_zip) -o $(out) -C $(genDir)/res -D $(genDir)/res",
 }

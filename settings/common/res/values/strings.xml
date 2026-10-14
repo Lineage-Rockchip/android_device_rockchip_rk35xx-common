@@ -65,4 +65,7 @@
     <string name="usb_title">USB port mode</string>
     <string name="usb_host_title">USB host mode</string>
     <string name="usb_host_summary">Keep the USB 3.0 port in host mode. Off: OTG, the port switches to device mode when a computer is connected, which USB debugging needs.</string>
+    <string name="docker_title">Docker</string>
+    <string name="docker_enable_title">Docker engine</string>
+    <string name="docker_enable_summary">Run the Docker engine and its containers, and start them at boot. Install it from a computer with docker-media-install.sh.</string>
 </resources>
