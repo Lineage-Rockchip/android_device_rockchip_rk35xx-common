@@ -255,6 +255,8 @@ $(call soong_config_set,rockchip,docker,$(if $(filter true,$(TARGET_SUPPORTS_DOC
 SOONG_CONFIG_NAMESPACES += android_hardware_audio
 SOONG_CONFIG_android_hardware_audio += run_64bit
 SOONG_CONFIG_android_hardware_audio_run_64bit := false
+# The 7.1-impl blob predates audio_port_config_device_ext.speaker_layout_channel_mask.
+$(call soong_config_set_bool,android_hardware_audio,skip_speaker_layout_channel_mask_field,true)
 
 ## Wi-Fi
 # The whole stack is extracted from stock. BOARD_WLAN_DEVICE is deliberately
