@@ -14,7 +14,6 @@ PRODUCT_PACKAGES += \
 ## Picture quality: VOP HWPQ and AI-PQ
 PRODUCT_PACKAGES += \
     aipq_config.json \
-    librkhwpq \
     rkaipq_models.rk3576 \
     vop_base_config.json.rk3576
 

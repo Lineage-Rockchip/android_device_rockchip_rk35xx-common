@@ -1,0 +1,13 @@
+## Mali G610 userspace g29p1-11eac1; libGLES_mali is also the OpenCL ICD
+vendor/lib/egl/libGLES_mali.so|fd0194fa9094df25f6d9794c4ecbbeb1445372ef;SYMLINK=vendor/lib/libOpenCL.so
+vendor/lib/hw/vulkan.mali.so|eb9205b109167e7073561c726b508ec2539e89f1
+vendor/lib/libgpudataproducer.so|6c9a4e6c45f477d2cad694f305f2acc9e6fe7ef7
+vendor/lib64/egl/libGLES_mali.so|65f76bfc1a2162b2773d70ad15e0c76dfb5bdea3;SYMLINK=vendor/lib64/libOpenCL.so
+vendor/lib64/hw/vulkan.mali.so|a0f27eb715b2738df491a959664355b281544baa
+vendor/lib64/libgpudataproducer.so|22bdc353029c4db819c48956adeeda5193605259
+
+## AI-PQ: librkswpq 0.24.0 and libsculptor 558d25c
+vendor/lib/librkswpq.so|87334708e5efb33f40bb24a3de7ed9860a31b927
+vendor/lib/libsculptor.so|5a1b378d71752e067fec0e85c9fbe98b64410094
+vendor/lib64/librkswpq.so|460fde601e98a457f8500a1a48b6b2e0c2b9b0e1
+vendor/lib64/libsculptor.so|d90ecb3ec71105068566df987fa1bb6dfd43bcb2

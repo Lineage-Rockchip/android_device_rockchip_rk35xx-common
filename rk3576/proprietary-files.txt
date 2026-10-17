@@ -1,0 +1,23 @@
+## Mali G52 userspace g29p1-12eac0, the _for_a53 build
+vendor/lib/egl/libGLES_mali.so|98bbf82fa61aa84a836995f375915f69d188efc8
+vendor/lib/hw/vulkan.mali.so|e1874e0544718da0984c8e51788f86ac162cd730
+vendor/lib/libgpudataproducer.so|688dcb0f86dad2bb6a7350c3165fd304255fc3d7
+vendor/lib64/egl/libGLES_mali.so|a233e49640eef2032c71cf769849363db6ffa473
+vendor/lib64/hw/vulkan.mali.so|fb24913c5d44f42fc973408f15e856e34dfc2cc7
+vendor/lib64/libgpudataproducer.so|8506ac8b33490fc91c701ea2698507ba640c89b6
+
+## AI-PQ: librkswpq 0.24.0.5155 and libsculptor 558d25c
+vendor/lib/librkswpq.so|55ebc16ecbbc82f42c72dacc250be83c7d06df11
+vendor/lib/libsculptor.so|5a1b378d71752e067fec0e85c9fbe98b64410094
+vendor/lib64/librkswpq.so|1d068aaf39a5da75c7c4caa5aa89cdb4ca4ab013
+vendor/lib64/libsculptor.so|d90ecb3ec71105068566df987fa1bb6dfd43bcb2
+
+## Picture quality (libpq, pq_init, librkhwpq 0.0.3.4021)
+vendor/bin/pq_init|7951d44389565f128133b65e648d09210ab52106
+vendor/bin/pq_init_32|e7e8c8569ac43b5a4985a68426e0f7f4bfb58ec9
+vendor/etc/init/init.pq-init-32.rc|9c21bd1ada1a96713489d218053c04519e34cd8c
+vendor/etc/init/init.pq-init.rc|18ba8acce0f72c10e817174d4f5e8d877f26961b
+vendor/lib/librkhwpq.so|93d97121ba398ec7913630868c2ac61db85e9ea4
+vendor/lib/libpq.so|def11c94cca61e6be70cbf7241d2e3f067dd67c5
+vendor/lib64/librkhwpq.so|9360c00475b49dd38005e595f1d55d6c80129d1c
+vendor/lib64/libpq.so|b35329a11dbbd1bd993b16ee62645ede09d0b775
