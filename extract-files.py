@@ -116,6 +116,54 @@ def patch_bt_lpm_sleep_mode(ctx, file, file_path, *args, **kwargs):
         f.write(data)
 
 
+# libmpp reads the AV1 loop filter deltas, su(7), as 7 bits plus a sign bit (upstream mpp d9f6868).
+MPP_LFP_RANGE = (0x1af0dc, 0x1af7a0)  # read_loop_filter_params
+MPP_READ_SIGNBITS_PLT = 0x28c6b0
+MPP_READ_BITS_PLT = 0x28c5e0
+MPP_LFP_SITES = 10
+
+
+def patch_mpp_av1_loop_filter_su(ctx, file, file_path, *args, **kwargs):
+    with open(file_path, 'rb') as f:
+        data = bytearray(f.read())
+
+    def rd(a):
+        return struct.unpack_from('<I', data, a)[0]
+
+    def wr(a, v):
+        struct.pack_into('<I', data, a, v)
+
+    def rel(a, v, bits):
+        sign = 1 << (bits - 1)
+        return a + (((v & (2 * sign - 1)) ^ sign) - sign) * 4
+
+    patched = 0
+    for a in range(*MPP_LFP_RANGE, 4):
+        w = rd(a)
+        if w & 0xfc000000 != 0x94000000 or rel(a, w, 26) != MPP_READ_SIGNBITS_PLT:
+            continue
+        s = a + 4
+        if rd(s) & 0xffc003ff == 0xf94003f3:  # ldr x19, [sp, #imm]
+            s += 4
+        c, l = s + 4, s + 8
+        cw, lw = rd(c), rd(l)
+        assert rd(s) == 0xb90046a0, f'{file_path}: {s:#x} is not str w0, [x21, #68]'
+        assert cw & 0xff00001f == 0x35000000, f'{file_path}: {c:#x} is not cbnz w0'
+        assert lw & 0xffffffe0 == 0xb85f43a0, f'{file_path}: {l:#x} is not ldur w, [x29, #-12]'
+        rt = lw & 0x1f
+        wr(a, 0x94000000 | (((MPP_READ_BITS_PLT - a) >> 2) & 0x3ffffff))
+        wr(s, 0x35000000 | ((((rel(c, cw >> 5, 19) - s) >> 2) & 0x7ffff) << 5))
+        wr(c, lw)
+        wr(l, 0x13001800 | (rt << 5) | rt)  # sbfx wN, wN, #0, #7
+        patched += 1
+    assert patched == MPP_LFP_SITES, (
+        f'{file_path}: patched {patched} su(7) reads, expected {MPP_LFP_SITES}'
+    )
+
+    with open(file_path, 'wb') as f:
+        f.write(data)
+
+
 def both(*paths):
     """Expand vendor/lib64 paths to both bitnesses. BRINGUP-NOTES.md 7.25."""
     out = []
@@ -170,6 +218,8 @@ blob_fixups: blob_fixups_user_type = {
         .add_needed('libcrypto_shim.so'),
     both('vendor/lib64/libbt-vendor.so'): blob_fixup()
         .call(patch_bt_lpm_sleep_mode, need_tmp_dir=False),
+    'vendor/lib64/libmpp.so': blob_fixup()
+        .call(patch_mpp_av1_loop_filter_su, need_tmp_dir=False),
     # BRINGUP-NOTES.md 7.28.
     'vendor/bin/hw/android.hardware.media.c2@1.1-service': blob_fixup()
         .call(patch_componentstore_layout, need_tmp_dir=False),
