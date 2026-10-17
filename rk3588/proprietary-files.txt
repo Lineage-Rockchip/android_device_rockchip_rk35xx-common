@@ -11,3 +11,7 @@ vendor/lib/librkswpq.so|87334708e5efb33f40bb24a3de7ed9860a31b927
 vendor/lib/libsculptor.so|5a1b378d71752e067fec0e85c9fbe98b64410094
 vendor/lib64/librkswpq.so|460fde601e98a457f8500a1a48b6b2e0c2b9b0e1
 vendor/lib64/libsculptor.so|d90ecb3ec71105068566df987fa1bb6dfd43bcb2
+
+## Picture quality: libpq 1.2.43, software PQ through librkswpq
+vendor/lib/libpq.so|b37528240dd878eba60067f2499a69206ab3e281
+vendor/lib64/libpq.so|3dae50a401d598a5d3be7ee17e03045ed738d06e

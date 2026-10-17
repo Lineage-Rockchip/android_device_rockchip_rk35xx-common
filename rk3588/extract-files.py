@@ -13,10 +13,15 @@ from extract_utils.main import (
     ExtractUtilsModule,
 )
 
+namespace_imports = [
+    'vendor/rockchip/rk35xx-common',
+]
+
 module = ExtractUtilsModule(
     'rk3588',
     'rockchip',
     device_rel_path='device/rockchip/rk35xx-common/rk3588',
+    namespace_imports=namespace_imports,
     lib_fixups=lib_fixups,
 )
 
