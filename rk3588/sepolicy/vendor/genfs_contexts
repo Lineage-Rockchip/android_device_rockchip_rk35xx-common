@@ -1,0 +1,3 @@
+# HDMI hotplug for WiredAccessoryManager
+genfscon sysfs /devices/platform/fde80000.hdmi/extcon u:object_r:sysfs_extcon:s0
+genfscon sysfs /devices/platform/fdea0000.hdmi/extcon u:object_r:sysfs_extcon:s0

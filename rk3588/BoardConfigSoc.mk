@@ -28,5 +28,8 @@ include device/rockchip/rk35xx-common/BoardConfigCommon.mk
 TARGET_KERNEL_CONFIG_EXT += \
     $(TARGET_KERNEL_SOURCE)/arch/arm64/configs/rk3588.config
 
+## SELinux
+BOARD_SEPOLICY_DIRS += $(RK3588_PATH)/sepolicy/vendor
+
 ## Properties
 TARGET_VENDOR_PROP += $(RK3588_PATH)/vendor.prop
