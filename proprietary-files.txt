@@ -6,11 +6,8 @@
 vendor/bin/hw/android.hardware.audio.service
 vendor/etc/init/android.hardware.audio.service.rc:vendor/etc/init/rk_audio.service.rc
 vendor/lib/hw/android.hardware.audio@7.1-impl.so
-vendor/lib/hw/audio.primary.rk30board.so
-vendor/lib/hw/libanr.so
 vendor/lib/libtinyalsa_iec958.so
 vendor/lib64/hw/android.hardware.audio@7.1-impl.so
-vendor/lib64/hw/audio.primary.rk30board.so
 vendor/lib64/libtinyalsa_iec958.so
 
 ## Bluetooth
@@ -457,8 +454,6 @@ vendor/lib64/libwpa_client.so
 vendor/apex/com.google.android.widevine.nonupdatable.apex
 
 ## Rockchip platform
-vendor/bin/amix
-vendor/bin/bitstream_test
 vendor/bin/flash_img.sh
 vendor/bin/init.box_early.sh
 vendor/bin/read_pcie_info.sh
@@ -470,7 +465,6 @@ vendor/etc/graphic/graphic_profiles.conf
 vendor/etc/public.libraries.txt
 vendor/etc/resolution_white.xml
 vendor/etc/rockchip_forbid_packages.xml
-vendor/etc/session.xml
 vendor/etc/uvc_enc_cfg.conf
 vendor/lib/libsync_vendor.so
 vendor/lib64/libcppbor_external.so:vendor/lib64/libcppbor_external_rk.so;FIX_SONAME

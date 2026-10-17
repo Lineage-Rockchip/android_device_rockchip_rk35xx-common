@@ -102,14 +102,17 @@ PRODUCT_PACKAGES += \
 ## modules that are already "vendor: true" must not have one.
 
 # Audio: ALSA helpers, the effect factory and its effects, and the legacy
-# libhardware audio modules. The real HAL is the audio.primary.rk30board blob.
+# libhardware audio modules. The primary HAL is built from hardware/rockchip/audio.
 PRODUCT_PACKAGES += \
+    amix \
     android.hardware.audio.effect@7.0-impl \
     audio.primary.default \
+    audio.primary.rk30board \
     audio.r_submix.default \
     audio.stub.default \
     audio.usb.default \
     audio.usbv2.default \
+    libanr \
     libalsautils \
     libalsautilsv2 \
     libaudiopreprocessing \

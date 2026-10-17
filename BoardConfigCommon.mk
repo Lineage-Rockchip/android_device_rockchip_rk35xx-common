@@ -258,6 +258,11 @@ SOONG_CONFIG_android_hardware_audio_run_64bit := false
 # The 7.1-impl blob predates audio_port_config_device_ext.speaker_layout_channel_mask.
 $(call soong_config_set_bool,android_hardware_audio,skip_speaker_layout_channel_mask_field,true)
 
+# hardware/rockchip/audio tinyalsa_hal
+TARGET_BOARD_HARDWARE := rk30board
+TARGET_BOARD_PLATFORM_PRODUCT := box
+BOARD_USE_DRM := true
+
 ## Wi-Fi
 # The whole stack is extracted from stock. BOARD_WLAN_DEVICE is deliberately
 # unset: Soong accepts no value matching aic8800, and any of the ones it does
