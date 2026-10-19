@@ -186,7 +186,6 @@ keyguard.no_require_sim=true
 ## Recovery
 ro.minui.default_rotation=ROTATION_NONE
 ro.minui.overscan_percent=2
-ro.frp.pst=/dev/block/by-name/frp
 ro.oem_unlock_supported=1
 
 ## Storage

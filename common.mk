@@ -271,6 +271,12 @@ PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/cgroups.json:$(TARGET_COPY_OUT_VENDOR)/etc/cgroups.json \
     system/core/libprocessgroup/profiles/task_profiles_28.json:$(TARGET_COPY_OUT_VENDOR)/etc/task_profiles.json
 
+## Factory reset protection; boards without an frp partition set TARGET_HAS_FRP_PARTITION := false
+ifneq ($(TARGET_HAS_FRP_PARTITION),false)
+PRODUCT_VENDOR_PROPERTIES += \
+    ro.frp.pst=/dev/block/by-name/frp
+endif
+
 ## Init (system)
 # fstab.rk30board is per board.
 PRODUCT_COPY_FILES += \
