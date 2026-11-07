@@ -250,8 +250,13 @@ endif
 ## Display
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/display/HwComposerEnv.xml:$(TARGET_COPY_OUT_VENDOR)/etc/HwComposerEnv.xml \
-    $(COMMON_PATH)/configs/display/display_settings.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display_settings.xml \
     $(COMMON_PATH)/configs/display/package_uimode_config.xml:$(TARGET_COPY_OUT_VENDOR)/etc/package_uimode_config.xml
+
+# Its forcedDensity="320" would override a tablet build's 240.
+ifeq ($(PRODUCT_IS_ATV),true)
+PRODUCT_COPY_FILES += \
+    $(COMMON_PATH)/configs/display/display_settings.xml:$(TARGET_COPY_OUT_VENDOR)/etc/display_settings.xml
+endif
 
 ## Boot logo
 # Each .bmp here replaces the resource.img entry of the same name.
