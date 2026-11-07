@@ -247,6 +247,13 @@ PRODUCT_PACKAGES += \
     TvSettingsRockchipOverlay
 endif
 
+## Screensaver: Colors instead of GMS Backdrop
+ifeq ($(PRODUCT_IS_ATV),true)
+PRODUCT_PACKAGES += \
+    BasicDreams \
+    FrameworksOverlayRk35xxTv
+endif
+
 ## Display
 PRODUCT_COPY_FILES += \
     $(COMMON_PATH)/configs/display/HwComposerEnv.xml:$(TARGET_COPY_OUT_VENDOR)/etc/HwComposerEnv.xml \
